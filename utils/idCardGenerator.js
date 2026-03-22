@@ -166,8 +166,8 @@ async function generateIdCard(member) {
 
     return `/pdfs/${pdfFilename}`;
   } catch (error) {
-    console.error('❌ Error generating ID card:', error);
-    throw error;
+    console.error('❌ Error generating ID card:', error.message);
+    throw new Error(`ID card generation failed: ${error.message}`);
   }
 }
 

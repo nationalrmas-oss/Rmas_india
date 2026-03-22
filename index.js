@@ -2665,7 +2665,8 @@ app.get(/^\/membership-kit\/(.+)/, async (req, res) => {
         }
     } catch (error) {
         console.error('Error generating membership kit:', error);
-        res.status(500).send('Error generating membership kit');
+        const errorMessage = error?.message || 'Unknown error';
+        res.status(500).send(`Error generating membership kit: ${errorMessage}`);
     }
 });
 
@@ -3301,6 +3302,20 @@ app.post('/api/complaints', complaintUpload, async (req, res) => {
 });
 
 // ============ END COMPLAINT SUBMISSION API ============
+
+// Ensure required folders exist at startup
+const foldersToCreate = [
+    path.join(__dirname, 'public', 'pdfs'),
+    path.join(__dirname, 'uploads'),
+    path.join(__dirname, 'public', 'uploads')
+];
+
+foldersToCreate.forEach(folder => {
+    if (!fs.existsSync(folder)) {
+        fs.mkdirSync(folder, { recursive: true });
+        console.log('✅ Created folder:', folder);
+    }
+});
 
 // Server Listen
 const PORT = process.env.PORT || 3000;

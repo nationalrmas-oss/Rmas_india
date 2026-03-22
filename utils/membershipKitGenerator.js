@@ -58,8 +58,8 @@ async function generateMembershipKit(member) {
 
     return `/pdfs/${kitFilename}`;
   } catch (error) {
-    console.error('❌ Error generating Membership Kit:', error);
-    throw error;
+    console.error('❌ Error generating Membership Kit:', error.message);
+    throw new Error(`Membership kit generation failed: ${error.message}`);
   }
 }
 

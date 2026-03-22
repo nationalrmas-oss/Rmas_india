@@ -26,7 +26,16 @@ async function generateJoiningLetter(member) {
     }
     if (!execPath) console.warn('⚠️ No Chrome/Chromium executable found; Puppeteer may fail to launch');
     console.log('Using Puppeteer executablePath:', execPath || 'default bundled');
-    const browser = await puppeteer.launch({ headless: 'new', executablePath: execPath || undefined, args: ['--no-sandbox','--disable-setuid-sandbox','--disable-dev-shm-usage'] });
+    const browser = await puppeteer.launch({ 
+        headless: 'new', 
+        executablePath: execPath || undefined, 
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--enable-font-antialiasing'
+        ] 
+    });
     try {
       const page = await browser.newPage();
 
@@ -208,13 +217,13 @@ async function generateJoiningLetter(member) {
       await browser.close();
       return `/pdfs/${pdfFilename}`;
     } catch (err) {
-      console.error('Error generating joining letter:', err);
+      console.error('Error generating joining letter:', err.message);
       if (browser) await browser.close();
-      throw err;
+      throw new Error(`Joining letter generation failed: ${err.message}`);
     }
   } catch (error) {
-    console.error('❌ Error generating joining letter:', error);
-    throw error;
+    console.error('❌ Error generating joining letter:', error.message);
+    throw new Error(`Joining letter generation failed: ${error.message}`);
   }
 }
 

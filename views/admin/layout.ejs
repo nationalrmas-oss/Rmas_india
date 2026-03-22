@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'Admin Dashboard' %> - RMAS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {}
+            }
+        };
+    </script>
+    <!-- <link rel="stylesheet" href="/css/tailwind.css"> -->
+    <style>
+        /* Custom Scrollbar Styling */
+        .scrollbar-thin {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        }
+        
+        /* Webkit browsers (Chrome, Safari, Edge) */
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .admin-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 40;
+            /* make header taller to accommodate profile circle */
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        .registration-number {
+            font-size: 1rem; /* increase size */
+            font-weight: 600;
+        }
+        .admin-body {
+            /* push main content below adjusted header height */
+            margin-top: calc(120px + 2px);
+            height: calc(100vh - 122px) !important;
+            /* allow vertical scrolling if content overflows */
+            /* overflow: hidden !important; */
+            display: flex !important;
+        }
+        .sidebar-desktop { 
+            display: flex !important; 
+            flex-direction: column !important;
+            height: calc(100vh - 102px) !important;
+            overflow-y: auto !important;
+            z-index: 45;
+            border-radius: 0 0 10px 10px !important;
+        }
+        /* hamburger button styling */
+        .hamburger {
+            display: none !important; /* hide on desktop */
+            border-radius: 10px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 60;
+        }
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block !important; /* show only on mobile */
+            }
+        }
+        /* profile circle in header */
+        
+        /* menu-scroll-area removed - whole sidebar now scrolls */
+        .sidebar-bottom {
+            margin-top: auto !important;
+            flex-shrink: 0 !important;
+        }
+        .main-content-area {
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            flex: 1;
+        }
+        .main-content-area main {
+            overflow-y: auto !important;
+            height: 100% !important;
+            flex: 1;
+        }
+        @media (max-width: 768px) {
+            .sidebar-desktop { display: none !important; }
+            .admin-body {
+                margin-top: calc(130px + 2px) !important;
+                height: calc(100vh - 132px) !important;
+            }
+            .main-content-area {
+                width: 100% !important;
+                margin-top: 50px !important;
+                margin-left: 0 !important;
+            }
+            .main-content-area main {
+                overflow-y: auto !important;
+                height: 100% !important;
+            }
+        }
+        @media (min-width: 769px) {
+            #mobileSidebar, #mobileBackdrop {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
+    <!-- WEBSITE HEADER (EXACTLY AS MAIN SITE) -->
+    <header class="site-header admin-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 830 50" preserveAspectRatio="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+            <polygon points="0,0 830,0 0,50" fill="#2b235f" />
+            <polygon points="0,50 830,0 830,50" fill="#d92523" />
+        </svg>
+        <div class="slogan-strip">
+            <span class="slogan-left">मानव हित सर्वोपरि</span>
+            <span class="slogan-center">सत्यमेव जयते</span>
+            <span class="slogan-right">न्याय ही धर्म है</span>
+        </div>
+        <div class="main-header">
+            <div class="logo">
+                <a href="/"><img src="/images/logo.jpeg" alt="Organization Logo"></a>
+            </div>
+            <div class="org-name-container">
+                <h1>Rashtriya Manav Adhikar Sangathan</h1>
+                <p class="org-address">D-2, S/F, Gali No. 9, Best Jyoti Nagar, Shahdara Delhi-94</p>
+            </div>
+            <div class="header-right">
+                <div class="registration-number">Registration number - 4120/2020</div>
+
+            </div>
+        </div>
+        <div class="nav-bar">
+            <button class="hamburger" id="mobileMenuBtn" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/team">Our Team</a></li>
+                    <li><a href="/activities">Activities</a></li>
+                    <li><a href="/news">News</a></li>
+                    <li><a href="/gallery">Gallery</a></li>
+                    <li><a href="/join">Join Us</a></li>
+                    <li><a href="/download-verify">Documents</a></li>
+                <li><a href="/contact" data-key="nav_contact">Contact Us</a></li>
+                <!-- Admin Login Link -->
+                <li><a href="/admin/login" style="color: #d92523; font-weight: bold;">🔐 Admin Login</a></li>
+                </ul>
+            </nav>
+            <div class="search-bar">
+            <input type="text" placeholder="Search..." data-key="search_placeholder" data-attr="placeholder">
+            <i class="search-icon"></i>
+        </div>
+        <div class="lang-toggle">
+            <select id="language-selector">
+                <option value="en">EN</option>
+                <option value="hi">HI</option>
+                <option value="ur">UR</option>
+            </select>
+        </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA (2DP BELOW HEADER) -->
+    <div class="admin-body flex">
+        <!-- SIDEBAR - Desktop -->
+        <div class="sidebar-desktop w-64 bg-gradient-to-b from-indigo-900 via-blue-900 to-indigo-950 text-white fixed shadow-2xl" style="top: 138px; left: 0;">
+            <!-- Decorative gradient orb -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/20 to-transparent rounded-full blur-2xl"></div>
+            <div class="absolute bottom-20 left-0 w-24 h-24 bg-gradient-to-tr from-blue-500/10 to-transparent rounded-full blur-xl"></div>
+            
+            <!-- Header/Admin Info -->
+            <div class="p-6 border-b border-white/10 flex-shrink-0 relative z-10">
+                <div class="flex items-center justify-center mb-4">
+                    <div class="w-24 h-24 bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 rounded-full flex items-center justify-center text-4xl font-bold shadow-lg ring-4 ring-white/20">
+                        <%= (admin.fullName || 'A').charAt(0).toUpperCase() %>
+                    </div>
+                </div>
+                <h3 class="text-center font-bold text-lg text-white"><%= admin.fullName %></h3>
+                <p class="text-center text-sm text-blue-300 bg-blue-800/30 py-1 px-3 rounded-full mt-2 inline-block"><%= admin.role %></p>
+            </div>
+
+            <!-- Scrollable Sidebar Content -->
+            <nav class="py-4 relative z-10">
+                <p class="px-6 py-2 text-xs font-bold text-blue-300/70 uppercase tracking-wider">Main Menu</p>
+                
+                <a href="/admin/dashboard" class="group flex items-center gap-3 px-6 py-3 mx-2 rounded-xl text-blue-100 hover:bg-white/10 hover:shadow-lg transition-all duration-300 border-l-4 border-transparent hover:border-purple-400">
+                    <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                        <i class="fas fa-home text-white"></i>
+                    </span>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+
+                <a href="/admin/membership-applications" class="<%= typeof currentPath !== 'undefined' && currentPath.startsWith('/admin/membership-applications') ? 'bg-white/10 shadow-lg border-l-4 border-yellow-400' : 'hover:bg-white/10 hover:shadow-lg border-l-4 border-transparent hover:border-yellow-400' %> group flex items-center gap-3 px-6 py-3 mx-2 rounded-xl text-blue-100 transition-all duration-300">
+                    <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                        <i class="fas fa-users text-white"></i>
+                    </span>
+                    <span class="font-medium">Membership Applications</span>
+                </a>
+
+                <a href="/admin/users" class="group flex items-center gap-3 px-6 py-3 mx-2 rounded-xl text-blue-100 hover:bg-white/10 hover:shadow-lg transition-all duration-300 border-l-4 border-transparent hover:border-green-400">
+                    <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                        <i class="fas fa-users text-white"></i>
+                    </span>
+                    <span class="font-medium">User Management</span>
+                </a>
+
+                <a href="/admin/analytics" class="<%= typeof currentPath !== 'undefined' && currentPath.startsWith('/admin/analytics') ? 'bg-white/10 shadow-lg border-l-4 border-cyan-400' : 'hover:bg-white/10 hover:shadow-lg border-l-4 border-transparent hover:border-cyan-400' %> group flex items-center gap-3 px-6 py-3 mx-2 rounded-xl text-blue-100 transition-all duration-300">
+                    <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                        <i class="fas fa-chart-bar text-white"></i>
+                    </span>
+                    <span class="font-medium">Reports & Analytics</span>
+                </a>
+
+                <a href="/admin/audit" class="group flex items-center gap-3 px-6 py-3 mx-2 rounded-xl text-blue-100 hover:bg-white/10 hover:shadow-lg transition-all duration-300 border-l-4 border-transparent hover:border-pink-400">
+                    <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                        <i class="fas fa-file-contract text-white"></i>
+                    </span>
+                    <span class="font-medium">Audit Logs</span>
+                </a>
+
+                <a href="/admin/media" class="group flex items-center gap-3 px-6 py-3 mx-2 rounded-xl text-blue-100 hover:bg-white/10 hover:shadow-lg transition-all duration-300 border-l-4 border-transparent hover:border-violet-400">
+                    <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                        <i class="fas fa-bullhorn text-white"></i>
+                    </span>
+                    <span class="font-medium">Media Management</span>
+                </a>
+            </nav>
+
+            <!-- Fixed Bottom: Settings & Logout -->
+            <div class="sidebar-bottom border-t border-white/10 bg-indigo-950/50 backdrop-blur-sm mt-auto relative z-10">
+                <p class="px-6 py-2 text-xs font-bold text-blue-300/70 uppercase tracking-wider mt-2">Settings</p>
+                
+                <a href="#" id="darkModeToggle" class="group flex items-center gap-3 px-6 py-3 mx-2 rounded-xl text-blue-100 hover:bg-white/10 transition-all duration-300">
+                    <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                        <i class="fas fa-moon text-white"></i>
+                    </span>
+                    <span class="font-medium">Dark Mode</span>
+                </a>
+
+                <a href="/admin/logout" class="group flex items-center gap-3 px-6 py-3 mx-2 mt-2 rounded-xl text-white hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 transition-all duration-300 font-semibold bg-gradient-to-r from-red-600 to-red-700 shadow-lg hover:shadow-red-500/30">
+                    <span class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </span>
+                    <span>Logout</span>
+                </a>
+                
+                <!-- Version Info -->
+                <div class="px-6 py-4 text-center">
+                    <p class="text-xs text-blue-400/60">RMAS Admin v1.0.0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Sidebar Backdrop - Full screen dark overlay -->
+        <div id="mobileBackdrop" class="fixed inset-0 bg-black/60 z-30 hidden md:hidden backdrop-blur-sm"></div>
+
+        <!-- SIDEBAR - Mobile (Hamburger) - Full Screen Overlay with Scroll -->
+        <div id="mobileSidebar" class="fixed left-0 w-80 max-w-[85vw] bg-gradient-to-b from-indigo-900 via-blue-900 to-indigo-950 text-white z-40 transition-transform duration-300 ease-in-out shadow-2xl md:hidden hidden" style="top: 0 !important; height: 100vh !important; transform: translateX(-100%); border-radius: 0 10px 10px 0 !important;">
+            <!-- Decorative gradient orbs -->
+            <div class="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-purple-500/20 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+            
+            <!-- Close button -->
+            <button id="mobileSidebarClose" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center hover:opacity-80 transition z-20" style="background-color: #000; border-radius: 50%;">
+                <span style="color: white; font-size: 24px; font-weight: bold; line-height: 1;">×</span>
+            </button>
+            
+            <!-- Header/Admin Info - Fixed at top -->
+            <div class="p-4 border-b border-white/10 flex-shrink-0 relative z-10 pt-12">
+                <div class="flex items-center justify-center mb-3">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 rounded-full flex items-center justify-center text-xl md:text-3xl font-bold shadow-lg ring-2 ring-white/20">
+                        <%= (admin.fullName || 'A').charAt(0).toUpperCase() %>
+                    </div>
+                </div>
+                <h3 class="text-center font-bold text-base md:text-lg text-white"><%= admin.fullName %></h3>
+                <p class="text-center text-xs md:text-sm text-blue-300 bg-blue-800/30 py-1 px-3 rounded-full mt-2 inline-block"><%= admin.role %></p>
+            </div>
+
+            <!-- Scrollable Menu Content -->
+            <nav class="flex-1 overflow-y-auto overflow-x-hidden py-3 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                <p class="px-4 md:px-6 py-2 text-xs font-bold text-blue-300/70 uppercase tracking-wider">Main Menu</p>
+                <a href="/admin/dashboard" class="mobile-nav-link group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 mx-2 rounded-xl text-blue-100 hover:bg-white/10 hover:shadow-lg transition-all duration-300 border-l-4 border-transparent hover:border-purple-400 text-sm md:text-base">
+                    <span class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform flex-shrink-0">
+                        <i class="fas fa-home text-white text-sm md:text-base"></i>
+                    </span>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <% if (['Superadmin','Secretary','President'].includes(admin.role)) { %>
+                <a href="/admin/membership-applications" class="mobile-nav-link <%= typeof currentPath !== 'undefined' && currentPath.startsWith('/admin/membership-applications') ? 'bg-white/10 shadow-lg border-l-4 border-yellow-400' : 'hover:bg-white/10 hover:shadow-lg border-l-4 border-transparent hover:border-yellow-400' %> group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 mx-2 rounded-xl text-blue-100 transition-all duration-300 text-sm md:text-base">
+                    <span class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform flex-shrink-0">
+                        <i class="fas fa-users text-white text-sm md:text-base"></i>
+                    </span>
+                    <span class="font-medium">Membership Applications</span>
+                </a>
+                <% } %>
+                <a href="/admin/users" class="mobile-nav-link group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 mx-2 rounded-xl text-blue-100 hover:bg-white/10 hover:shadow-lg transition-all duration-300 border-l-4 border-transparent hover:border-green-400 text-sm md:text-base">
+                    <span class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform flex-shrink-0">
+                        <i class="fas fa-users text-white text-sm md:text-base"></i>
+                    </span>
+                    <span class="font-medium">User Management</span>
+                </a>
+                <a href="/admin/reports" class="mobile-nav-link group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 mx-2 rounded-xl text-blue-100 hover:bg-white/10 hover:shadow-lg transition-all duration-300 border-l-4 border-transparent hover:border-cyan-400 text-sm md:text-base">
+                    <span class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform flex-shrink-0">
+                        <i class="fas fa-chart-bar text-white text-sm md:text-base"></i>
+                    </span>
+                    <span class="font-medium">Reports & Analytics</span>
+                </a>
+                <a href="/admin/audit" class="mobile-nav-link group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 mx-2 rounded-xl text-blue-100 hover:bg-white/10 hover:shadow-lg transition-all duration-300 border-l-4 border-transparent hover:border-pink-400 text-sm md:text-base">
+                    <span class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform flex-shrink-0">
+                        <i class="fas fa-file-contract text-white text-sm md:text-base"></i>
+                    </span>
+                    <span class="font-medium">Audit Logs</span>
+                </a>
+                <a href="/admin/media" class="mobile-nav-link group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 mx-2 rounded-xl text-blue-100 hover:bg-white/10 hover:shadow-lg transition-all duration-300 border-l-4 border-transparent hover:border-violet-400 text-sm md:text-base">
+                    <span class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform flex-shrink-0">
+                        <i class="fas fa-bullhorn text-white text-sm md:text-base"></i>
+                    </span>
+                    <span class="font-medium">Media Management</span>
+                </a>
+
+                <!-- Settings Section -->
+                <div class="mt-4 border-t border-white/10 pt-3">
+                    <p class="px-4 md:px-6 py-2 text-xs font-bold text-blue-300/70 uppercase tracking-wider">Settings</p>
+                    <a href="#" class="group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 mx-2 rounded-xl text-blue-100 hover:bg-white/10 transition-all duration-300 text-sm md:text-base">
+                        <span class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform flex-shrink-0">
+                            <i class="fas fa-moon text-white text-sm md:text-base"></i>
+                        </span>
+                        <span class="font-medium">Dark Mode</span>
+                    </a>
+                    <a href="/admin/logout" class="group flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 mx-2 mt-2 rounded-xl text-white hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 transition-all duration-300 font-semibold bg-gradient-to-r from-red-600 to-red-700 shadow-lg hover:shadow-red-500/30 text-sm md:text-base">
+                        <span class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                            <i class="fas fa-sign-out-alt text-sm md:text-base"></i>
+                        </span>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </div> <!-- end mobileSidebar -->
+
+        <!-- Main Content -->
+        <div class="main-content-area md:ml-64">
+            <main class="p-4 md:p-8" style="padding-top: 50px;">
+                <%- body %>
+            </main>
+        </div>
+    </div>
+
+    <style>
+        /* Mobile: 50px top padding */
+        @media (max-width: 767px) {
+            .main-content-area main {
+                padding-top: 50px !important;
+            }
+        }
+        /* Desktop: normal padding */
+        @media (min-width: 768px) {
+            .main-content-area main {
+                padding-top: 2rem !important;
+            }
+        }
+    </style>
+
+    <script>
+        // Mobile sidebar toggle - using the header hamburger button
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileSidebarClose = document.getElementById('mobileSidebarClose');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const mobileBackdrop = document.getElementById('mobileBackdrop');
+
+        function openMobileSidebar() {
+            if (mobileSidebar) {
+                mobileSidebar.style.transform = 'translateX(0)';
+                mobileSidebar.classList.remove('hidden');
+            }
+            if (mobileBackdrop) {
+                mobileBackdrop.classList.remove('hidden');
+            }
+        }
+
+        function closeMobileSidebar() {
+            if (mobileSidebar) {
+                mobileSidebar.style.transform = 'translateX(-100%)';
+                setTimeout(() => {
+                    mobileSidebar.classList.add('hidden');
+                }, 300);
+            }
+            if (mobileBackdrop) {
+                mobileBackdrop.classList.add('hidden');
+            }
+        }
+
+        // Connect hamburger button to open sidebar
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', openMobileSidebar);
+        }
+
+        // Close button inside sidebar
+        if (mobileSidebarClose) {
+            mobileSidebarClose.addEventListener('click', closeMobileSidebar);
+        }
+
+        // Click outside to close
+        if (mobileBackdrop) {
+            mobileBackdrop.addEventListener('click', closeMobileSidebar);
+        }
+
+        // Close when clicking nav links
+        if (mobileSidebar) {
+            mobileSidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', closeMobileSidebar);
+            });
+        }
+
+        // Auto close mobile sidebar when resizing to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMobileSidebar();
+            }
+        });
+
+        // Dark mode toggle
+        const darkToggle = document.getElementById('darkModeToggle');
+        function setDarkMode(enabled) {
+            if (enabled) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('darkMode','true');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('darkMode','false');
+            }
+        }
+        if (darkToggle) {
+            // initialize from storage
+            const stored = localStorage.getItem('darkMode');
+            if (stored === 'true') setDarkMode(true);
+
+            darkToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const isDark = document.documentElement.classList.contains('dark');
+                setDarkMode(!isDark);
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,326 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <h2 class="text-3xl font-bold text-indigo-900">📋 Audit Logs</h2>
+    <p class="text-gray-600 mt-2">Track all admin activities and system events</p>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="bg-white rounded-xl shadow-lg p-6 mb-8 hover:shadow-xl transition-shadow duration-300">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+      <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      Filters
+    </h3>
+    
+    <form method="GET" action="/admin/logs" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Action</label>
+        <select name="action" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+          <option value="">All Actions</option>
+          <option value="login" <%= query.action === 'login' ? 'selected' : '' %>>Login</option>
+          <option value="logout" <%= query.action === 'logout' ? 'selected' : '' %>>Logout</option>
+          <option value="joining_letter_downloaded" <%= query.action === 'joining_letter_downloaded' ? 'selected' : '' %>>📄 Joining Letter Downloaded</option>
+          <option value="id_card_downloaded" <%= query.action === 'id_card_downloaded' ? 'selected' : '' %>>🆔 ID Card Downloaded</option>
+          <option value="user_created" <%= query.action === 'user_created' ? 'selected' : '' %>>User Created</option>
+          <option value="user_edited" <%= query.action === 'user_edited' ? 'selected' : '' %>>User Edited</option>
+          <option value="user_deleted" <%= query.action === 'user_deleted' ? 'selected' : '' %>>User Deleted</option>
+          <option value="role_assigned" <%= query.action === 'role_assigned' ? 'selected' : '' %>>Role Assigned</option>
+          <option value="form_submitted" <%= query.action === 'form_submitted' ? 'selected' : '' %>>Form Submitted</option>
+          <option value="form_claimed" <%= query.action === 'form_claimed' ? 'selected' : '' %>>Form Claimed</option>
+          <option value="form_accepted" <%= query.action === 'form_accepted' ? 'selected' : '' %>>Form Accepted</option>
+          <option value="form_rejected" <%= query.action === 'form_rejected' ? 'selected' : '' %>>Form Rejected</option>
+          <option value="password_reset_via_otp" <%= query.action === 'password_reset_via_otp' ? 'selected' : '' %>>Password Reset via OTP</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">User Email</label>
+        <input type="email" name="performedBy" value="<%= query.performedBy || '' %>" placeholder="Filter by email"
+               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Level</label>
+        <select name="level" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+          <option value="">All Levels</option>
+          <option value="superadmin" <%= query.level === 'superadmin' ? 'selected' : '' %>>SuperAdmin</option>
+          <option value="state" <%= query.level === 'state' ? 'selected' : '' %>>State</option>
+          <option value="division" <%= query.level === 'division' ? 'selected' : '' %>>Division</option>
+          <option value="district" <%= query.level === 'district' ? 'selected' : '' %>>District</option>
+          <option value="block" <%= query.level === 'block' ? 'selected' : '' %>>Block</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+        <input type="date" name="startDate" value="<%= query.startDate || '' %>"
+               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+        <input type="date" name="endDate" value="<%= query.endDate || '' %>"
+               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+        <input type="text" name="search" value="<%= query.search || '' %>" placeholder="Name, Email, ID..."
+               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+      </div>
+
+      <div class="md:col-span-2 lg:col-span-3 xl:col-span-4 flex gap-3">
+        <button type="submit" class="flex-1 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          Filter
+        </button>
+        <a href="/admin/logs" class="flex-1 px-4 py-2 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-semibold rounded-lg hover:from-gray-600 hover:to-gray-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-center">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          Reset
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Export Button -->
+  <div class="mb-6">
+    <form method="GET" action="/admin/audit-logs/export" class="inline-flex">
+      <% if (query.action) { %><input type="hidden" name="action" value="<%= query.action %>"><% } %>
+      <% if (query.performedBy) { %><input type="hidden" name="performedBy" value="<%= query.performedBy %>"><% } %>
+      <% if (query.level) { %><input type="hidden" name="level" value="<%= query.level %>"><% } %>
+      <% if (query.startDate) { %><input type="hidden" name="startDate" value="<%= query.startDate %>"><% } %>
+      <% if (query.endDate) { %><input type="hidden" name="endDate" value="<%= query.endDate %>"><% } %>
+      <button type="submit" class="px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+        </svg>
+        Export as CSV
+      </button>
+    </form>
+    <span class="ml-4 text-sm text-gray-500">
+      Showing <strong class="text-indigo-600"><%= pagination.total %></strong> total records
+    </span>
+  </div>
+
+  <!-- Logs Table -->
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="bg-gradient-to-r from-indigo-50 to-purple-50 border-b-2 border-indigo-100">
+            <th class="px-4 py-3 text-left text-sm font-semibold text-indigo-900 whitespace-nowrap">Timestamp</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-indigo-900 whitespace-nowrap">Action</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-indigo-900 whitespace-nowrap">Performed By</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-indigo-900 whitespace-nowrap">Target</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-indigo-900 whitespace-nowrap">Level</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-indigo-900 whitespace-nowrap">IP Address</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-indigo-900 whitespace-nowrap">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% 
+            // Helper function to convert to Title Case
+            function toTitleCase(str) {
+              if (!str) return '';
+              return str.replace(/\w\S*/g, function(txt){
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+              });
+            }
+          %>
+          <% if (logs && logs.length > 0) { %>
+            <% logs.forEach((log, idx) => { %>
+              <tr class="border-b border-gray-100 hover:bg-indigo-50/50 transition-colors duration-200">
+                <td class="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <%= new Date(log.timestamp || log.createdAt).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) %>
+                  </div>
+                </td>
+                <td class="px-4 py-3">
+                  <% 
+                    let badgeClass = 'bg-gray-100 text-gray-700';
+                    if (log.action && log.action.includes('download')) {
+                      badgeClass = 'bg-blue-100 text-blue-700';
+                    } else if (log.action && log.action.includes('delete')) {
+                      badgeClass = 'bg-red-100 text-red-700';
+                    } else if (log.action && (log.action.includes('login') || log.action.includes('logout'))) {
+                      badgeClass = 'bg-green-100 text-green-700';
+                    } else if (log.action && log.action.includes('accept')) {
+                      badgeClass = 'bg-emerald-100 text-emerald-700';
+                    } else if (log.action && log.action.includes('reject')) {
+                      badgeClass = 'bg-red-100 text-red-700';
+                    } else if (log.action && log.action.includes('user')) {
+                      badgeClass = 'bg-purple-100 text-purple-700';
+                    } else if (log.action && log.action.includes('role')) {
+                      badgeClass = 'bg-amber-100 text-amber-700';
+                    }
+                  %>
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold <%= badgeClass %>">
+                    <% if (log.action === 'joining_letter_downloaded') { %>
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path></svg>
+                      Joining Letter
+                    <% } else if (log.action === 'id_card_downloaded') { %>
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                      ID Card
+                    <% } else { %>
+                      <%= toTitleCase((log.action || '').replace(/_/g, ' ')) %>
+                    <% } %>
+                  </span>
+                </td>
+                <td class="px-4 py-3">
+                  <div class="font-semibold text-gray-800"><%= toTitleCase(log.performedByName) %></div>
+                  <div class="text-sm text-gray-500"><%= log.performedByEmail %></div>
+                  <div class="text-xs text-gray-400 mt-1">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-700">
+                      <%= toTitleCase(log.performedByRole) %>
+                    </span>
+                  </div>
+                </td>
+                <td class="px-4 py-3">
+                  <% if (log.targetName) { %>
+                    <div class="font-semibold text-gray-800"><%= toTitleCase(log.targetName) %></div>
+                    <div class="text-sm text-gray-500"><%= log.targetType %></div>
+                  <% } else { %>
+                    <span class="text-gray-400">—</span>
+                  <% } %>
+                </td>
+                <td class="px-4 py-3">
+                  <div class="inline-flex flex-col items-center">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-700">
+                      <%= toTitleCase(log.level) %>
+                    </span>
+                    <% if (log.levelId) { %>
+                      <span class="text-xs text-gray-500 mt-1"><%= log.levelId %></span>
+                    <% } %>
+                  </div>
+                </td>
+                <td class="px-4 py-3">
+                  <code class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"><%= log.ipAddress %></code>
+                </td>
+                <td class="px-4 py-3">
+                  <details class="group">
+                    <summary class="cursor-pointer text-sm font-medium text-indigo-600 hover:text-indigo-800 flex items-center gap-1 list-none">
+                      <svg class="w-4 h-4 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                      View Details
+                    </summary>
+                    <div class="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                      <% if (log.details && (log.details.membershipId || log.details.memberName || log.details.fileName)) { %>
+                        <div class="space-y-1 text-sm">
+                          <% if (log.details.membershipId) { %>
+                            <p><span class="font-medium text-gray-600">Membership ID:</span> <code class="bg-white px-1 rounded"><%= log.details.membershipId %></code></p>
+                          <% } %>
+                          <% if (log.details.memberName) { %>
+                            <p><span class="font-medium text-gray-600">Member Name:</span> <%= toTitleCase(log.details.memberName) %></p>
+                          <% } %>
+                          <% if (log.details.fileName) { %>
+                            <p><span class="font-medium text-gray-600">File:</span> <%= log.details.fileName %></p>
+                          <% } %>
+                          <% if (log.details.documentType) { %>
+                            <p><span class="font-medium text-gray-600">Document Type:</span> <%= log.details.documentType %></p>
+                          <% } %>
+                          <% if (log.note) { %>
+                            <p><span class="font-medium text-gray-600">Note:</span> <%= log.note %></p>
+                          <% } %>
+                        </div>
+                      <% } else if (log.details && Object.keys(log.details).length > 0) { %>
+                        <pre class="text-xs bg-white p-2 rounded overflow-x-auto"><%= JSON.stringify(log.details, null, 2) %></pre>
+                      <% } else { %>
+                        <p class="text-sm text-gray-400 italic">No additional details</p>
+                      <% } %>
+                    </div>
+                  </details>
+                </td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <tr>
+              <td colspan="7" class="px-6 py-12 text-center">
+                <div class="flex flex-col items-center">
+                  <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                  </svg>
+                  <p class="text-gray-500 text-lg font-medium">No audit logs found</p>
+                  <p class="text-gray-400 text-sm mt-1">Try adjusting your filters or check back later</p>
+                </div>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <% if (pagination && pagination.pages > 1) { %>
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-sm text-gray-500 order-2 sm:order-1">
+        Showing page <span class="font-semibold text-indigo-600"><%= pagination.page %></span> of <span class="font-semibold"><%= pagination.pages %></span>
+      </div>
+      <div class="flex items-center gap-2 order-1 sm:order-2">
+        <% if (pagination.hasPrev) { %>
+          <a href="/admin/logs?page=1<%= queryString %>" class="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors">
+            « First
+          </a>
+          <a href="/admin/logs?page=<%= pagination.page - 1 %><%= queryString %>" class="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors">
+            ‹ Prev
+          </a>
+        <% } %>
+
+        <span class="px-4 py-2 bg-indigo-50 border border-indigo-200 rounded-lg text-sm font-semibold text-indigo-700">
+          <%= pagination.page %>
+        </span>
+
+        <% if (pagination.hasNext) { %>
+          <a href="/admin/logs?page=<%= pagination.page + 1 %><%= queryString %>" class="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors">
+            Next ›
+          </a>
+          <a href="/admin/logs?page=<%= pagination.pages %><%= queryString %>" class="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors">
+            Last »
+          </a>
+        <% } %>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- Info Box -->
+  <div class="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-5">
+    <div class="flex items-start gap-3">
+      <div class="bg-blue-100 p-2 rounded-lg">
+        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <div class="text-gray-700">
+        <strong class="text-blue-900">Legend:</strong>
+        <div class="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 bg-blue-100 border border-blue-300 rounded-full"></span>
+            <span>Download Actions</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 bg-red-100 border border-red-300 rounded-full"></span>
+            <span>Delete/Reject</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 bg-green-100 border border-green-300 rounded-full"></span>
+            <span>Login/Logout</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 bg-emerald-100 border border-emerald-300 rounded-full"></span>
+            <span>Accept/Approve</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

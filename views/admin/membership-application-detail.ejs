@@ -1,0 +1,346 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+    <div class="bg-white shadow rounded-lg p-6 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-semibold mb-4">Application Details</h2>
+        <% if (typeof success !== 'undefined') { %>
+            <div class="mb-4 p-3 bg-green-100 text-green-800 rounded"><%= success %></div>
+        <% } %>
+        <% if (typeof error !== 'undefined') { %>
+            <div class="mb-4 p-3 bg-red-100 text-red-800 rounded"><%= error %></div>
+        <% } %>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <img src="/uploads/<%= application.photo %>" alt="Photo" class="w-32 h-32 rounded-full object-cover mx-auto" onerror="this.style.display='none'"/>
+            </div>
+            <div class="space-y-2">
+                <p><strong>Name:</strong> <%= application.fullName %></p>
+                <p><strong>Mobile:</strong> <%= application.mobile %></p>
+                <p><strong>Email:</strong> <%= application.email %></p>
+                <p><strong>Father/Husband Name:</strong> <%= application.fatherName %></p>
+                <p><strong>DOB:</strong> <%= application.dob %></p>
+                <p><strong>Gender:</strong> <%= application.gender %></p>
+                <p><strong>Blood Group:</strong> <%= application.bloodGroup || 'N/A' %></p>
+                <p><strong>Education:</strong> <%= application.education || 'N/A' %></p>
+                <p><strong>Occupation:</strong> <%= application.occupation || 'N/A' %></p>
+                <p><strong>ID Number:</strong> <%= application.idNumber || 'N/A' %></p>
+                <p><strong>State:</strong> <%= application.state %></p>
+                <p><strong>Division:</strong> <%= application.division %></p>
+                <p><strong>District:</strong> <%= application.district %></p>
+                <p><strong>Block:</strong> <%= application.block %></p>
+                <p><strong>House No:</strong> <%= application.houseNo || 'N/A' %></p>
+                <p><strong>Street:</strong> <%= application.street || 'N/A' %></p>
+                <p><strong>Panchayat:</strong> <%= application.panchayat || 'N/A' %></p>
+                <p><strong>Village:</strong> <%= application.village || 'N/A' %></p>
+                <p><strong>Pincode:</strong> <%= application.pincode || 'N/A' %></p>
+                <p><strong>Reason:</strong> <%= application.reason %></p>
+                <p><strong>Status:</strong> 
+                    <% if (application.status === 'rejected') { %>
+                        <span class="text-red-600 font-semibold">Rejected</span>
+                    <% } else { %>
+                        <%= application.status.charAt(0).toUpperCase()+application.status.slice(1) %>
+                    <% } %>
+                </p>
+                <% if (application.status === 'rejected' && application.rejectionReason) { %>
+                    <div class="mt-2 p-3 bg-red-50 border border-red-200 rounded">
+                        <p class="text-sm font-semibold text-red-800">❌ Rejection Reason:</p>
+                        <p class="text-sm text-red-700"><%= application.rejectionReason %></p>
+                    </div>
+                <% } %>
+                <p><strong>Applied On:</strong> <%= application.createdAt.toLocaleDateString() %></p>
+            </div>
+        </div>
+        <div class="mt-6">
+            <h3 class="font-semibold mb-2">Aadhar Document</h3>
+            <% if(application.documents) { %>
+                <iframe src="/uploads/<%= application.documents %>" class="w-full h-96 border"></iframe>
+            <% } else { %>
+                <p>No document uploaded</p>
+            <% } %>
+        </div>
+        <!-- approval / verify actions -->
+        <div class="mt-6 space-y-4">
+            <% if (admin.role === 'Secretary' || admin.role === 'President' || admin.role === 'Superadmin') { %>
+                <% if (application.status === 'pending' || application.status === 'verified') { %>
+                    <!-- Reject Button (Red) -->
+                    <button onclick="openRejectModal()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded font-semibold">
+                        ❌ Reject Application
+                    </button>
+                <% } %>
+            <% } %>
+            
+            <% if (admin.role === 'Secretary' || admin.role === 'Superadmin') { %>
+                <% if (application.status === 'pending') { %>
+                    <form method="POST" action="/admin/membership-applications/<%= application._id %>/verify" class="mb-4">
+                        <textarea name="comment" placeholder="Comment (optional)" class="w-full px-3 py-2 border rounded mb-2"></textarea>
+                        <button type="submit" class="px-4 py-2 bg-yellow-500 text-white rounded">Verify Application</button>
+                    </form>
+                <% } %>
+            <% } %>
+            <% if (admin.role === 'President' || admin.role === 'Superadmin') { %>
+                <% if (application.status === 'pending') { %>
+                    <form method="POST" action="/admin/membership-applications/<%= application._id %>/approve" class="mb-2">
+                        <textarea name="comment" placeholder="Comment (optional)" class="w-full px-3 py-2 border rounded mb-2"></textarea>
+                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Direct Approve</button>
+                    </form>
+                <% } %>
+                <% if (application.status === 'verified') { %>
+                    <form method="POST" action="/admin/membership-applications/<%= application._id %>/approve">
+                        <textarea name="comment" placeholder="Comment (optional)" class="w-full px-3 py-2 border rounded mb-2"></textarea>
+                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Final Approve</button>
+                    </form>
+                <% } %>
+                <!-- Role Assignment Button for Approved Applicants -->
+                <% if (application.status === 'approved') { %>
+                    <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-900 mb-2">📌 Position Assignment</h4>
+                        <p class="text-sm text-blue-800 mb-3">This member has been approved. You can now assign a position.</p>
+                        <a href="/admin/membership-applications/<%= application._id %>/assign-role" class="inline-block px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-md">
+                            🎯 Assign Position
+                        </a>
+                    </div>
+                <% } %>
+                
+                <!-- ID Card Approval Section for Super Admin -->
+                <% if (admin.role === 'Superadmin' && application.status === 'approved') { %>
+                    <div class="bg-purple-50 border-2 border-purple-200 rounded-lg p-4">
+                        <h4 class="font-semibold text-purple-900 mb-2">🆔 ID Card Approval</h4>
+                        <% if (application.isIDCardApproved) { %>
+                            <p class="text-sm text-green-800 mb-3">
+                                ✅ <strong>ID Card Already Approved</strong><br>
+                                This member can download their ID Card and Joining Letter.
+                            </p>
+                            <div class="flex gap-2">
+                                <a href="/certificate/<%= application.membershipId %>" target="_blank" class="inline-block px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors shadow-md text-sm">
+                                    📄 View ID Card
+                                </a>
+                                <a href="/joining-letter/<%= application.membershipId %>" target="_blank" class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-md text-sm">
+                                    📋 View Joining Letter
+                                </a>
+                            </div>
+                        <% } else { %>
+                            <p class="text-sm text-purple-800 mb-3">
+                                🔒 <strong>ID Card Pending Approval</strong><br>
+                                Approve this member's ID Card to allow them to download their official documents.
+                            </p>
+                            <button onclick="approveIDCard('<%= application._id %>')" class="inline-block px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors shadow-md">
+                                ✅ Approve ID Card
+                            </button>
+                        <% } %>
+                    </div>
+                <% } %>
+                <!-- Display Assigned Position -->
+                <% if (application.assignedPosition) { %>
+                    <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-900 mb-2">✅ Position Assigned</h4>
+                        <p class="text-sm text-green-800"><strong>Position:</strong> <%= application.assignedPosition %></p>
+                        <p class="text-sm text-green-800"><strong>Team:</strong> <%= application.teamType %></p>
+                        <p class="text-sm text-green-800"><strong>Level:</strong> <%= application.positionLevel %></p>
+                        <p class="text-sm text-green-800"><strong>Location:</strong> 
+                            <%= [application.positionLocation?.state, application.positionLocation?.division, application.positionLocation?.district, application.positionLocation?.block, application.positionLocation?.panchayat].filter(Boolean).join(', ') %>
+                        </p>
+                        <p class="text-sm text-green-700 mt-2">Assigned on <%= new Date(application.positionAssignedAt).toLocaleDateString() %></p>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+
+        <!-- audit trail -->
+        <div class="mt-6 bg-gray-50 p-4 rounded">
+            <h3 class="font-semibold mb-4">📋 Audit Trail</h3>
+            <div class="space-y-3">
+                <div class="text-sm bg-white p-3 rounded border-l-4 border-gray-400">
+                    <p><strong>📤 Applied</strong> on <%= application.createdAt.toLocaleString('en-IN') %></p>
+                    <p class="text-gray-600 text-xs">by <%= application.fullName %> (Applicant)</p>
+                </div>
+                <% application.reviewHistory.forEach(entry => { %>
+                    <% 
+                        let statusIcon = {
+                            'verified': '✅',
+                            'approved': '🎉',
+                            'forwarded': '➡️',
+                            'rejected': '❌'
+                        }[entry.action] || '📌';
+                        
+                        let statusColor = {
+                            'verified': 'border-yellow-400',
+                            'approved': 'border-green-400',
+                            'forwarded': 'border-blue-400',
+                            'rejected': 'border-red-400'
+                        }[entry.action] || 'border-gray-400';
+                    %>
+                    <div class="text-sm bg-white p-3 rounded border-l-4 <%= statusColor %>">
+                        <p>
+                            <strong><%= statusIcon %> <%= entry.action.charAt(0).toUpperCase() + entry.action.slice(1) %></strong>
+                            on <%= new Date(entry.date).toLocaleString('en-IN') %>
+                        </p>
+                        <% if (entry.by && entry.by._id) { %>
+                            <p class="text-gray-600 text-xs">
+                                by <strong><%= entry.by.fullName || 'System' %></strong> 
+                                <% if (entry.by.role) { %>| Role: <%= entry.by.role %><% } %>
+                                <% if (entry.by.level) { %>| Level: <%= entry.by.level %><% } %>
+                            </p>
+                        <% } else { %>
+                            <p class="text-gray-600 text-xs">by System</p>
+                        <% } %>
+                        <% if (entry.comment) { %>
+                            <p class="text-gray-700 italic mt-1">📝 Comment: <%= entry.comment %></p>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+            <% if (application.membershipId) { %>
+                <div class="mt-4 p-3 bg-green-50 rounded border border-green-200">
+                    <p class="font-semibold text-green-800">✅ Member ID: <span class="text-lg"><%= application.membershipId %></span></p>
+                </div>
+            <% } %>
+        </div>
+
+        <div class="mt-6 text-right">
+            <a href="/admin/membership-applications" class="px-4 py-2 bg-gray-500 text-white rounded">Back</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function approveIDCard(memberId) {
+    if (confirm('Are you sure you want to approve the ID Card for this member?')) {
+        fetch(`/admin/approve-id-card/${memberId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('ID Card approved successfully!');
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Network error occurred');
+        });
+    }
+}
+
+// Reject Modal Functions
+function openRejectModal() {
+    document.getElementById('rejectModal').classList.remove('hidden');
+    document.getElementById('rejectReason').focus();
+}
+
+function closeRejectModal() {
+    document.getElementById('rejectModal').classList.add('hidden');
+    document.getElementById('rejectForm').reset();
+}
+
+function submitRejection() {
+    const reason = document.getElementById('rejectReason').value.trim();
+    const quickReasons = document.querySelectorAll('input[name="quickReason"]:checked');
+    
+    let finalReason = reason;
+    
+    // If no custom reason, use quick reasons
+    if (!finalReason && quickReasons.length > 0) {
+        const selectedReasons = Array.from(quickReasons).map(r => r.value);
+        finalReason = selectedReasons.join(', ');
+    }
+    
+    if (!finalReason || finalReason.length < 5) {
+        alert('Please provide a reason for rejection (minimum 5 characters)');
+        return;
+    }
+    
+    // Submit the form
+    document.getElementById('rejectForm').submit();
+}
+
+// Close modal on outside click
+document.getElementById('rejectModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeRejectModal();
+    }
+});
+</script>
+
+<!-- Reject Modal -->
+<div id="rejectModal" class="fixed inset-0 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen px-4">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6 z-10">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-semibold text-red-600">❌ Reject Application</h3>
+                <button onclick="closeRejectModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <p class="text-gray-600 mb-4">Please provide a reason for rejecting this application. The applicant will be notified via email.</p>
+            
+            <!-- Quick Reason Options -->
+            <div class="mb-4">
+                <p class="text-sm font-medium text-gray-700 mb-2">Quick Select (optional):</p>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" name="quickReason" value="Invalid/Blurry Photo" class="rounded text-red-600">
+                        <span class="text-sm text-gray-700">Invalid/Blurry Photo</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" name="quickReason" value="Illegible Document" class="rounded text-red-600">
+                        <span class="text-sm text-gray-700">Illegible Document</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" name="quickReason" value="False Information Provided" class="rounded text-red-600">
+                        <span class="text-sm text-gray-700">False Information Provided</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" name="quickReason" value="Duplicate Application" class="rounded text-red-600">
+                        <span class="text-sm text-gray-700">Duplicate Application</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" name="quickReason" value="Does Not Meet Criteria" class="rounded text-red-600">
+                        <span class="text-sm text-gray-700">Does Not Meet Criteria</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Custom Reason Input -->
+            <form id="rejectForm" method="POST" action="/admin/membership-applications/<%= application._id %>/reject">
+                <div class="mb-4">
+                    <label for="rejectReason" class="block text-sm font-medium text-gray-700 mb-2">
+                        Custom Reason <span class="text-red-500">*</span>
+                    </label>
+                    <textarea 
+                        id="rejectReason" 
+                        name="reason" 
+                        rows="4" 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                        placeholder="Enter detailed reason for rejection..."
+                    ></textarea>
+                </div>
+                
+                <div class="flex gap-3 justify-end">
+                    <button 
+                        type="button" 
+                        onclick="closeRejectModal()"
+                        class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-700 rounded-lg transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button 
+                        type="button" 
+                        onclick="submitRejection()"
+                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                    >
+                        ✅ Confirm Rejection
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

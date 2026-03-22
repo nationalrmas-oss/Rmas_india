@@ -1,0 +1,385 @@
+<div class="max-w-2xl mx-auto">
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Add New Official</h2>
+        <p class="text-gray-600 mt-1"><a href="/admin/dashboard" class="text-blue-600 hover:underline">Home</a> / <a href="/admin/users" class="text-blue-600 hover:underline">Users</a> / Add New Official</p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-8">
+        <form id="addUserForm" onsubmit="handleSubmit(event)">
+            <!-- Personal Information Section -->
+            <h3 class="text-xl font-bold text-gray-800 mb-4 pb-3 border-b-2 border-blue-600">📋 Personal Information</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
+                    <input 
+                        type="text" 
+                        name="fullName" 
+                        required
+                        placeholder="Enter full name"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Mobile Number</label>
+                    <input 
+                        type="tel" 
+                        name="phone" 
+                        placeholder="10-digit mobile number"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                    >
+                </div>
+            </div>
+
+            <!-- Credentials Section -->
+            <h3 class="text-xl font-bold text-gray-800 mb-4 pb-3 border-b-2 border-blue-600">🔐 Login Credentials</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Username *</label>
+                    <input 
+                        type="text" 
+                        name="username" 
+                        required
+                        placeholder="Unique username (no spaces)"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        required
+                        placeholder="Official email"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                    >
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Password *</label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    required
+                    placeholder="Strong password (min 8 characters)"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                >
+                <p class="text-xs text-gray-500 mt-1">📝 Make sure password is strong and secure</p>
+            </div>
+
+            <!-- Role & Level Section -->
+            <h3 class="text-xl font-bold text-gray-800 mb-4 pb-3 border-b-2 border-blue-600 mt-8">👔 Role & Access Level</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Role *</label>
+                    <select 
+                        name="role" 
+                        required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                    >
+                        <option value="">-- Select Role --</option>
+                        <option value="President">President</option>
+                        <option value="Secretary">Secretary</option>
+                        <option value="Media Incharge">Media Incharge</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Access Level *</label>
+                    <select 
+                        name="level" 
+                        required
+                        onchange="updateLocationSelectors()"
+                        id="levelSelect"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                    >
+                        <option value="">-- Select Level --</option>
+                        <option value="National">National</option>
+                        <option value="State">State</option>
+                        <option value="Division">Division</option>
+                        <option value="District">District</option>
+                        <option value="Block">Block</option>
+                        <option value="Panchayat">Panchayat</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Location Section -->
+            <h3 class="text-xl font-bold text-gray-800 mb-4 pb-3 border-b-2 border-blue-600 mt-8">📍 Location</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div id="stateDiv" style="display: none;">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">State *</label>
+                    <select 
+                        name="state"
+                        id="stateSelect"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                    >
+                        <option value="">-- Select State --</option>
+                    </select>
+                </div>
+
+                <div id="divisionDiv" style="display: none;">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Division *</label>
+                    <select 
+                        name="division"
+                        id="divisionSelect"
+                        onchange="onDivisionChange()"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                    >
+                        <option value="">-- Select Division --</option>
+                    </select>
+                </div>
+
+                <div id="districtDiv" style="display: none;">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">District *</label>
+                    <select 
+                        name="district"
+                        id="districtSelect"
+                        onchange="onDistrictChange()"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                    >
+                        <option value="">-- Select District --</option>
+                    </select>
+                </div>
+
+                <div id="blockDiv" style="display: none;">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Block *</label>
+                    <select 
+                        name="block"
+                        id="blockSelect"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                    >
+                        <option value="">-- Select Block --</option>
+                    </select>
+                </div>
+                <div id="panchayatDiv" style="display: none;">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Panchayat Name *</label>
+                    <input
+                        type="text"
+                        name="panchayat"
+                        id="panchayatInput"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+                        placeholder="Enter panchayat name"
+                    />
+                </div>
+            </div>
+
+            <!-- Submit & Cancel -->
+            <div class="flex gap-4 mt-8">
+                <button 
+                    type="submit"
+                    class="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition"
+                >
+                    ✅ Create Official
+                </button>
+                <a href="/admin/users" class="px-6 py-3 bg-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-400 transition">
+                    ❌ Cancel
+                </a>
+            </div>
+        </form>
+
+        <!-- Error/Success Messages -->
+        <div id="message" style="display: none; margin-top: 20px;" class="p-4 rounded-lg">
+        </div>
+    </div>
+</div>
+
+<!-- Include the reusable location system -->
+<script src="/js/location-system.js"></script>
+
+<script>
+    let locationSystem;
+
+    // Initialize location system and selectors on load
+    document.addEventListener('DOMContentLoaded', function() {
+        locationSystem = initLocationSystem('stateSelect', 'divisionSelect', 'districtSelect', 'blockSelect');
+        updateLocationSelectors();
+        lockToAdminArea();
+        restrictLevelOptions();
+    });
+
+    function restrictLevelOptions() {
+        const admin = <%- JSON.stringify(admin) %>;
+        if (!admin || admin.role === 'Superadmin') return;
+        const hierarchy = { 'National':5, 'State':4, 'Division':3, 'District':2, 'Block':1, 'Panchayat':0 };
+        const rank = hierarchy[admin.level] || 0;
+        const select = document.getElementById('levelSelect');
+        Array.from(select.options).forEach(opt => {
+            if (opt.value && hierarchy[opt.value] > rank) {
+                opt.disabled = true;
+            }
+        });
+    }
+
+    // Lock location selectors to the current admin's own geographic area
+    function lockToAdminArea() {
+        const admin = <%- JSON.stringify(admin) %>;
+        if (!admin || admin.role === 'Superadmin') return;
+        // depending on admin.level, prefill and disable fields
+        if (admin.level === 'State' && admin.location.state) {
+            document.getElementById('stateSelect').value = admin.location.state;
+            document.getElementById('stateSelect').disabled = true;
+        }
+        if (admin.level === 'Division' && admin.location.division) {
+            document.getElementById('stateSelect').value = admin.location.state;
+            document.getElementById('stateSelect').disabled = true;
+            document.getElementById('divisionSelect').value = admin.location.division;
+            document.getElementById('divisionSelect').disabled = true;
+        }
+        if (admin.level === 'District' && admin.location.district) {
+            document.getElementById('stateSelect').value = admin.location.state;
+            document.getElementById('stateSelect').disabled = true;
+            document.getElementById('divisionSelect').value = admin.location.division;
+            document.getElementById('divisionSelect').disabled = true;
+            document.getElementById('districtSelect').value = admin.location.district;
+            document.getElementById('districtSelect').disabled = true;
+        }
+        if (admin.level === 'Block' && admin.location.block) {
+            document.getElementById('stateSelect').value = admin.location.state;
+            document.getElementById('stateSelect').disabled = true;
+            document.getElementById('divisionSelect').value = admin.location.division;
+            document.getElementById('divisionSelect').disabled = true;
+            document.getElementById('districtSelect').value = admin.location.district;
+            document.getElementById('districtSelect').disabled = true;
+            document.getElementById('blockSelect').value = admin.location.block;
+            document.getElementById('blockSelect').disabled = true;
+        }
+    }
+
+    function updateLocationSelectors() {
+        const level = document.getElementById('levelSelect').value;
+        
+        // hide/select visibility
+        document.getElementById('stateDiv').style.display = 'none';
+        document.getElementById('divisionDiv').style.display = 'none';
+        document.getElementById('districtDiv').style.display = 'none';
+        document.getElementById('blockDiv').style.display = 'none';
+        document.getElementById('panchayatDiv').style.display = 'none';
+
+        // reset locationSystem selects
+        if (locationSystem) {
+            locationSystem.reset(1); // clear all child selects
+        }
+        document.getElementById('panchayatInput').value = '';
+
+        // Show based on level
+        if (level === 'State') {
+            document.getElementById('stateDiv').style.display = 'block';
+        } else if (level === 'Division') {
+            document.getElementById('stateDiv').style.display = 'block';
+            document.getElementById('divisionDiv').style.display = 'block';
+        } else if (level === 'District') {
+            document.getElementById('stateDiv').style.display = 'block';
+            document.getElementById('divisionDiv').style.display = 'block';
+            document.getElementById('districtDiv').style.display = 'block';
+        } else if (level === 'Block') {
+            document.getElementById('stateDiv').style.display = 'block';
+            document.getElementById('divisionDiv').style.display = 'block';
+            document.getElementById('districtDiv').style.display = 'block';
+            document.getElementById('blockDiv').style.display = 'block';
+        } else if (level === 'Panchayat') {
+            document.getElementById('stateDiv').style.display = 'block';
+            document.getElementById('divisionDiv').style.display = 'block';
+            document.getElementById('districtDiv').style.display = 'block';
+            document.getElementById('blockDiv').style.display = 'block';
+            document.getElementById('panchayatDiv').style.display = 'block';
+        }
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        
+        const stateSelect = document.getElementById('stateSelect');
+        const divisionSelect = document.getElementById('divisionSelect');
+        const districtSelect = document.getElementById('districtSelect');
+        const blockSelect = document.getElementById('blockSelect');
+        const level = document.getElementById('levelSelect').value;
+
+        // Validation based on level
+        if (level === 'State' && !stateSelect.value) {
+            alert('Please select a State');
+            return;
+        }
+        if ((level === 'Division' || level === 'District' || level === 'Block') && !divisionSelect.value) {
+            alert('Please select a Division');
+            return;
+        }
+        if ((level === 'District' || level === 'Block') && !districtSelect.value) {
+            alert('Please select a District');
+            return;
+        }
+        if (level === 'Block' && !blockSelect.value) {
+            alert('Please select a Block');
+            return;
+        }
+        if (level === 'Panchayat' && !document.getElementById('panchayatInput').value.trim()) {
+            alert('Please enter Panchayat name');
+            return;
+        }
+
+        const formData = {
+            fullName: document.querySelector('input[name="fullName"]').value,
+            username: document.querySelector('input[name="username"]').value,
+            email: document.querySelector('input[name="email"]').value,
+            password: document.querySelector('input[name="password"]').value,
+            phone: document.querySelector('input[name="phone"]').value || '',
+            role: document.querySelector('select[name="role"]').value,
+            level: level,
+            state: stateSelect.value,
+            division: divisionSelect.value,
+            district: districtSelect.value,
+            block: blockSelect.value,
+            panchayat: document.getElementById('panchayatInput').value.trim()
+        };
+
+        // Show loading state
+        const button = document.querySelector('button[type="submit"]');
+        button.disabled = true;
+        button.textContent = '⏳ Creating...';
+
+        fetch('/admin/users/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const messageDiv = document.getElementById('message');
+            
+            if (data.success || data.userId) {
+                messageDiv.className = 'p-4 rounded-lg bg-green-50 border border-green-200 text-green-700';
+                messageDiv.innerHTML = '✅ ' + (data.message || 'Official created successfully!');
+                messageDiv.style.display = 'block';
+                
+                setTimeout(() => {
+                    window.location.href = '/admin/users';
+                }, 1500);
+            } else {
+                messageDiv.className = 'p-4 rounded-lg bg-red-50 border border-red-200 text-red-700';
+                messageDiv.innerHTML = '❌ ' + (data.error || 'An error occurred');
+                messageDiv.style.display = 'block';
+                
+                button.disabled = false;
+                button.textContent = '✅ Create Official';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const messageDiv = document.getElementById('message');
+            messageDiv.className = 'p-4 rounded-lg bg-red-50 border border-red-200 text-red-700';
+            messageDiv.innerHTML = '❌ Network error: ' + error.message;
+            messageDiv.style.display = 'block';
+            
+            button.disabled = false;
+            button.textContent = '✅ Create Official';
+        });
+    }
+</script>

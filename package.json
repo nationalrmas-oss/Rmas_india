@@ -1,0 +1,48 @@
+{
+  "name": "rmas-national",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build:css": "npx postcss ./src/tailwind.css -o ./public/css/tailwind.css --minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@getbrevo/brevo": "^4.0.1",
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.9.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.3.1",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.19.0",
+    "helmet": "^8.1.0",
+    "i18next": "^25.10.3",
+    "i18next-fs-backend": "^2.6.1",
+    "i18next-http-middleware": "^3.9.2",
+    "moment": "^2.30.1",
+    "mongodb": "^7.1.0",
+    "mongoose": "^9.2.3",
+    "multer": "^2.1.0",
+    "nodemailer": "^8.0.1",
+    "pdf-lib": "^1.17.1",
+    "puppeteer": "^24.37.5",
+    "qrcode": "^1.5.4",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
+    "autoprefixer": "^10.4.27",
+    "nodemon": "^3.1.14",
+    "postcss": "^8.5.8",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^4.2.1"
+  }
+}

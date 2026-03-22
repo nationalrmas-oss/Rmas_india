@@ -1,0 +1,233 @@
+<% 
+    // Provide default stats object if not defined
+    const dashboardStats = typeof stats !== 'undefined' && stats ? stats : { totalMembers: 0, approvedUsers: 0, mediaPosts: 0 };
+%>
+
+<div class="mb-8">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <div>
+            <h2 class="text-3xl font-bold text-gray-800">Dashboard Overview</h2>
+            <p class="text-gray-500 mt-1">Welcome back! Here's what's happening with your organization.</p>
+        </div>
+        <button class="mt-4 md:mt-0 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
+            <i class="fas fa-download"></i>
+            Export Report
+        </button>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Total Members -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-400/20 to-transparent rounded-full -mr-8 -mt-8"></div>
+            <div class="flex items-center justify-between relative z-10">
+                <div>
+                    <p class="text-gray-500 font-medium">Total Members</p>
+                    <h3 class="text-4xl font-bold text-gray-800 mt-2"><%= dashboardStats.totalMembers || 0 %></h3>
+                    <p class="text-sm text-green-600 mt-2 flex items-center gap-1">
+                        <i class="fas fa-arrow-up"></i> 12% from last month
+                    </p>
+                </div>
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-users text-white text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Approved Users -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-emerald-400/20 to-transparent rounded-full -mr-8 -mt-8"></div>
+            <div class="flex items-center justify-between relative z-10">
+                <div>
+                    <p class="text-gray-500 font-medium">Approved Users</p>
+                    <h3 class="text-4xl font-bold text-gray-800 mt-2"><%= dashboardStats.approvedUsers || 0 %></h3>
+                    <p class="text-sm text-green-600 mt-2 flex items-center gap-1">
+                        <i class="fas fa-arrow-up"></i> 8% this week
+                    </p>
+                </div>
+                <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-check-circle text-white text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Media Posts -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-violet-400/20 to-transparent rounded-full -mr-8 -mt-8"></div>
+            <div class="flex items-center justify-between relative z-10">
+                <div>
+                    <p class="text-gray-500 font-medium">Media Posts</p>
+                    <h3 class="text-4xl font-bold text-gray-800 mt-2"><%= dashboardStats.mediaPosts || 0 %></h3>
+                    <p class="text-sm text-violet-600 mt-2 flex items-center gap-1">
+                        <i class="fas fa-plus"></i> 5 new today
+                    </p>
+                </div>
+                <div class="w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-bullhorn text-white text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="mt-8">
+        <!-- Bar Chart - Monthly Membership -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-gray-800">Monthly Membership</h3>
+                <span class="text-sm text-gray-500">Last 6 months</span>
+            </div>
+            <div class="flex items-end justify-between h-48 gap-2">
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-lg hover:from-blue-600 hover:to-blue-500 transition-all cursor-pointer" style="height: 45%"></div>
+                    <span class="text-xs text-gray-500 mt-2">Jan</span>
+                </div>
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-lg hover:from-blue-600 hover:to-blue-500 transition-all cursor-pointer" style="height: 65%"></div>
+                    <span class="text-xs text-gray-500 mt-2">Feb</span>
+                </div>
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-lg hover:from-blue-600 hover:to-blue-500 transition-all cursor-pointer" style="height: 55%"></div>
+                    <span class="text-xs text-gray-500 mt-2">Mar</span>
+                </div>
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-full bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-lg hover:from-emerald-600 hover:to-emerald-500 transition-all cursor-pointer shadow-lg" style="height: 85%"></div>
+                    <span class="text-xs text-gray-500 mt-2">Apr</span>
+                </div>
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-lg hover:from-blue-600 hover:to-blue-500 transition-all cursor-pointer" style="height: 70%"></div>
+                    <span class="text-xs text-gray-500 mt-2">May</span>
+                </div>
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-full bg-gradient-to-t from-violet-500 to-violet-400 rounded-t-lg hover:from-violet-600 hover:to-violet-500 transition-all cursor-pointer" style="height: 90%"></div>
+                    <span class="text-xs text-gray-500 mt-2">Jun</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mt-8 bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+        <h3 class="text-xl font-bold text-gray-800 mb-6">Quick Actions</h3>
+        <div class="grid grid-cols-2 gap-4">
+            <a href="/admin/users" class="group p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-xl hover:from-green-100 hover:to-green-200 transition border border-green-200 hover:border-green-300">
+                <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mb-3 shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-user-plus text-white text-xl"></i>
+                </div>
+                <p class="font-semibold text-gray-800">Add New Admin</p>
+                <p class="text-xs text-gray-500 mt-1">Create user</p>
+            </a>
+            
+            <a href="/admin/reports" class="group p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl hover:from-purple-100 hover:to-purple-200 transition border border-purple-200 hover:border-purple-300">
+                <div class="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-500 rounded-xl flex items-center justify-center mb-3 shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-chart-bar text-white text-xl"></i>
+                </div>
+                <p class="font-semibold text-gray-800">View Analytics</p>
+                <p class="text-xs text-gray-500 mt-1">Reports</p>
+            </a>
+            
+            <a href="/admin/media" class="group p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl hover:from-orange-100 hover:to-orange-200 transition border border-orange-200 hover:border-orange-300">
+                <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center mb-3 shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fas fa-bullhorn text-white text-xl"></i>
+                </div>
+                <p class="font-semibold text-gray-800">Manage Media</p>
+                <p class="text-xs text-gray-500 mt-1">Posts & updates</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- District-wise Distribution -->
+    <div class="mt-8 bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-gray-800">Members by District</h3>
+            <span class="text-sm text-gray-500">Top 5 districts</span>
+        </div>
+        <div class="space-y-4">
+            <div class="flex items-center gap-4">
+                <span class="w-24 text-sm font-medium text-gray-600">Patna</span>
+                <div class="flex-1 h-8 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-end pr-3" style="width: 85%">
+                        <span class="text-xs text-white font-bold">850</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="w-24 text-sm font-medium text-gray-600">Gaya</span>
+                <div class="flex-1 h-8 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-end pr-3" style="width: 65%">
+                        <span class="text-xs text-white font-bold">650</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="w-24 text-sm font-medium text-gray-600">Muzaffarpur</span>
+                <div class="flex-1 h-8 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full flex items-center justify-end pr-3" style="width: 55%">
+                        <span class="text-xs text-white font-bold">550</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="w-24 text-sm font-medium text-gray-600">Bhagalpur</span>
+                <div class="flex-1 h-8 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full flex items-center justify-end pr-3" style="width: 45%">
+                        <span class="text-xs text-white font-bold">450</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="w-24 text-sm font-medium text-gray-600">Darbhanga</span>
+                <div class="flex-1 h-8 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-end pr-3" style="width: 35%">
+                        <span class="text-xs text-white font-bold">350</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ID Card Approvals (Superadmin Only) -->
+    <% if (admin.role === 'Superadmin' && pendingIDCardApprovals && pendingIDCardApprovals.length > 0) { %>
+    <div class="mt-8 bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+        <h3 class="text-xl font-bold text-gray-800 mb-6">ID Card Approvals Pending</h3>
+        <div class="space-y-4">
+            <% pendingIDCardApprovals.forEach(member => { %>
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                <div>
+                    <p class="font-semibold text-gray-800"><%= member.fullName %></p>
+                    <p class="text-sm text-gray-500"><%= member.membershipId %> - <%= member.district %>, <%= member.state %></p>
+                </div>
+                <button onclick="approveIDCard('<%= member._id %>')" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors">
+                    Approve ID Card
+                </button>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+    <% } %>
+</div>
+
+<script>
+function approveIDCard(memberId) {
+    if (confirm('Are you sure you want to approve the ID Card for this member?')) {
+        fetch(`/admin/approve-id-card/${memberId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('ID Card approved successfully!');
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Network error occurred');
+        });
+    }
+}
+</script>

@@ -1,0 +1,49 @@
+{
+  "state": "Jharkhand",
+  "divisions": {
+    "South Chotanagpur": {
+      "districts": {
+        "Ranchi": ["Angara", "Bero", "Bundu", "Burmu", "Chanho", "Itki", "Kanke", "Khalari", "Lapung", "Mandar", "Nagri", "Namkum", "Ormanjhi", "Ratu", "Silli", "Tamar"],
+        "Khunti": ["Arki", "Karra", "Khunti", "Murhu", "Rania", "Torpa"],
+        "Gumla": ["Basia", "Bishunpur", "Chainpur", "Dumri", "Ghaghra", "Gumla", "Kamdara", "Palkot", "Raidih", "Sisai", "Verno"],
+        "Simdega": ["Bano", "Bansjore", "Jaldega", "Kersai", "Kolebira", "Kurdeg", "Palkot", "Pakartanr", "Simdega", "Thethaitangar"],
+        "Lohardaga": ["Bhandra", "Kuru", "Kisko", "Lohardaga", "Peshrar", "Senha"]
+      }
+    },
+    "North Chotanagpur": {
+      "districts": {
+        "Hazaribagh": ["Barhi", "Barkatha", "Bishnugarh", "Chalkusa", "Churhu", "Daru", "Ichak", "Katkamsandi", "Katkamdag", "Keredari", "Padma", "Tati Jhariya"],
+        "Dhanbad": ["Baliapur", "Baghmara", "Dhanbad", "Govindpur", "Jharia", "Nirsa", "Tundi", "Topchanchi", "Purbi Tundi"],
+        "Bokaro": ["Bermo", "Chas", "Chandankiyari", "Gumia", "Jaridih", "Kasmar", "Nawadih", "Petarwar"],
+        "Giridih": ["Bagodar", "Bengabad", "Birni", "Deori", "Dhanwar", "Gande", "Gawan", "Giridih", "Jamua", "Pirtand", "Suriya", "Tisri"],
+        "Ramgarh": ["Chitto", "Dulmi", "Gola", "Mandu", "Patratu", "Ramgarh"],
+        "Koderma": ["Chandwara", "Domchanch", "Jainagar", "Koderma", "Markacho", "Satgawan"],
+        "Chatra": ["Chatra", "Gidhaur", "Hunterganj", "Itkhori", "Kanhachatti", "Lawalong", "Mayurhand", "Pathalgada", "Pratappur", "Simaria", "Tandwa"]
+      }
+    },
+    "Santhal Pargana": {
+      "districts": {
+        "Dumka": ["Dumka", "Gopikandar", "Jama", "Jarmundi", "Masaliya", "Ramgarh", "Ranishwar", "Saraiyahat", "Shikaripara"],
+        "Deoghar": ["Deoghar", "Devipur", "Karon", "Madhupur", "Mohanpur", "Palojori", "Sarath", "Sarwan", "Sonaraithari"],
+        "Godda": ["Boarijore", "Godda", "Mahagama", "Meherma", "Pathargama", "Poreyahat", "Thakurgangti", "Sundarpahari"],
+        "Sahibganj": ["Barhait", "Barharwa", "Borio", "Mandro", "Pathna", "Rajmahal", "Sahibganj", "Taljhari", "Udhwa"],
+        "Pakur": ["Amrapara", "Hiranpur", "Littipara", "Maheshpur", "Pakur", "Pakuria"],
+        "Jamtara": ["Fatehpur", "Jamtara", "Karmatanr", "Kundhit", "Nala", "Narayanpur"]
+      }
+    },
+    "Palamu": {
+      "districts": {
+        "Palamu": ["Bishrampur", "Chhatarpur", "Chainpur", "Daltonganj", "Hariharganj", "Haidarnagar", "Lesliganj", "Manatu", "Nawa Bazar", "Patan", "Pankee", "Pipra", "Satbarwa", "Tarhasi", "Untari Road"],
+        "Garhwa": ["Bhandaria", "Bhawanathpur", "Chiniya", "Dhurki", "Garhwa", "Kandi", "Kharaundhi", "Majhiaon", "Meral", "Nagar Untari", "Ramna", "Ranka", "Sagma"],
+        "Latehar": ["Balu Math", "Bariyatu", "Barwadih", "Chandwa", "Garu", "Herhanj", "Latehar", "Mahuadanr", "Manika"]
+      }
+    },
+    "Kolhan": {
+      "districts": {
+        "East Singhbhum": ["Baharagora", "Chakulia", "Dhalbhumgarh", "Ghatshila", "Golmuri-cum-Jugsalai", "Ghurabandha", "Musabani", "Patamda", "Potka", "Dumaria"],
+        "West Singhbhum": ["Chaibasa", "Chakradharpur", "Goilkera", "Hatgamangala", "Jagannathpur", "Jhinkpani", "Khuntpani", "Kumardungi", "Manjhari", "Manoharpur", "Noamundi", "Sonua", "Tonto"],
+        "Seraikela Kharsawan": ["Adityapur", "Chandil", "Gamharia", "Ichagarh", "Kharsawan", "Kukru", "Nimdih", "Rajnagar", "Seraikela"]
+      }
+    }
+  }
+}

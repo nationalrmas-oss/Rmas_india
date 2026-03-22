@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - RMAS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link rel="stylesheet" href="/css/tailwind.css"> -->
+</head>
+<body class="bg-gradient-to-br from-blue-900 to-blue-800 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md">
+        <div class="bg-white rounded-lg shadow-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-red-600 text-white p-8 text-center">
+                <h1 class="text-3xl font-bold">RMAS</h1>
+                <p class="text-sm mt-2">राष्ट्रीय मानव अधिकार संगठन</p>
+                <p class="text-xs mt-1 opacity-90">Admin Login</p>
+            </div>
+
+            <!-- Form -->
+            <div class="p-8">
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-800 rounded">
+                        <p class="font-semibold text-sm">❌ <%= error %></p>
+                    </div>
+                <% } %>
+
+                <form method="POST" action="/admin/login" novalidate>
+                    <div class="mb-5">
+                        <label for="username" class="block text-sm font-bold text-gray-800 mb-2">
+                            Username
+                        </label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            required
+                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
+                            placeholder="Enter your username"
+                        >
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="password" class="block text-sm font-bold text-gray-800 mb-2">
+                            Password
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required
+                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
+                            placeholder="Enter your password"
+                        >
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition duration-200"
+                    >
+                        🔐 Login
+                    </button>
+                </form>
+
+                <!-- Forgot Password Link -->
+                <div class="mt-4 text-center">
+                    <a href="/forgot-password" class="text-teal-600 hover:text-teal-800 font-medium text-sm flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                        </svg>
+                        Forgot Password?
+                    </a>
+                </div>
+
+                <p class="text-center text-gray-600 text-sm mt-6">
+                    Contact Super Admin for login credentials
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!-- Hero Section -->
+<section class="py-16 bg-blue-900 text-white">
+  <div class="container mx-auto px-4 text-center">
+    <h1 class="text-4xl md:text-6xl font-bold mb-4"><%= t('activities.heroTitle') %></h1>
+    <p class="text-xl md:text-2xl"><%= t('activities.heroSubtitle') %></p>
+  </div>
+</section>
+
+<!-- Main Pillars of Activity -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="bg-blue-50 p-6 rounded-lg text-center hover:bg-blue-100 transition duration-300 transform hover:scale-105">
+        <div class="text-6xl text-blue-600 mb-4">⚖️</div>
+        <h3 class="text-xl font-semibold mb-2"><%= t('activities.pillars.legalAid.title') %></h3>
+        <p class="text-gray-600"><%= t('activities.pillars.legalAid.desc') %></p>
+      </div>
+      <div class="bg-green-50 p-6 rounded-lg text-center hover:bg-green-100 transition duration-300 transform hover:scale-105">
+        <div class="text-6xl text-green-600 mb-4">🚔</div>
+        <h3 class="text-xl font-semibold mb-2"><%= t('activities.pillars.policeReform.title') %></h3>
+        <p class="text-gray-600"><%= t('activities.pillars.policeReform.desc') %></p>
+      </div>
+      <div class="bg-red-50 p-6 rounded-lg text-center hover:bg-red-100 transition duration-300 transform hover:scale-105">
+        <div class="text-6xl text-red-600 mb-4">👩‍🦰</div>
+        <h3 class="text-xl font-semibold mb-2"><%= t('activities.pillars.womenEmpowerment.title') %></h3>
+        <p class="text-gray-600"><%= t('activities.pillars.womenEmpowerment.desc') %></p>
+      </div>
+      <div class="bg-purple-50 p-6 rounded-lg text-center hover:bg-purple-100 transition duration-300 transform hover:scale-105">
+        <div class="text-6xl text-purple-600 mb-4">🍎</div>
+        <h3 class="text-xl font-semibold mb-2"><%= t('activities.pillars.socialWelfare.title') %></h3>
+        <p class="text-gray-600"><%= t('activities.pillars.socialWelfare.desc') %></p>
+      </div>
+      <div class="bg-yellow-50 p-6 rounded-lg text-center hover:bg-yellow-100 transition duration-300 transform hover:scale-105 col-span-1 md:col-span-2 lg:col-span-1">
+        <div class="text-6xl text-yellow-600 mb-4">📢</div>
+        <h3 class="text-xl font-semibold mb-2"><%= t('activities.pillars.awareness.title') %></h3>
+        <p class="text-gray-600"><%= t('activities.pillars.awareness.desc') %></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recent Impact Stories -->
+<section class="py-16 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-blue-900">Recent Impact Stories</h2>
+    <div class="space-y-12">
+      <div class="flex flex-col md:flex-row items-center gap-8 <%= dir === 'rtl' ? 'md:flex-row-reverse' : '' %>">
+        <div class="md:w-1/2">
+          <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Story 1" class="w-full rounded-lg shadow-lg">
+        </div>
+        <div class="md:w-1/2">
+          <h3 class="text-2xl font-semibold mb-4"><%= t('activities.stories.story1.title') %></h3>
+          <p class="text-gray-700 mb-4"><%= t('activities.stories.story1.desc') %></p>
+          <a href="#" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition duration-300">Read More</a>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row items-center gap-8 <%= dir === 'rtl' ? '' : 'md:flex-row-reverse' %>">
+        <div class="md:w-1/2">
+          <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Story 2" class="w-full rounded-lg shadow-lg">
+        </div>
+        <div class="md:w-1/2">
+          <h3 class="text-2xl font-semibold mb-4"><%= t('activities.stories.story2.title') %></h3>
+          <p class="text-gray-700 mb-4"><%= t('activities.stories.story2.desc') %></p>
+          <a href="#" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition duration-300">Read More</a>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row items-center gap-8 <%= dir === 'rtl' ? 'md:flex-row-reverse' : '' %>">
+        <div class="md:w-1/2">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Story 3" class="w-full rounded-lg shadow-lg">
+        </div>
+        <div class="md:w-1/2">
+          <h3 class="text-2xl font-semibold mb-4"><%= t('activities.stories.story3.title') %></h3>
+          <p class="text-gray-700 mb-4"><%= t('activities.stories.story3.desc') %></p>
+          <a href="#" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition duration-300">Read More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Activity Timeline -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-blue-900">Activity Timeline</h2>
+    <div class="relative max-w-2xl mx-auto">
+      <div class="absolute left-1/2 transform -translate-x-1/2 w-1 bg-blue-600 h-full"></div>
+      <div class="space-y-8">
+        <div class="flex items-center">
+          <div class="w-1/2 pr-8 text-right">
+            <div class="bg-blue-50 p-6 rounded-lg shadow-lg">
+              <h3 class="text-lg font-semibold text-blue-900">March 2026</h3>
+              <p class="text-gray-700"><%= t('activities.timeline.march2026') %></p>
+            </div>
+          </div>
+          <div class="w-4 h-4 bg-blue-600 rounded-full"></div>
+          <div class="w-1/2 pl-8"></div>
+        </div>
+        <div class="flex items-center">
+          <div class="w-1/2 pr-8"></div>
+          <div class="w-4 h-4 bg-blue-600 rounded-full"></div>
+          <div class="w-1/2 pl-8">
+            <div class="bg-blue-50 p-6 rounded-lg shadow-lg">
+              <h3 class="text-lg font-semibold text-blue-900">February 2026</h3>
+              <p class="text-gray-700"><%= t('activities.timeline.feb2026') %></p>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <div class="w-1/2 pr-8 text-right">
+            <div class="bg-blue-50 p-6 rounded-lg shadow-lg">
+              <h3 class="text-lg font-semibold text-blue-900">January 2026</h3>
+              <p class="text-gray-700"><%= t('activities.timeline.jan2026') %></p>
+            </div>
+          </div>
+          <div class="w-4 h-4 bg-blue-600 rounded-full"></div>
+          <div class="w-1/2 pl-8"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Report an Incident -->
+<section class="py-16 bg-red-50">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto bg-white border-4 border-red-500 p-8 rounded-lg shadow-lg text-center">
+      <h2 class="text-3xl font-bold mb-4 text-red-600"><%= t('activities.cta.message') %></h2>
+      <a href="/contact" class="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition duration-300 transform hover:scale-105 text-lg font-semibold"><%= t('activities.cta.button') %></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+</style>

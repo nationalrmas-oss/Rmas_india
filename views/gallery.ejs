@@ -1,0 +1,252 @@
+<!-- Hero Section -->
+<section class="py-16 bg-blue-900 text-white">
+  <div class="container mx-auto px-4 text-center">
+    <h1 class="text-4xl md:text-6xl font-bold mb-4"><%= t('gallery.heroTitle') %></h1>
+    <p class="text-xl md:text-2xl"><%= t('gallery.heroSubtitle') %></p>
+  </div>
+</section>
+
+<!-- Category Filters -->
+<section class="py-8 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap justify-center gap-4 <%= dir === 'rtl' ? 'flex-row-reverse' : '' %>">
+      <button class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition duration-300 filter-btn active" data-filter="all"><%= t('gallery.filters.all') %></button>
+      <button class="bg-white text-blue-600 px-6 py-2 rounded border border-blue-600 hover:bg-blue-50 transition duration-300 filter-btn" data-filter="meetings"><%= t('gallery.filters.meetings') %></button>
+      <button class="bg-white text-blue-600 px-6 py-2 rounded border border-blue-600 hover:bg-blue-50 transition duration-300 filter-btn" data-filter="relief"><%= t('gallery.filters.relief') %></button>
+      <button class="bg-white text-blue-600 px-6 py-2 rounded border border-blue-600 hover:bg-blue-50 transition duration-300 filter-btn" data-filter="protests"><%= t('gallery.filters.protests') %></button>
+      <button class="bg-white text-blue-600 px-6 py-2 rounded border border-blue-600 hover:bg-blue-50 transition duration-300 filter-btn" data-filter="awards"><%= t('gallery.filters.awards') %></button>
+    </div>
+  </div>
+</section>
+
+<!-- Masonry Gallery Grid -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-max" id="gallery-grid">
+      <% galleryImages.forEach(function(image) { %>
+      <div class="gallery-item group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105" 
+        data-category="<%= image.category %>"
+        data-image-id="<%= image.id %>"
+        data-image-src="<%= image.src %>"
+        data-image-title="<%= image.title %>"
+        data-image-date="<%= image.date %>">
+        <div class="relative aspect-square overflow-hidden">
+          <img src="<%= image.src %>" alt="<%= image.title %>" class="w-full h-full object-cover transition duration-300 group-hover:scale-110">
+          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition duration-300 flex items-end">
+            <div class="w-full p-4 text-white transform translate-y-full group-hover:translate-y-0 transition duration-300">
+              <h3 class="font-bold text-lg"><%= image.title %></h3>
+              <p class="text-sm"><%= image.date %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center hidden z-50 p-4">
+  <div class="relative max-w-4xl w-full">
+    <img id="lightboxImg" src="" alt="Gallery Image" class="w-full rounded-lg">
+    <button id="lightboxClose" class="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white rounded-full w-10 h-10 flex items-center justify-center text-2xl transition duration-300">&times;</button>
+    <button id="lightboxPrev" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center transition duration-300">&#10094;</button>
+    <button id="lightboxNext" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center transition duration-300">&#10095;</button>
+    <div class="text-center mt-4 text-white">
+      <h3 id="lightboxTitle" class="text-xl font-bold mb-1"></h3>
+      <p id="lightboxDate" class="text-sm text-gray-300"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Video Highlights Section -->
+<section class="py-16 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-blue-900"><%= t('gallery.videoTitle') %></h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% galleryVideos.forEach(function(video) { %>
+      <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
+        <div class="relative aspect-video bg-gray-900">
+          <img src="https://img.youtube.com/vi/<%= video.id %>/maxresdefault.jpg" alt="<%= video.title %>" class="w-full h-full object-cover">
+          <button class="absolute inset-0 flex items-center justify-center hover:bg-black hover:bg-opacity-20 transition duration-300" onclick="playVideo('<%= video.id %>')">
+            <div class="bg-red-600 hover:bg-red-700 rounded-full p-4 transition duration-300">
+              <svg class="w-8 h-8 text-white fill-current" viewBox="0 0 20 20">
+                <path d="M5 3l14 7-14 7V3z"></path>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-lg text-gray-900"><%= video.title %></h3>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<!-- Video Player Modal -->
+<div id="videoModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center hidden z-50 p-4">
+  <div class="relative max-w-4xl w-full">
+    <button id="videoClose" class="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white rounded-full w-10 h-10 flex items-center justify-center text-2xl transition duration-300" style="z-index: 10;">&times;</button>
+    <div class="aspect-video bg-black rounded-lg overflow-hidden">
+      <iframe id="videoPlayer" width="100%" height="100%" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+  .filter-btn.active {
+    background-color: #2563eb;
+    color: white;
+  }
+  .gallery-item {
+    display: block;
+  }
+  .gallery-item.hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  // Gallery filtering functionality
+  const galleryItems = document.querySelectorAll('.gallery-item');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const filter = this.getAttribute('data-filter');
+      
+      // Update active button
+      filterBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+
+      // Filter gallery items
+      galleryItems.forEach(item => {
+        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+          item.classList.remove('hidden');
+          item.style.display = 'block';
+        } else {
+          item.classList.add('hidden');
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Lightbox functionality
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxTitle = document.getElementById('lightboxTitle');
+  const lightboxDate = document.getElementById('lightboxDate');
+  const lightboxClose = document.getElementById('lightboxClose');
+  const lightboxPrev = document.getElementById('lightboxPrev');
+  const lightboxNext = document.getElementById('lightboxNext');
+  let currentImageIndex = 0;
+  let visibleImages = [];
+
+  // Build image array from gallery items
+  function buildImageArray() {
+    visibleImages = Array.from(galleryItems)
+      .filter(item => item.style.display !== 'none')
+      .map(item => ({
+        src: item.getAttribute('data-image-src'),
+        title: item.getAttribute('data-image-title'),
+        date: item.getAttribute('data-image-date'),
+        id: item.getAttribute('data-image-id')
+      }));
+  }
+
+  galleryItems.forEach((item) => {
+    item.addEventListener('click', function() {
+      if (this.style.display !== 'none') {
+        buildImageArray();
+        const imgSrc = this.getAttribute('data-image-src');
+        currentImageIndex = visibleImages.findIndex(img => img.src === imgSrc);
+        openLightbox(currentImageIndex);
+      }
+    });
+  });
+
+  function openLightbox(index) {
+    if (visibleImages.length === 0) return;
+    const image = visibleImages[index];
+    lightboxImg.src = image.src;
+    lightboxTitle.textContent = image.title;
+    lightboxDate.textContent = image.date;
+    lightbox.classList.remove('hidden');
+    currentImageIndex = index;
+  }
+
+  function closeLightbox() {
+    lightbox.classList.add('hidden');
+  }
+
+  function nextImage() {
+    currentImageIndex = (currentImageIndex + 1) % visibleImages.length;
+    openLightbox(currentImageIndex);
+  }
+
+  function prevImage() {
+    currentImageIndex = (currentImageIndex - 1 + visibleImages.length) % visibleImages.length;
+    openLightbox(currentImageIndex);
+  }
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightboxPrev.addEventListener('click', prevImage);
+  lightboxNext.addEventListener('click', nextImage);
+
+  // Close lightbox on Escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      closeLightbox();
+      closeVideoModal();
+    }
+    if (event.key === 'ArrowLeft') prevImage();
+    if (event.key === 'ArrowRight') nextImage();
+  });
+
+  // Video modal functionality
+  const videoModal = document.getElementById('videoModal');
+  const videoPlayer = document.getElementById('videoPlayer');
+  const videoClose = document.getElementById('videoClose');
+
+  function playVideo(videoId) {
+    videoPlayer.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+    videoModal.classList.remove('hidden');
+  }
+
+  function closeVideoModal() {
+    videoModal.classList.add('hidden');
+    videoPlayer.src = '';
+  }
+
+  videoClose.addEventListener('click', closeVideoModal);
+  videoModal.addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeVideoModal();
+    }
+  });
+</script>
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.remove('hidden');
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.add('hidden');
+  }
+</script>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+  .columns-1 { columns: 1; }
+  .columns-2 { columns: 2; }
+  .columns-3 { columns: 3; }
+  .gap-4 { gap: 1rem; }
+  .space-y-4 > * + * { margin-top: 1rem; }
+</style>

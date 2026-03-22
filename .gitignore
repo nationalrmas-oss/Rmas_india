@@ -1,0 +1,39 @@
+# Dependency folders
+node_modules/
+jspm_packages/
+
+# Environment variables (Sabse zaroori - isme aapka DB Password hota hai)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Tailwind CSS generated files (agar aap CLI use kar rahe hain)
+public/css/output.css
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary uploads/images (ID cards jo generate hote hain)
+public/temp/
+public/generated_ids/

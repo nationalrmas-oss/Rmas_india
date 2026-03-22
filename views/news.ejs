@@ -1,0 +1,118 @@
+<!-- Hero Section -->
+<section class="py-16 bg-blue-900 text-white">
+  <div class="container mx-auto px-4 text-center">
+    <h1 class="text-4xl md:text-6xl font-bold mb-4"><%= t('news.heroTitle') %></h1>
+    <p class="text-xl md:text-2xl"><%= t('news.heroSubtitle') %></p>
+  </div>
+</section>
+
+<!-- Featured News -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
+      <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Featured News" class="w-full h-64 md:h-80 object-cover">
+      <div class="p-8">
+        <h2 class="text-3xl font-bold mb-4 text-blue-900"><%= t('news.featured.title') %></h2>
+        <p class="text-gray-700 mb-4 text-lg"><%= t('news.featured.summary') %></p>
+        <div class="flex items-center text-sm text-gray-500 mb-4">
+          <span><%= t('news.featured.date') %></span>
+        </div>
+        <a href="#" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-300 text-lg font-semibold"><%= t('news.featured.button') %></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Category Filters -->
+<section class="py-8 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-center space-x-4">
+      <button class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition duration-300 filter-btn active" data-filter="all"><%= t('news.filters.all') %></button>
+      <button class="bg-white text-blue-600 px-6 py-2 rounded border border-blue-600 hover:bg-blue-50 transition duration-300 filter-btn" data-filter="press"><%= t('news.filters.press') %></button>
+      <button class="bg-white text-blue-600 px-6 py-2 rounded border border-blue-600 hover:bg-blue-50 transition duration-300 filter-btn" data-filter="media"><%= t('news.filters.media') %></button>
+    </div>
+  </div>
+</section>
+
+<!-- News Grid -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-blue-900"><%= t('news.gridTitle') %></h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="news-grid">
+      <% newsCards.forEach(function(card, index) { %>
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:scale-105 news-card" data-category="<%= card.tag.toLowerCase().replace(' ', '-') %>">
+        <img src="<%= card.image %>" alt="News <%= index + 1 %>" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-2">
+            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded"><%= card.tag %></span>
+            <span class="text-sm text-gray-500"><%= card.date %></span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2 text-gray-900"><%= card.title %></h3>
+          <p class="text-gray-600 mb-4"><%= card.summary %></p>
+          <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold flex items-center">
+            <%= card.readMore %> <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<!-- Press Kit Download -->
+<section class="py-16 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg text-center">
+      <h2 class="text-2xl font-bold mb-4 text-blue-900"><%= t('news.pressKit.title') %></h2>
+      <p class="text-gray-600 mb-6"><%= t('news.pressKit.desc') %></p>
+      <a href="/downloads/press-kit.zip" class="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition duration-300 text-lg font-semibold"><%= t('news.pressKit.button') %></a>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter Subscription -->
+<section class="py-16 bg-blue-900 text-white">
+  <div class="container mx-auto px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4"><%= t('news.newsletter.title') %></h2>
+      <p class="text-lg mb-8"><%= t('news.newsletter.desc') %></p>
+      <form class="flex flex-col md:flex-row gap-4 justify-center">
+        <input type="email" placeholder="Enter your email" class="px-4 py-2 rounded <%= dir === 'rtl' ? 'text-right' : '' %>">
+        <input type="tel" placeholder="WhatsApp number (optional)" class="px-4 py-2 rounded <%= dir === 'rtl' ? 'text-right' : '' %>">
+        <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition duration-300 font-semibold"><%= t('news.newsletter.button') %></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+  .filter-btn.active {
+    background-color: #2563eb;
+    color: white;
+  }
+  .news-card {
+    display: block;
+  }
+</style>
+
+<script>
+  // Simple filter functionality
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const filter = this.getAttribute('data-filter');
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+
+      document.querySelectorAll('.news-card').forEach(card => {
+        if (filter === 'all' || card.getAttribute('data-category').includes(filter)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

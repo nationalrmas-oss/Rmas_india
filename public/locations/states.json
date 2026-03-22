@@ -1,0 +1,10 @@
+{
+  "active_states": [
+    {"name": "Uttar Pradesh", "file": "uttar_pradesh.json"},
+    {"name": "Bihar", "file": "bihar.json"},
+    {"name": "Jharkhand", "file": "jharkhand.json"},
+    {"name": "Madhya Pradesh", "file": "madhya_pradesh.json"},
+    {"name": "West Bengal", "file": "west_bengal.json"},
+    {"name": "Delhi", "file": "delhi.json"}
+  ]
+}

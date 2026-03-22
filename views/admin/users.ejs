@@ -1,0 +1,151 @@
+<div class="mb-8">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="text-3xl font-bold text-gray-800">User Management</h2>
+            <p class="text-gray-600 mt-1"><a href="/admin/dashboard" class="text-blue-600 hover:underline">Home</a> / Users</p>
+        </div>
+        <% if (admin && admin.role === 'Superadmin') { %>
+            <a href="/admin/users/add" class="px-6 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition">
+                ➕ Add New Official
+            </a>
+        <% } %>
+    </div>
+
+    <!-- Delete Success Message -->
+    <% if (typeof query !== 'undefined' && query.deleted) { %>
+        <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+            ✅ User deleted successfully
+        </div>
+    <% } %>
+
+    <!-- Search Bar -->
+    <div class="mb-6">
+        <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="🔍 Search by name, username, email, or role..." 
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200"
+            onkeyup="filterTable()"
+        >
+    </div>
+
+    <!-- Users Table -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <table class="w-full" id="usersTable">
+            <thead class="bg-gray-100 border-b">
+                <tr>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Name</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Username</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Email</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Role</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Level</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Location</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Status</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <% if (users && users.length > 0) { %>
+                    <% users.forEach(user => { %>
+                        <tr class="border-b hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 text-sm font-medium text-gray-800"><%= user.fullName %></td>
+                            <td class="px-6 py-4 text-sm text-gray-600">@<%= user.username %></td>
+                            <td class="px-6 py-4 text-sm text-gray-600"><%= user.email %></td>
+                            <td class="px-6 py-4 text-sm">
+                                <span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
+                                    <%= user.role %>
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-sm">
+                                <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-semibold">
+                                    <%= user.level %>
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-600">
+                                <% if (user.location && (user.location.state || user.location.district)) { %>
+                                    <%= user.location.state || '-' %> / <%= user.location.district || '-' %>
+                                <% } else { %>
+                                    <span class="text-gray-400">National</span>
+                                <% } %>
+                            </td>
+                            <td class="px-6 py-4 text-sm">
+                                <% if (user.isActive) { %>
+                                    <span class="inline-block px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">✅ Active</span>
+                                <% } else { %>
+                                    <span class="inline-block px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold">❌ Inactive</span>
+                                <% } %>
+                            </td>
+                            <td class="px-6 py-4 text-center text-sm">
+                                <% if (admin && admin.role === 'Superadmin') { %>
+                                    <a href="/admin/users/<%= user._id %>/edit" class="text-blue-600 hover:text-blue-800 font-semibold mr-3">
+                                        ✏️ Edit
+                                    </a>
+                                    <a href="/admin/users/<%= user._id %>/delete" onclick="return confirm('Are you sure?')" class="text-red-600 hover:text-red-800 font-semibold">
+                                        🗑️ Delete
+                                    </a>
+                                <% } else { %>
+                                    <span class="text-gray-400 text-xs">View Only</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="8" class="px-6 py-8 text-center text-gray-500">
+                            No users found
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Stats -->
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-600">
+            <p class="text-gray-600 font-semibold">Total Officials</p>
+            <h3 class="text-3xl font-bold text-gray-800 mt-2"><%= users ? users.length : 0 %></h3>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-600">
+            <p class="text-gray-600 font-semibold">Active Officials</p>
+            <h3 class="text-3xl font-bold text-gray-800 mt-2">
+                <% 
+                    let activeCount = 0;
+                    if (users) {
+                        activeCount = users.filter(u => u.isActive).length;
+                    }
+                %>
+                <%= activeCount %>
+            </h3>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-600">
+            <p class="text-gray-600 font-semibold">National/Superadmin</p>
+            <h3 class="text-3xl font-bold text-gray-800 mt-2">
+                <% 
+                    let superadminCount = 0;
+                    if (users) {
+                        superadminCount = users.filter(u => u.level === 'National' || u.role === 'Superadmin').length;
+                    }
+                %>
+                <%= superadminCount %>
+            </h3>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById('usersTable');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            const text = row.textContent || row.innerText;
+            row.style.display = text.toLowerCase().indexOf(filter) > -1 ? '' : 'none';
+        }
+    }
+</script>

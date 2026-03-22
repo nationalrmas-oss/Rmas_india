@@ -1,0 +1,18 @@
+{
+  "state": "Delhi",
+  "divisions": {
+    "Delhi NCR": {
+      "districts": {
+        "New Delhi": ["Connaught Place", "Chanakyapuri", "Delhi Cantt", "Vasant Vihar", "Dwarka"],
+        "South Delhi": ["Saket", "Hauz Khas", "Mehrauli", "Pushp Vihar", "Malviya Nagar"],
+        "North Delhi": ["Model Town", "Narela", "Alipur", "Civil Lines"],
+        "East Delhi": ["Mayur Vihar", "Preet Vihar", "Patparganj", "Laxmi Nagar"],
+        "West Delhi": ["Punjabi Bagh", "Rajouri Garden", "Patel Nagar", "Janakpuri"],
+        "Central Delhi": ["Paharganj", "Karol Bagh", "Daryaganj"],
+        "Shahdara": ["Shahdara", "Seemapuri", "Vivek Vihar"],
+        "South West Delhi": ["Najafgarh", "Kapashhera"],
+        "North East Delhi": ["Seelampur", "Yamuna Vihar", "Karawal Nagar"]
+      }
+    }
+  }
+}

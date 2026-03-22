@@ -1,0 +1,48 @@
+{
+  "state": "West Bengal",
+  "divisions": {
+    "Presidency": {
+      "districts": {
+        "Kolkata": ["Kolkata Municipal Corporation Areas"],
+        "North 24 Parganas": ["Barasat", "Barrackpore", "Basirhat", "Bidhannagar", "Bongaon"],
+        "South 24 Parganas": ["Alipore", "Baruipur", "Canning", "Diamond Harbour", "Kakdwip"],
+        "Howrah": ["Bally", "Domjur", "Amta", "Bagnan", "Uluberia", "Sankrail"],
+        "Nadia": ["Krishnanagar", "Kalyani", "Ranaghat", "Tehatta"]
+      }
+    },
+    "Burdwan": {
+      "districts": {
+        "Purba Bardhaman": ["Bardhaman North", "Bardhaman South", "Katwa", "Kalna"],
+        "Paschim Bardhaman": ["Asansol", "Durgapur"],
+        "Birbhum": ["Suri", "Bolpur", "Rampurhat"],
+        "Hooghly": ["Chinsurah", "Chandannagar", "Srirampur", "Arambagh"]
+      }
+    },
+    "Medinipur": {
+      "districts": {
+        "Purba Medinipur": ["Tamluk", "Haldia", "Egra", "Contai"],
+        "Paschim Medinipur": ["Midnapore", "Kharagpur", "Ghatal"],
+        "Jhargram": ["Jhargram", "Binpur", "Gopiballavpur"],
+        "Bankura": ["Bankura", "Bishnupur", "Khatra"],
+        "Purulia": ["Purulia", "Raghunathpur"]
+      }
+    },
+    "Malda": {
+      "districts": {
+        "Malda": ["English Bazar", "Chanchal"],
+        "Murshidabad": ["Berhampore", "Domkal", "Jangipur", "Kandi"],
+        "Uttar Dinajpur": ["Raiganj", "Islampur"],
+        "Dakshin Dinajpur": ["Balurghat", "Gangarampur"]
+      }
+    },
+    "Jalpaiguri": {
+      "districts": {
+        "Jalpaiguri": ["Jalpaiguri", "Malbazar"],
+        "Alipurduar": ["Alipurduar"],
+        "Cooch Behar": ["Cooch Behar", "Dinhata", "Mathabhanga", "Tufanganj"],
+        "Darjeeling": ["Darjeeling", "Kurseong", "Siliguri", "Mirik"],
+        "Kalimpong": ["Kalimpong"]
+      }
+    }
+  }
+}

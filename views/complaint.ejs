@@ -1,0 +1,617 @@
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16 md:py-24">
+        <div class="max-w-6xl mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-center"><%= t('complaint.heroTitle') %></h1>
+            <p class="text-lg md:text-xl text-center text-blue-100 mb-8"><%= t('complaint.heroSubtitle') %></p>
+
+            <!-- Progress Steps -->
+            <div class="flex justify-center items-center space-x-4 md:space-x-8">
+                <div class="flex items-center">
+                    <div id="step1" class="step-active w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm">
+                        1
+                    </div>
+                    <span class="ml-2 text-sm font-medium hidden md:block"><%= t('complaint.steps.complainant') %></span>
+                </div>
+                <div class="w-8 h-0.5 bg-gray-400"></div>
+                <div class="flex items-center">
+                    <div id="step2" class="step-inactive w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm">
+                        2
+                    </div>
+                    <span class="ml-2 text-sm font-medium hidden md:block"><%= t('complaint.steps.victim') %></span>
+                </div>
+                <div class="w-8 h-0.5 bg-gray-400"></div>
+                <div class="flex items-center">
+                    <div id="step3" class="step-inactive w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm">
+                        3
+                    </div>
+                    <span class="ml-2 text-sm font-medium hidden md:block"><%= t('complaint.steps.incident') %></span>
+                </div>
+                <div class="w-8 h-0.5 bg-gray-400"></div>
+                <div class="flex items-center">
+                    <div id="step4" class="step-inactive w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm">
+                        4
+                    </div>
+                    <span class="ml-2 text-sm font-medium hidden md:block"><%= t('complaint.steps.documents') %></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Complaint Form -->
+    <section class="py-16 md:py-24 flex-grow-1">
+        <div class="max-w-4xl mx-auto px-4">
+            <form id="complaintForm" class="bg-white rounded-lg shadow-lg p-8 md:p-12">
+
+                <!-- Step 1: Complainant Information -->
+                <div id="step1-content" class="form-section active">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 <%= dir === 'rtl' ? 'text-right' : 'text-left' %>">
+                        <i class="fas fa-user mr-2"></i><%= t('complaint.steps.complainant') %>
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.complainant.fullName') %> <span class="text-red-600">*</span>
+                            </label>
+                            <input type="text" name="complainant_fullName" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.complainant.fatherName') %> <span class="text-red-600">*</span>
+                            </label>
+                            <input type="text" name="complainant_fatherName" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.complainant.age') %> <span class="text-red-600">*</span>
+                            </label>
+                            <input type="number" name="complainant_age" required min="1" max="120"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.complainant.gender') %> <span class="text-red-600">*</span>
+                            </label>
+                            <select name="complainant_gender" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                                <option value="">-- <%= t('complaint.selectOption') %> --</option>
+                                <option value="male"><%= t('complaint.gender.male') %></option>
+                                <option value="female"><%= t('complaint.gender.female') %></option>
+                                <option value="other"><%= t('complaint.gender.other') %></option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.complainant.mobile') %> <span class="text-red-600">*</span>
+                            </label>
+                            <input type="tel" name="complainant_mobile" required pattern="[0-9]{10}"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.complainant.email') %> <span class="text-red-600">*</span>
+                            </label>
+                            <input type="email" name="complainant_email" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.complainant.occupation') %>
+                            </label>
+                            <input type="text" name="complainant_occupation"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.complainant.relationToVictim') %>
+                            </label>
+                            <select name="complainant_relationToVictim"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                                <option value="self"><%= t('complaint.relation.self') %></option>
+                                <option value="family"><%= t('complaint.relation.family') %></option>
+                                <option value="friend"><%= t('complaint.relation.friend') %></option>
+                                <option value="lawyer"><%= t('complaint.relation.lawyer') %></option>
+                                <option value="other"><%= t('complaint.relation.other') %></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Address Section -->
+                    <div class="mt-8">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4"><%= t('complaint.complainant.address.title') %></h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <%= t('complaint.complainant.address.street') %>
+                                </label>
+                                <input type="text" name="complainant_street"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <%= t('complaint.complainant.address.city') %>
+                                </label>
+                                <input type="text" name="complainant_city"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <%= t('complaint.complainant.address.district') %> <span class="text-red-600">*</span>
+                                </label>
+                                <select name="complainant_district" required
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                                    <option value="">-- <%= t('complaint.selectDistrict') %> --</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Bihar">Bihar</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Jharkhand">Jharkhand</option>
+                                    <option value="West Bengal">West Bengal</option>
+                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <%= t('complaint.complainant.address.pincode') %>
+                                </label>
+                                <input type="text" name="complainant_pincode" pattern="[0-9]{6}"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Victim Information -->
+                <div id="step2-content" class="form-section">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 <%= dir === 'rtl' ? 'text-right' : 'text-left' %>">
+                        <i class="fas fa-user-shield mr-2"></i><%= t('complaint.steps.victim') %>
+                    </h2>
+
+                    <div class="mb-6">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="sameAsComplainant" class="mr-2">
+                            <span class="text-sm font-medium text-gray-700"><%= t('complaint.victim.sameAsComplainant') %></span>
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.victim.fullName') %> <span class="text-red-600">*</span>
+                            </label>
+                            <input type="text" name="victim_fullName" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.victim.fatherName') %>
+                            </label>
+                            <input type="text" name="victim_fatherName"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.victim.age') %>
+                            </label>
+                            <input type="number" name="victim_age" min="1" max="120"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.victim.gender') %>
+                            </label>
+                            <select name="victim_gender"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                                <option value="">-- <%= t('complaint.selectOption') %> --</option>
+                                <option value="male"><%= t('complaint.gender.male') %></option>
+                                <option value="female"><%= t('complaint.gender.female') %></option>
+                                <option value="other"><%= t('complaint.gender.other') %></option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.victim.caste') %>
+                            </label>
+                            <input type="text" name="victim_caste"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.victim.religion') %>
+                            </label>
+                            <input type="text" name="victim_religion"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.victim.occupation') %>
+                            </label>
+                            <input type="text" name="victim_occupation"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.victim.contactNumber') %>
+                            </label>
+                            <input type="tel" name="victim_contactNumber" pattern="[0-9]{10}"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Incident Details -->
+                <div id="step3-content" class="form-section">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 <%= dir === 'rtl' ? 'text-right' : 'text-left' %>">
+                        <i class="fas fa-exclamation-triangle mr-2"></i><%= t('complaint.steps.incident') %>
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.incident.category') %> <span class="text-red-600">*</span>
+                            </label>
+                            <select name="incident_category" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                                <option value="">-- <%= t('complaint.selectCategory') %> --</option>
+                                <option value="police-atrocity"><%= t('complaint.categories.policeAtrocity') %></option>
+                                <option value="women-rights"><%= t('complaint.categories.womenRights') %></option>
+                                <option value="minority-rights"><%= t('complaint.categories.minorityRights') %></option>
+                                <option value="child-rights"><%= t('complaint.categories.childRights') %></option>
+                                <option value="human-trafficking"><%= t('complaint.categories.humanTrafficking') %></option>
+                                <option value="torture"><%= t('complaint.categories.torture') %></option>
+                                <option value="illegal-detention"><%= t('complaint.categories.illegalDetention') %></option>
+                                <option value="corruption"><%= t('complaint.categories.corruption') %></option>
+                                <option value="land-rights"><%= t('complaint.categories.landRights') %></option>
+                                <option value="environmental-rights"><%= t('complaint.categories.environmentalRights') %></option>
+                                <option value="labor-rights"><%= t('complaint.categories.laborRights') %></option>
+                                <option value="other"><%= t('complaint.categories.other') %></option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.incident.subCategory') %>
+                            </label>
+                            <input type="text" name="incident_subCategory"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.incident.incidentDate') %> <span class="text-red-600">*</span>
+                            </label>
+                            <input type="date" name="incident_incidentDate" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.incident.incidentTime') %>
+                            </label>
+                            <input type="time" name="incident_incidentTime"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.incident.policeStation') %>
+                            </label>
+                            <input type="text" name="incident_policeStation"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.incident.firNumber') %>
+                            </label>
+                            <input type="text" name="incident_firNumber"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.incident.district') %> <span class="text-red-600">*</span>
+                            </label>
+                            <select name="incident_district" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                                <option value="">-- <%= t('complaint.selectDistrict') %> --</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="West Bengal">West Bengal</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                            </select>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.incident.description') %> <span class="text-red-600">*</span>
+                            </label>
+                            <textarea name="incident_description" required rows="6" minlength="50" maxlength="2000"
+                                      placeholder="<%= t('complaint.incident.descriptionPlaceholder') %>"
+                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent resize-none"></textarea>
+                            <p class="text-sm text-gray-500 mt-1"><%= t('complaint.incident.descriptionHelp') %></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Documents -->
+                <div id="step4-content" class="form-section">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 <%= dir === 'rtl' ? 'text-right' : 'text-left' %>">
+                        <i class="fas fa-file-upload mr-2"></i><%= t('complaint.steps.documents') %>
+                    </h2>
+
+                    <div class="space-y-6">
+                        <!-- ID Proof -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.documents.idProof') %>
+                            </label>
+                            <div class="file-upload">
+                                <i class="fas fa-id-card text-3xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-600"><%= t('complaint.documents.idProofHelp') %></p>
+                                <input type="file" name="idProof" accept=".jpg,.jpeg,.png,.pdf"
+                                       class="hidden" id="idProof">
+                                <button type="button" onclick="document.getElementById('idProof').click()"
+                                        class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                                    <%= t('complaint.documents.chooseFile') %>
+                                </button>
+                                <p id="idProofName" class="text-sm text-gray-500 mt-2"></p>
+                            </div>
+                        </div>
+
+                        <!-- Address Proof -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.documents.addressProof') %>
+                            </label>
+                            <div class="file-upload">
+                                <i class="fas fa-home text-3xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-600"><%= t('complaint.documents.addressProofHelp') %></p>
+                                <input type="file" name="addressProof" accept=".jpg,.jpeg,.png,.pdf"
+                                       class="hidden" id="addressProof">
+                                <button type="button" onclick="document.getElementById('addressProof').click()"
+                                        class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                                    <%= t('complaint.documents.chooseFile') %>
+                                </button>
+                                <p id="addressProofName" class="text-sm text-gray-500 mt-2"></p>
+                            </div>
+                        </div>
+
+                        <!-- Medical Reports -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.documents.medicalReports') %>
+                            </label>
+                            <div class="file-upload">
+                                <i class="fas fa-notes-medical text-3xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-600"><%= t('complaint.documents.medicalReportsHelp') %></p>
+                                <input type="file" name="medicalReports" accept=".jpg,.jpeg,.png,.pdf" multiple
+                                       class="hidden" id="medicalReports">
+                                <button type="button" onclick="document.getElementById('medicalReports').click()"
+                                        class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                                    <%= t('complaint.documents.chooseFiles') %>
+                                </button>
+                                <p id="medicalReportsName" class="text-sm text-gray-500 mt-2"></p>
+                            </div>
+                        </div>
+
+                        <!-- Police Reports -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <%= t('complaint.documents.policeReports') %>
+                            </label>
+                            <div class="file-upload">
+                                <i class="fas fa-gavel text-3xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-600"><%= t('complaint.documents.policeReportsHelp') %></p>
+                                <input type="file" name="policeReports" accept=".jpg,.jpeg,.png,.pdf" multiple
+                                       class="hidden" id="policeReports">
+                                <button type="button" onclick="document.getElementById('policeReports').click()"
+                                        class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                                    <%= t('complaint.documents.chooseFiles') %>
+                                </button>
+                                <p id="policeReportsName" class="text-sm text-gray-500 mt-2"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex justify-between mt-8">
+                    <button type="button" id="prevBtn" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition hidden">
+                        <i class="fas fa-arrow-left mr-2"></i><%= t('complaint.buttons.previous') %>
+                    </button>
+
+                    <div class="flex space-x-4">
+                        <button type="button" id="nextBtn" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">
+                            <%= t('complaint.buttons.next') %><i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+
+                        <button type="submit" id="submitBtn" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition hidden">
+                            <i class="fas fa-paper-plane mr-2"></i><%= t('complaint.buttons.submit') %>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        function updateSteps() {
+            // Update step indicators
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepElement = document.getElementById(`step${i}`);
+                if (i < currentStep) {
+                    stepElement.className = 'step-completed w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm';
+                } else if (i === currentStep) {
+                    stepElement.className = 'step-active w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm';
+                } else {
+                    stepElement.className = 'step-inactive w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm';
+                }
+            }
+
+            // Show/hide form sections
+            for (let i = 1; i <= totalSteps; i++) {
+                const section = document.getElementById(`step${i}-content`);
+                section.classList.toggle('active', i === currentStep);
+            }
+
+            // Update navigation buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            prevBtn.classList.toggle('hidden', currentStep === 1);
+            nextBtn.classList.toggle('hidden', currentStep === totalSteps);
+            submitBtn.classList.toggle('hidden', currentStep !== totalSteps);
+        }
+
+        function validateCurrentStep() {
+            const currentSection = document.getElementById(`step${currentStep}-content`);
+            const requiredFields = currentSection.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    field.classList.remove('border-red-500');
+                }
+            });
+
+            return isValid;
+        }
+
+        // Navigation event listeners
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (validateCurrentStep()) {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    updateSteps();
+                }
+            } else {
+                alert('<%= t("complaint.validation.requiredFields") %>');
+            }
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateSteps();
+            }
+        });
+
+        // Same as complainant checkbox
+        document.getElementById('sameAsComplainant').addEventListener('change', function() {
+            const complainantFields = {
+                fullName: document.querySelector('[name="complainant_fullName"]').value,
+                fatherName: document.querySelector('[name="complainant_fatherName"]').value,
+                age: document.querySelector('[name="complainant_age"]').value,
+                gender: document.querySelector('[name="complainant_gender"]').value,
+                mobile: document.querySelector('[name="victim_contactNumber"]'),
+                occupation: document.querySelector('[name="complainant_occupation"]').value
+            };
+
+            if (this.checked) {
+                document.querySelector('[name="victim_fullName"]').value = complainantFields.fullName;
+                document.querySelector('[name="victim_fatherName"]').value = complainantFields.fatherName;
+                document.querySelector('[name="victim_age"]').value = complainantFields.age;
+                document.querySelector('[name="victim_gender"]').value = complainantFields.gender;
+                document.querySelector('[name="victim_occupation"]').value = complainantFields.occupation;
+                document.querySelector('[name="victim_contactNumber"]').value = complainantFields.mobile;
+            } else {
+                document.querySelector('[name="victim_fullName"]').value = '';
+                document.querySelector('[name="victim_fatherName"]').value = '';
+                document.querySelector('[name="victim_age"]').value = '';
+                document.querySelector('[name="victim_gender"]').value = '';
+                document.querySelector('[name="victim_occupation"]').value = '';
+                document.querySelector('[name="victim_contactNumber"]').value = '';
+            }
+        });
+
+        // File upload handlers
+        ['idProof', 'addressProof', 'medicalReports', 'policeReports'].forEach(fieldName => {
+            const input = document.getElementById(fieldName);
+            const display = document.getElementById(`${fieldName}Name`);
+
+            input.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    if (this.multiple) {
+                        const fileNames = Array.from(this.files).map(f => f.name).join(', ');
+                        display.textContent = `${this.files.length} files selected: ${fileNames}`;
+                    } else {
+                        display.textContent = this.files[0].name;
+                    }
+                } else {
+                    display.textContent = '';
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('complaintForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (!validateCurrentStep()) {
+                alert('<%= t("complaint.validation.requiredFields") %>');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i><%= t("complaint.buttons.submitting") %>';
+            submitBtn.disabled = true;
+
+            try {
+                const formData = new FormData(this);
+
+                const response = await fetch('/api/complaints', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Show success message with tracking ID
+                    alert('<%= t("complaint.success.message") %>' + result.trackingId);
+                    window.location.href = '/complaint/status?trackingId=' + result.trackingId;
+                } else {
+                    throw new Error(result.message || 'Submission failed');
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('<%= t("complaint.error.submissionFailed") %>');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Initialize
+        updateSteps();
+    </script>

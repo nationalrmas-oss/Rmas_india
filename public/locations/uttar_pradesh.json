@@ -1,0 +1,152 @@
+{
+  "state": "Uttar Pradesh",
+  "divisions": {
+    "Sahranpur": {
+      "districts": {
+        "Saharanpur": ["Behat", "Deoband", "Gangoh", "Nakur", "Nanauta", "Puarka", "Sarsawa"],
+        "Muzaffarnagar": ["Budhana", "Charthawal", "Jansath", "Kandhla", "Khatauli", "Muzaffarnagar", "Purqazi", "Shahpur"],
+        "Shamli": ["Kairana", "Shamli", "Thana Bhawan"]
+      }
+    },
+    "Meerut": {
+      "districts": {
+        "Meerut": ["Daurala", "Hastinapur", "Janikhurd", "Kharkhoda", "Machhra", "Mawana", "Meerut", "Parikshitgarh", "Rajpura", "Sardhana"],
+        "Ghaziabad": ["Bhojpur", "Loni", "Muradnagar", "Razapur"],
+        "Bulandshahr": ["Anupshahr", "Araniya", "Bulandshahr", "Danpur", "Dibai", "Gulaothi", "Jahangirabad", "Khurja", "Pahasu", "Shikarpur", "Siyana"],
+        "Gautam Buddha Nagar": ["Bisrakh", "Dadri", "Jewar"],
+        "Baghpat": ["Baghpat", "Baraut", "Chhaprauli", "Khekra", "Pilana"],
+        "Hapur": ["Dhaulana", "Garh Mukteshwar", "Hapur", "Simbhawali"]
+      }
+    },
+    "Moradabad": {
+      "districts": {
+        "Moradabad": ["Bilari", "Dilari", "Kundarki", "Munda Pandey", "Thakurdwara"],
+        "Bijnor": ["Afzalgarh", "Chandpur", "Dhampur", "Haldaur", "Jalilpur", "Kiratpur", "Kotwali", "Mohammadpur Deomal", "Najibabad", "Nehtaur"],
+        "Rampur": ["Bilaspur", "Chamraua", "Milak", "Saidnagar", "Shahabad", "Suar"],
+        "Amroha": ["Amroha", "Dhanaura", "Gajraula", "Hasanpur", "Joya"],
+        "Sambhal": ["Asmoli", "Baniya Khera", "Gunnaur", "Junawai", "Panwasa", "Rajpura", "Sambhal"]
+      }
+    },
+    "Bareilly": {
+      "districts": {
+        "Bareilly": ["Aonla", "Baheri", "Bhadpura", "Bhojipura", "Bithri Chainpur", "Faridpur", "Fatehganj", "Kyara", "Majhgawan", "Mirganj", "Nawabganj", "Shergarh"],
+        "Budaun": ["Asafpur", "Bilsi", "Bisouli", "Dahgavan", "Dataganj", "Gunnaur", "Islamnagar", "Sahaswan", "Ujhani", "Wazirganj"],
+        "Shahjahanpur": ["Banda", "Bawarkhera", "Dadrol", "Jalalabad", "Kant", "Madnapur", "Mirzapur", "Nigohi", "Powayan", "Puwayan", "Tilhar"],
+        "Pilibhit": ["Amariya", "Barkhera", "Bilsanda", "Bisalpur", "Lalaurikhera", "Marori", "Puranpur"]
+      }
+    },
+    "Lucknow": {
+      "districts": {
+        "Lucknow": ["Bakshi Ka Talab", "Chinhat", "Gosainganj", "Itaunja", "Kakori", "Mal", "Malihabad", "Mohanlalganj", "Sarojininagar"],
+        "Hardoi": ["Ahirori", "Behandar", "Bharawan", "Bilgram", "Kachhauna", "Kothawan", "Madhoganj", "Mallawan", "Pihani", "Sandi", "Shahabad", "Tadiyawan"],
+        "Lakhimpur Kheri": ["Behjam", "Bijua", "Dhaurahra", "Isanagar", "Kumbhi", "Lakhimpur", "Mitauli", "Mohammadi", "Nighasan", "Palia", "Pasgawan", "Phoolbehar"],
+        "Raebareli": ["Amawan", "Bachhrawan", "Dalmau", "Deenshah Gaura", "Harchandpur", "Lalganj", "Maharajganj", "Nawabganj", "Saloan", "Sataon", "Unchahar"],
+        "Sitapur": ["Biswan", "Behta", "Gondlamau", "Hargao", "Imlia Sultanpur", "Kasmanda", "Khairabad", "Laharpur", "Maholi", "Mahmudabad", "Misrikh", "Pisawan", "Reusa", "Sakran"],
+        "Unnao": ["Asoha", "Auras", "Bangarmau", "Bighapur", "Ganj Moradabad", "Hasanganj", "Hilauli", "Miyanganj", "Purwa", "Safipur", "Sikandarpur Karan", "Sikandarpur Siroshi"]
+      }
+    },
+    "Prayagraj": {
+      "districts": {
+        "Prayagraj": ["Bahadurpur", "Chaka", "Dhanupur", "Handia", "Holagarh", "Jasra", "Karchhana", "Kaurihar", "Koraon", "Mauaima", "Meja", "Phulpur", "Pratappur", "Soraon", "Uruwan"],
+        "Fatehpur": ["Airayan", "Amauli", "Asothar", "Bahua", "Bhitaura", "Devmai", "Haswa", "Hathgam", "Khajuha", "Malwan", "Teliyani", "Vijayipur"],
+        "Kaushambi": ["Chail", "Kanaili", "Karah", "Manjhanpur", "Mooratganj", "Sarsawan", "Sirathu"],
+        "Pratapgarh": ["Babaganj", "Belharnath", "Bihar", "Gaura", "Kalakankar", "Kunda", "Lalganj", "Mandhata", "Mangraura", "Patti", "Rampurkhas", "Raniganj", "Sandwa Chandrika", "Sangipur"]
+      }
+    },
+    "Varanasi": {
+      "districts": {
+        "Varanasi": ["Araziline", "Baragaon", "Chiraigaon", "Cholapur", "Harhua", "Kashi Vidyapeeth", "Pindra", "Sewapuri"],
+        "Chandauli": ["Barhani", "Chahniya", "Chakia", "Chandauli", "Dhanapur", "Niyamtabad", "Sakaldiha", "Shahabganj"],
+        "Ghazipur": ["Barachawar", "Bhadoura", "Deokali", "Ghazipur", "Jakhania", "Karanda", "Kasimabad", "Manihari", "Mardah", "Mohammadabad", "Reotipur", "Saidpur", "Zamania"],
+        "Jaunpur": ["Badlapur", "Baksha", "Dharmapur", "Dobhi", "Jalalpur", "Karanjakala", "Kerakat", "Khutahan", "Machhlishahr", "Maharajganj", "Mariyahu", "Muftiganj", "Mungra Badshahpur", "Shahganj", "Sujanganj"]
+      }
+    },
+    "Ayodhya": {
+      "districts": {
+        "Ayodhya": ["Amaniganj", "Bikapur", "Harrington Ganj", "Mawai", "Milkipur", "Masodha", "Pura Bazar", "Rudauli", "Sohawal", "Tarun"],
+        "Ambedkar Nagar": ["Akbarpur", "Baskhari", "Bhiyaon", "Jalalpur", "Katehari", "Ramnagar", "Tanda"],
+        "Amethi": ["Amethi", "Bhadar", "Gauriganj", "Jagdishpur", "Jamo", "Musafirkhana", "Shahgarh", "Shukul Bazar", "Tiloi"],
+        "Barabanki": ["Banki", "Dariyabad", "Deva", "Fatehpur", "Haidergarh", "Masauli", "Nawabganj", "Nindura", "Ramnagar", "Sirauli Gauspur", "Suratganj", "Trivediganj"],
+        "Sultanpur": ["Akhand Nagar", "Bhadaiyan", "Dhanpatganj", "Dubepur", "Jai Singh Pur", "Kadipur", "Karaundi Kala", "Kurebhar", "Lambhua", "Motigarpur"]
+      }
+    },
+    "Gorakhpur": {
+      "districts": {
+        "Gorakhpur": ["Bansgaon", "Barhalganj", "Belghat", "Brahmpur", "Campierganj", "Chargawan", "Gola", "Jungle Kauria", "Kauriram", "Khajni", "Pali", "Pipraich", "Sahjanwa", "Uruwa"],
+        "Deoria": ["Baitalpur", "Bankata", "Barhaj", "Bhatni", "Bhatpar Rani", "Deoria Sadar", "Desahi Deoria", "Gauri Bazar", "Lar", "Pathardewa", "Rampur Karkhana", "Salempur", "Tarkulwa"],
+        "Kushinagar": ["Dudhai", "Fazilnagar", "Hata", "Kaptanganj", "Kasya", "Khadda", "Motichak", "Nebua Naurangia", "Padrauna", "Ramkola", "Seorahi", "Sukrauli", "Tamkuhi Raj"],
+        "Maharajganj": ["Brijmanganj", "Dhani", "Ghughuli", "Laxmipur", "Maharajganj Sadar", "Mithwal", "Nautanwa", "Nichlaul", "Paniyara", "Pharenda", "Siswa"]
+      }
+    },
+    "Basti": {
+      "districts": {
+        "Basti": ["Aama", "Basti Sadar", "Bahadurpur", "Bankati", "Harraiya", "Kaptanganj", "Kudraha", "Ramnagar", "Saltaua Gopalpur", "Saun Ghat"],
+        "Siddharthnagar": ["Bansi", "Barhni", "Domariyaganj", "Itwa", "Jogia", "Khesraha", "Lotan", "Mithwal", "Naugarh", "Shoharatgarh", "Uska Bazar"],
+        "Sant Kabir Nagar": ["Baghauli", "Belhar Kala", "Hainsar Bazar", "Khalilabad", "Mahanth", "Mehdawal", "Nath Nagar", "Semariyawan"]
+      }
+    },
+    "Jhansi": {
+      "districts": {
+        "Jhansi": ["Babina", "Badagaon", "Bamaur", "Banguan", "Bhasneh", "Chirgaon", "Erich", "Garautha", "Gursarai", "Jhansi Sadar", "Mauranipur", "Moth"],
+        "Lalitpur": ["Birdha", "Jakhaura", "Lalitpur Sadar", "Madawara", "Mahroni", "Talbehat"],
+        "Jalaun": ["Dakore", "Jalaun Sadar", "Kadaura", "Kalpi", "Konch", "Kuthaund", "Madhougarh", "Mahewa", "Nadi Gaon", "Orai", "Rampura"]
+      }
+    },
+    "Kanpur": {
+      "districts": {
+        "Kanpur Nagar": ["Bhitargaon", "Bilhaur", "Chaubepur", "Ghatampur", "Kalyanpur", "Patara", "Sarsaul", "Shivrajpur"],
+        "Kanpur Dehat": ["Akbarpur", "Amraundha", "Derapur", "Jhinjhak", "Maitha", "Malasa", "Rajpur", "Rasulabad", "Sandapur", "Sarbankhera"],
+        "Etawah": ["Basrehar", "Bharthana", "Chakarnagar", "Etawah Sadar", "Jaswantnagar", "Mahewa", "Saifai", "Takha"],
+        "Farrukhabad": ["Barhpur", "Kamalganj", "Kaimganj", "Mohammadabad", "Nawabganj", "Rajepur", "Shamsabad"],
+        "Kannauj": ["Chhibramau", "Gugauli", "Haseran", "Jalalabad", "Kannauj Sadar", "Saurikh", "Talgram", "Umarda"],
+        "Auraiya": ["Achhalda", "Ait", "Auraiya Sadar", "Bhagyayanagar", "Bidhuna", "Erwa Katra", "Sahar"]
+      }
+    },
+    "Aligarh": {
+      "districts": {
+        "Aligarh": ["Atrauli", "Chandaus", "Dhanipur", "Gabhana", "Gonda", "Iglas", "Jawan Sikandarpur", "Khair", "Lodha", "Tappal"],
+        "Etah": ["Aliganj", "Awagarh", "Etah Sadar", "Jaithara", "Jalesar", "Mareehera", "Nidhauli Kalan", "Sakit"],
+        "Hathras": ["Hathras Sadar", "Hasayan", "Mursan", "Sadabad", "Sahpau", "Sasni"],
+        "Kasganj": ["Amanpur", "Ganjdundwara", "Kasganj Sadar", "Patiyali", "Sahawar", "Sidhpura", "Soron"]
+      }
+    },
+    "Agra": {
+      "districts": {
+        "Agra": ["Achhnera", "Akola", "Bah", "Barauli Ahir", "Bichpuri", "Etmadpur", "Fatehabad", "Fatehpur Sikri", "Jagner", "Kheragarh", "Pinahat", "Saiyan", "Shamsabad"],
+        "Mathura": ["Baldeo", "Chhata", "Chaumuha", "Farah", "Goverdhan", "Mathura Sadar", "Mant", "Nandgaon", "Naujhil", "Raya"],
+        "Firozabad": ["Aonla", "Eka", "Firozabad Sadar", "Jasrana", "Kheragarh", "Madanpur", "Narkhi", "Shikohabad", "Tundla"],
+        "Mainpuri": ["Barnahal", "Bewar", "Ghishor", "Karhal", "Kishni", "Kurawali", "Mainpuri Sadar", "Sultanganj"]
+      }
+    },
+    "Mirzapur": {
+      "districts": {
+        "Mirzapur": ["Chhanbey", "City", "Halha", "Jamalpur", "Kon", "Lalganj", "Marihan", "Narayanpur", "Pahari", "Rajgarh", "Sikhar"],
+        "Sonbhadra": ["Babni", "Chopan", "Dudhi", "Ghorawal", "Muirpur", "Myorpur", "Nagwa", "Robertsganj"],
+        "Bhadohi": ["Abholi", "Aurai", "Bhadohi Sadar", "Deegh", "Gyanpur", "Suriyawan"]
+      }
+    },
+    "Chitrakoot": {
+      "districts": {
+        "Chitrakoot": ["Karwi", "Manikpur", "Mau", "Pahadi", "Ramnagar"],
+        "Banda": ["Baberu", "Badokhar Khurd", "Bisanda", "Jaspura", "Kamasin", "Mahua", "Naraini", "Tindwari"],
+        "Hamirpur": ["Hamirpur Sadar", "Kurara", "Maudaha", "Muskara", "Rath", "Sarila", "Sumerpur"],
+        "Mahoba": ["Charkhari", "Jaitpur", "Kabrai", "Kulpahar", "Panwari"]
+      }
+    },
+    "Azamgarh": {
+      "districts": {
+        "Azamgarh": ["Ahiraula", "Azmatgarh", "Bilariyaganj", "Jahanaganj", "Koilsa", "Lalganj", "Maharajganj", "Martinganj", "Mehnagar", "Mirzapur", "Mohammadpur", "Phulpur", "Pawaii", "Tahbarpur", "Tarwa"],
+        "Mau": ["Badraon", "Dohrighat", "Fatehpur Madaun", "Kopaganj", "Mohammadabad Gohna", "Pardaha", "Ratanpura"],
+        "Ballia": ["Bansdih", "Bairia", "Belhari", "Chilkahar", "Dubhad", "Garwar", "Hanumanganj", "Maniyar", "Murlichhapra", "Nawanagar", "Pandah", "Rasra", "Ratsar Kala", "Reoti", "Sihachaur", "Sohao"]
+      }
+    },
+    "Devipatan": {
+      "districts": {
+        "Gonda": ["Belsar", "Babhanjot", "Colonelganj", "Haldharmau", "Itia Thok", "Jhanjhari", "Katra Bazar", "Mankapur", "Mujehna", "Pandri Kripal", "Paraspur", "Rupaidih", "Tarabganj", "Wazirganj"],
+        "Bahraich": ["Bahraich Sadar", "Chittaura", "Fakharpur", "Huzoorpur", "Jarwal", "Kaiserganj", "Mahasi", "Mihinpurwa", "Nawabganj", "Payagpur", "Phakharpur", "Risia", "Shivpur", "Tejwapur", "Visheshwarganj"],
+        "Balrampur": ["Balrampur Sadar", "Gaisari", "Harraiya Satgharwa", "Pachpedwa", "Rehera Bazar", "Shriduttganj", "Tulsipur", "Utraula"],
+        "Shravasti": ["Ekona", "Gilaula", "Hariharpur Rani", "Jamunaha", "Sirsiya"]
+      }
+    }
+  }
+}

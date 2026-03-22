@@ -1,0 +1,69 @@
+<header class="site-header sticky top-0 z-50">
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 830 50" preserveAspectRatio="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+        <polygon points="0,0 830,0 0,50" fill="#2b235f" />
+        <polygon points="0,50 830,0 830,50" fill="#d92523" />
+    </svg>
+    <div class="slogan-strip">
+        <span class="slogan-left">मानव हित सर्वोपरि</span>
+        <span class="slogan-center">सत्यमेव जयते</span>
+        <span class="slogan-right">न्याय ही धर्म है</span>
+    </div>
+    <div class="main-header">
+        <div class="logo">
+            <a href="/"><img src="/images/logo.jpeg" alt="Organization Logo" data-key="logo_alt" data-attr="alt"></a>
+        </div>
+        <div class="org-name-container">
+            <h1 id="org-name" data-key="org_name">Rashtriya Manav Adhikar Sangathan</h1>
+            <p class="org-address" data-key="org_address">D-2, S/F, Gali No. 9, Best Jyoti Nagar, Shahdara Delhi-94</p>
+        </div>
+        <div class="header-right">
+            <div class="registration-number" style="font-size:1rem;font-weight:600;">Registration number - 4120/2020</div>
+        </div> <!-- right side registration info -->
+    </div>
+    <div class="nav-bar">
+        <button class="hamburger" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="/" data-key="nav_home">Home</a></li>
+                <li><a href="/about" data-key="nav_about">About Us</a></li>
+                <li><a href="/team" data-key="nav_team">Our Team</a></li>
+                <li><a href="/activities" data-key="nav_activities">Activities</a></li>
+                <li><a href="/news" data-key="nav_news">News</a></li>
+                <li><a href="/gallery" data-key="nav_gallery">Gallery</a></li>
+                <li><a href="/join" data-key="nav_join">Join Us</a></li>
+                <li><a href="/download-verify">Documents</a></li>
+                <li><a href="/contact" data-key="nav_contact">Contact Us</a></li>
+                <li><a href="/complaint" data-key="nav_complaint">File Complaint</a></li>
+                <!-- Donate Button -->
+                <li class="<%= dir === 'rtl' ? 'order-first' : '' %>">
+                    <button onclick="showDonateModal()" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-4 py-2 rounded-lg transition duration-300 shadow-md hover:shadow-lg">
+                        Donate
+                    </button>
+                </li>
+                <!-- Admin Login Link -->
+                <li><a href="/admin/login" style="color: #a4e62a; font-weight: bold;">🔐 Admin Login</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Search..." data-key="search_placeholder" data-attr="placeholder">
+            <i class="search-icon"></i>
+        </div>
+        <div class="lang-toggle">
+            <select id="language-selector">
+                <option value="en" <%= lang === 'en' ? 'selected' : '' %>>EN</option>
+                <option value="hi" <%= lang === 'hi' ? 'selected' : '' %>>HI</option>
+                <option value="ur" <%= lang === 'ur' ? 'selected' : '' %>>UR</option>
+            </select>
+        </div>
+    </div>
+    <script>
+        document.getElementById('language-selector').addEventListener('change', function() {
+            const lng = this.value;
+            window.location.href = window.location.pathname + '?lng=' + lng;
+        });
+    </script>
+</header>

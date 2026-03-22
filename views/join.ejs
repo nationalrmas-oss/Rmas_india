@@ -1,0 +1,445 @@
+<section class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4">
+  <div class="max-w-3xl mx-auto">
+    
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-blue-900 mb-2">RMAS में शामिल हों</h1>
+      <p class="text-gray-700">समाज के लिए अपनी सेवा दें - सदस्यता के लिए आवेदन करें</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="mb-10 bg-white rounded-lg p-6 shadow-md">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-sm font-bold text-gray-700">Progress</span>
+        <span class="text-sm font-bold text-blue-600"><span id="currentStep">1</span> of 3</span>
+      </div>
+      <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+        <div id="progressBar" class="bg-blue-600 h-full transition-all duration-300" style="width: 33%;"></div>
+      </div>
+    </div>
+
+    <!-- Main Form Card -->
+    <div class="bg-white rounded-lg shadow-2xl overflow-hidden border-t-4 border-blue-600">
+      <div class="p-10">
+
+        <!-- Success & Error Messages -->
+        <% if (typeof success !== 'undefined' && success) { %>
+          <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-800 rounded">
+            <p class="font-semibold">✓ <%= success %></p>
+          </div>
+        <% } %>
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-800 rounded">
+            <p class="font-semibold">✗ <%= error %></p>
+          </div>
+        <% } %>
+
+        <% const safeOldData = oldData || {}; %>
+        <form id="membershipForm" method="POST" action="/join" enctype="multipart/form-data" novalidate>
+
+          <!-- ================ STEP 1 ================ -->
+          <div id="step1" class="step-container">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
+              <span class="inline-flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full font-bold">1</span>
+              व्यक्तिगत जानकारी / Personal Information
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+              <!-- Full Name -->
+              <div class="col-span-1 md:col-span-2">
+                <label class="block text-sm font-bold text-gray-800 mb-2">पूर्ण नाम / Full Name <span class="text-red-600">*</span></label>
+                <input type="text" name="fullName" id="fullName" required 
+                  value="<%= safeOldData.fullName || '' %>"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition" 
+                  placeholder="अपना पूरा नाम दर्ज करें">
+              </div>
+
+              <!-- Father/Husband Name -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">पिता/पति का नाम / Father/Husband Name <span class="text-red-600">*</span></label>
+                <input type="text" name="fatherName" id="fatherName" required 
+                  value="<%= safeOldData.fatherName || '' %>"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                  placeholder="पिता या पति का नाम">
+              </div>
+
+              <!-- Date of Birth -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">जन्म तिथि / Date of Birth <span class="text-red-600">*</span></label>
+                <input type="text" name="dob" id="dob" required placeholder="DD/MM/YYYY"
+                  value="<%= safeOldData.dob || '' %>"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                  maxlength="10"
+                  autocomplete="off">
+                <script>
+                  document.getElementById('dob').addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/[^0-9]/g, '');
+                    let formatted = '';
+                    if (value.length > 0) {
+                      formatted = value.substring(0, 2);
+                    }
+                    if (value.length > 2) {
+                      formatted += '/' + value.substring(2, 4);
+                    }
+                    if (value.length > 4) {
+                      formatted += '/' + value.substring(4, 8);
+                    }
+                    e.target.value = formatted;
+                  });
+                  document.getElementById('dob').addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && e.target.value.length === 3) {
+                      e.target.value = e.target.value.substring(0, 2);
+                      e.preventDefault();
+                    }
+                    if (e.key === 'Backspace' && e.target.value.length === 6) {
+                      e.target.value = e.target.value.substring(0, 5);
+                      e.preventDefault();
+                    }
+                  });
+                </script>
+              </div>
+
+              <!-- Gender -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">लिंग / Gender <span class="text-red-600">*</span></label>
+                <select name="gender" id="gender" required 
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition">
+                  <option value="">-- चुनें / Select --</option>
+                  <option value="male" <%= (safeOldData.gender === 'male') ? 'selected' : '' %>>पुरुष / Male</option>
+                  <option value="female" <%= (safeOldData.gender === 'female') ? 'selected' : '' %>>महिला / Female</option>
+                  <option value="other" <%= (safeOldData.gender === 'other') ? 'selected' : '' %>>अन्य / Other</option>
+                </select>
+              </div>
+
+              <!-- Mobile -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">मोबाइल नंबर / Mobile Number <span class="text-red-600">*</span></label>
+                <input type="text" name="mobile" id="mobile" required maxlength="10"
+                  value="<%= safeOldData.mobile || '' %>"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                  placeholder="10 अंक दर्ज करें">
+              </div>
+
+              <!-- Email -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">ईमेल / Email <span class="text-red-600">*</span></label>
+                <input type="email" name="email" id="email" required 
+                  value="<%= safeOldData.email || '' %>"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                  placeholder="example@email.com">
+              </div>
+
+              <!-- Blood Group -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">रक्त समूह / Blood Group</label>
+                <select name="bloodGroup" id="bloodGroup"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition">
+                  <option value="">-- चुनें / Select --</option>
+                  <option value="A+" <%= (safeOldData.bloodGroup === 'A+') ? 'selected' : '' %>>A+</option>
+                  <option value="A-" <%= (safeOldData.bloodGroup === 'A-') ? 'selected' : '' %>>A-</option>
+                  <option value="B+" <%= (safeOldData.bloodGroup === 'B+') ? 'selected' : '' %>>B+</option>
+                  <option value="B-" <%= (safeOldData.bloodGroup === 'B-') ? 'selected' : '' %>>B-</option>
+                  <option value="O+" <%= (safeOldData.bloodGroup === 'O+') ? 'selected' : '' %>>O+</option>
+                  <option value="O-" <%= (safeOldData.bloodGroup === 'O-') ? 'selected' : '' %>>O-</option>
+                  <option value="AB+" <%= (safeOldData.bloodGroup === 'AB+') ? 'selected' : '' %>>AB+</option>
+                  <option value="AB-" <%= (safeOldData.bloodGroup === 'AB-') ? 'selected' : '' %>>AB-</option>
+                </select>
+              </div>
+
+                    <div class="form-row two-col">
+                        <label>शैक्षणिक योग्यता / Education</label>
+                        <select name="education" id="education" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition">
+                            <option value="" <%= (typeof education === 'undefined' || !education) ? 'selected' : '' %>>-- चुनें / Select --</option>
+                            <option value="None" <%= (typeof education !== 'undefined' && education === 'None') ? 'selected' : '' %>>None</option>
+                            <option value="Primary" <%= (typeof education !== 'undefined' && education === 'Primary') ? 'selected' : '' %>>Primary</option>
+                            <option value="Secondary" <%= (typeof education !== 'undefined' && education === 'Secondary') ? 'selected' : '' %>>Secondary</option>
+                            <option value="Higher Secondary" <%= (typeof education !== 'undefined' && education === 'Higher Secondary') ? 'selected' : '' %>>Higher Secondary</option>
+                            <option value="Diploma" <%= (typeof education !== 'undefined' && education === 'Diploma') ? 'selected' : '' %>>Diploma</option>
+                            <option value="Bachelor" <%= (typeof education !== 'undefined' && education === 'Bachelor') ? 'selected' : '' %>>Bachelor</option>
+                            <option value="Master" <%= (typeof education !== 'undefined' && education === 'Master') ? 'selected' : '' %>>Master</option>
+                            <option value="PhD" <%= (typeof education !== 'undefined' && education === 'PhD') ? 'selected' : '' %>>PhD</option>
+                            <option value="Other" <%= (typeof education !== 'undefined' && education === 'Other') ? 'selected' : '' %>>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row two-col">
+                        <label>पेशा / Occupation</label>
+                        <select name="occupation" id="occupation" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition">
+                            <option value="" <%= (typeof occupation === 'undefined' || !occupation) ? 'selected' : '' %>>-- चुनें / Select --</option>
+                            <option value="Student" <%= (typeof occupation !== 'undefined' && occupation === 'Student') ? 'selected' : '' %>>Student</option>
+                            <option value="Unemployed" <%= (typeof occupation !== 'undefined' && occupation === 'Unemployed') ? 'selected' : '' %>>Unemployed</option>
+                            <option value="Farmer / Agriculture" <%= (typeof occupation !== 'undefined' && occupation === 'Farmer / Agriculture') ? 'selected' : '' %>>Farmer / Agriculture</option>
+                            <option value="Labour / Daily Wage Worker" <%= (typeof occupation !== 'undefined' && occupation === 'Labour / Daily Wage Worker') ? 'selected' : '' %>>Labour / Daily Wage Worker</option>
+                            <option value="Private Job" <%= (typeof occupation !== 'undefined' && occupation === 'Private Job') ? 'selected' : '' %>>Private Job</option>
+                            <option value="Government Job" <%= (typeof occupation !== 'undefined' && occupation === 'Government Job') ? 'selected' : '' %>>Government Job</option>
+                            <option value="Self Employed" <%= (typeof occupation !== 'undefined' && occupation === 'Self Employed') ? 'selected' : '' %>>Self Employed</option>
+                            <option value="Business / Trader" <%= (typeof occupation !== 'undefined' && occupation === 'Business / Trader') ? 'selected' : '' %>>Business / Trader</option>
+                            <option value="Teacher / Professor" <%= (typeof occupation !== 'undefined' && occupation === 'Teacher / Professor') ? 'selected' : '' %>>Teacher / Professor</option>
+                            <option value="Doctor / Medical Professional" <%= (typeof occupation !== 'undefined' && occupation === 'Doctor / Medical Professional') ? 'selected' : '' %>>Doctor / Medical Professional</option>
+                            <option value="Engineer / IT Professional" <%= (typeof occupation !== 'undefined' && occupation === 'Engineer / IT Professional') ? 'selected' : '' %>>Engineer / IT Professional</option>
+                            <option value="Lawyer" <%= (typeof occupation !== 'undefined' && occupation === 'Lawyer') ? 'selected' : '' %>>Lawyer</option>
+                            <option value="Journalist / Media" <%= (typeof occupation !== 'undefined' && occupation === 'Journalist / Media') ? 'selected' : '' %>>Journalist / Media</option>
+                            <option value="Social Worker / NGO" <%= (typeof occupation !== 'undefined' && occupation === 'Social Worker / NGO') ? 'selected' : '' %>>Social Worker / NGO</option>
+                            <option value="Artist / Writer" <%= (typeof occupation !== 'undefined' && occupation === 'Artist / Writer') ? 'selected' : '' %>>Artist / Writer</option>
+                            <option value="Driver" <%= (typeof occupation !== 'undefined' && occupation === 'Driver') ? 'selected' : '' %>>Driver</option>
+                            <option value="Housewife / Homemaker" <%= (typeof occupation !== 'undefined' && occupation === 'Housewife / Homemaker') ? 'selected' : '' %>>Housewife / Homemaker</option>
+                            <option value="Retired" <%= (typeof occupation !== 'undefined' && occupation === 'Retired') ? 'selected' : '' %>>Retired</option>
+                            <option value="Other" <%= (typeof occupation !== 'undefined' && occupation === 'Other') ? 'selected' : '' %>>Other</option>
+                        </select>
+                    </div>
+
+              <!-- ID Number -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">आधार नंबर / Aadhar Number</label>
+                <input type="text" name="idNumber" id="idNumber"
+                  value="<%= safeOldData.idNumber || '' %>"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                  placeholder="12 अंकों का आधार नंबर (वैकल्पिक)">
+              </div>
+            </div>
+          </div>
+
+          <!-- ================ STEP 2 ================ -->
+          <div id="step2" class="step-container hidden">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
+              <span class="inline-flex items-center justify-center w-10 h-10 bg-gray-400 text-white rounded-full font-bold">2</span>
+              स्थान विवरण / Location Details
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+              <!-- State -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">राज्य / State <span class="text-red-600">*</span></label>
+                <select name="state" id="stateSelect" required
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition">
+                  <option value="">-- चुनें / Select State --</option>
+                </select>
+              </div>
+
+              <!-- Parmandal -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">प्रमंडल / Division <span class="text-red-600">*</span></label>
+                <select name="division" id="parmandalSelect" required
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition">
+                  <option value="">-- पहले State चुनें --</option>
+                </select>
+              </div>
+
+              <!-- Jila -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">जिला / District <span class="text-red-600">*</span></label>
+                <select name="district" id="jilaSelect" required
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition">
+                  <option value="">-- पहले Parmandal चुनें --</option>
+                </select>
+              </div>
+
+              <!-- Block -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">ब्लॉक / Block <span class="text-red-600">*</span></label>
+                <select name="block" id="blockSelect" required
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition">
+                  <option value="">-- पहले Jila चुनें --</option>
+                </select>
+              </div>
+
+              <!-- House Number -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">मकान नंबर / House Number</label>
+                <input type="text" name="houseNo" id="houseNo"
+                  value="<%= safeOldData.houseNo || '' %>"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                  placeholder="मकान/घर का नंबर">
+              </div>
+
+              <!-- Street -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">गली / Road / Street</label>
+                <input type="text" name="street" id="street"
+                  value="<%= safeOldData.street || '' %>"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                  placeholder="गली या सड़क का नाम">
+              </div>
+
+              <!-- Panchayat -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">पंचायत / Panchayat</label>
+                <input type="text" name="panchayat" id="panchayat"
+                  value="<%= safeOldData.panchayat || '' %>"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                  placeholder="पंचायत का नाम">
+              </div>
+
+              <!-- Village -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">गांव / Village</label>
+                <input type="text" name="village" id="village"
+                  value="<%= safeOldData.village || '' %>"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                  placeholder="गांव का नाम">
+              </div>
+
+              <!-- Pincode -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-2">पिन कोड / Pincode</label>
+                <input type="text" name="pincode" id="pincode" maxlength="6"
+                  value="<%= safeOldData.pincode || '' %>"
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                  placeholder="6 अंकों का पिन कोड">
+              </div>
+            </div>
+          </div>
+
+          <!-- ================ STEP 3 ================ -->
+          <div id="step3" class="step-container hidden">
+            <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
+              <span class="inline-flex items-center justify-center w-10 h-10 bg-gray-400 text-white rounded-full font-bold">3</span>
+              दस्तावेज़ और समझौता / Documents & Agreement
+            </h2>
+
+            <div class="space-y-8">
+              <!-- Photo Upload -->
+              <div class="border-2 border-dashed border-blue-300 rounded-lg p-6 bg-blue-50">
+                <label class="block text-sm font-bold text-gray-800 mb-3">फोटो / Photo <span class="text-red-600">*</span></label>
+                <input type="file" name="photo" id="photoInput" accept="image/*" required
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600">
+                <p class="text-xs text-gray-600 mt-2">📷 JPG, PNG (Max 100KB)</p>
+                <img id="photoPreviewImg" src="" alt="Photo Preview" 
+                  style="max-width: 200px; max-height: 200px; margin-top: 12px; border-radius: 8px; display: none;">
+              </div>
+
+              <!-- Documents Upload -->
+              <div class="border-2 border-dashed border-blue-300 rounded-lg p-6 bg-blue-50">
+                <label class="block text-sm font-bold text-gray-800 mb-3">दस्तावेज़ (आधार + प्रमाण पत्र) / Documents (PDF) <span class="text-red-600">*</span></label>
+                <input type="file" name="documents" id="documentsInput" accept=".pdf" required
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600">
+                <p class="text-xs text-gray-600 mt-2">📄 PDF Only (Max 100KB)</p>
+                <div id="docFileName" class="text-sm text-green-600 font-semibold mt-2 hidden"></div>
+              </div>
+
+              <!-- Reason -->
+              <div>
+                <label class="block text-sm font-bold text-gray-800 mb-3">संस्था से जुड़ने का उद्देश्य / Reason to Join <span class="text-red-600">*</span></label>
+                <textarea name="reason" id="reason" rows="4" required
+                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 transition"
+                  placeholder="संस्था से जुड़ने के लिए आपके उद्देश्य को बताएं..."><%= safeOldData.reason || '' %></textarea>
+              </div>
+
+              <!-- Terms & Conditions -->
+              <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-6">
+                <label class="flex items-start gap-4 cursor-pointer">
+                  <input type="checkbox" name="agreedToTerms" id="agreedToTerms" required
+                    <%= (safeOldData.agreedToTerms) ? 'checked' : '' %>
+                    class="mt-1 w-5 h-5 accent-blue-600 cursor-pointer">
+                  <span class="text-sm text-gray-800">
+                    मैं 
+                    <a href="/terms" target="_blank" rel="noopener" class="text-blue-700 font-bold underline hover:text-blue-900">नियमों और शर्तों</a>
+                    को पढ़ और समझ चुका/चुकी हूं और उनसे सहमत हूं। <span class="text-red-600">*</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="flex gap-4 mt-10 pt-8 border-t-2 border-gray-200">
+            <button type="button" id="prevBtn" class="flex-1 px-6 py-3 bg-gray-400 text-white font-bold rounded-lg hover:bg-gray-500 transition hidden">
+              ← पिछला
+            </button>
+            <button type="button" id="nextBtn" class="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
+              अगला →
+            </button>
+            <button type="button" id="submitBtn" class="flex-1 px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition hidden">
+              ✓ आवेदन जमा करें
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Preview Modal (Hidden by default) -->
+      <div id="previewModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-2xl max-w-3xl w-full max-h-96 overflow-y-auto">
+          <div class="sticky top-0 bg-blue-600 text-white px-6 py-4 flex items-center justify-between">
+            <h2 class="text-2xl font-bold">आवेदन की समीक्षा करें</h2>
+            <button type="button" onclick="closePreview()" class="text-white text-2xl">✕</button>
+          </div>
+
+          <div class="p-8 space-y-6">
+            <!-- Preview Content will be populated by JS -->
+            <div id="previewContent"></div>
+          </div>
+
+          <div class="flex gap-4 px-8 py-6 border-t-2 bg-gray-50">
+            <button type="button" onclick="editForm()" class="flex-1 px-6 py-3 bg-gray-500 text-white font-bold rounded-lg hover:bg-gray-600 transition">
+              ✎ संपादित करें
+            </button>
+            <button type="button" onclick="finalSubmit()" class="flex-1 px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition">
+              ✓ अंतिम जमा करें
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Bar -->
+      <div class="bg-blue-900 text-white px-10 py-6">
+        <div class="flex gap-4 flex-wrap">
+          <div class="flex gap-2">
+            <span class="text-lg">ℹ️</span>
+            <p class="text-sm">सभी <span class="font-bold">*</span> वाले फील्ड अनिवार्य हैं</p>
+          </div>
+          <div class="flex gap-2">
+            <span class="text-lg">📱</span>
+            <p class="text-sm">मोबाइल: 10 अंकों का नया नंबर</p>
+          </div>
+          <div class="flex gap-2">
+            <span class="text-lg">📄</span>
+            <p class="text-sm">दस्तावेज़: Aadhar + Certificate (एक PDF)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .step-container {
+    animation: fadeIn 0.3s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+</style>
+
+<!-- flatpickr for DOB picker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script src="/js/location-system.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    initLocationSystem('stateSelect', 'parmandalSelect', 'jilaSelect', 'blockSelect');
+});
+</script>
+<script src="/js/bihar-locations.js" defer></script>
+<script src="/js/join-wizard.js" defer></script>

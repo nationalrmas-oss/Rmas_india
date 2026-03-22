@@ -1,0 +1,254 @@
+<!-- Hero Section -->
+<section class="py-16 bg-blue-900 text-white">
+  <div class="container mx-auto px-4 text-center">
+    <h1 class="text-4xl md:text-6xl font-bold mb-4"><%= t('team.heroTitle') %></h1>
+    <p class="text-xl md:text-2xl"><%= t('team.heroSubtitle') %></p>
+  </div>
+</section>
+
+<!-- National Leadership -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-blue-900"><%= t('team.nationalLeadership') %></h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition duration-300 transform hover:scale-105">
+        <img src="/images/placeholder.jpg" alt="Md. Masum" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+        <h3 class="text-xl font-semibold mb-2">Md. Masum</h3>
+        <p class="text-gray-600 mb-4">National President</p>
+        <div class="flex justify-center space-x-4">
+          <a href="#" class="text-blue-600 hover:text-blue-800"><i class="fab fa-facebook fa-lg"></i></a>
+          <a href="#" class="text-blue-400 hover:text-blue-600"><i class="fab fa-twitter fa-lg"></i></a>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition duration-300 transform hover:scale-105">
+        <img src="/images/placeholder.jpg" alt="Leader 2" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+        <h3 class="text-xl font-semibold mb-2">Leader 2</h3>
+        <p class="text-gray-600 mb-4">National Secretary</p>
+        <div class="flex justify-center space-x-4">
+          <a href="#" class="text-blue-600 hover:text-blue-800"><i class="fab fa-facebook fa-lg"></i></a>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition duration-300 transform hover:scale-105">
+        <img src="/images/placeholder.jpg" alt="Leader 3" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+        <h3 class="text-xl font-semibold mb-2">Leader 3</h3>
+        <p class="text-gray-600 mb-4">National Treasurer</p>
+        <div class="flex justify-center space-x-4">
+          <a href="#" class="text-red-600 hover:text-red-800"><i class="fab fa-instagram fa-lg"></i></a>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition duration-300 transform hover:scale-105">
+        <img src="/images/placeholder.jpg" alt="Leader 4" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+        <h3 class="text-xl font-semibold mb-2">Leader 4</h3>
+        <p class="text-gray-600 mb-4">National Spokesperson</p>
+        <div class="flex justify-center space-x-4">
+          <a href="#" class="text-blue-400 hover:text-blue-600"><i class="fab fa-twitter fa-lg"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tabs -->
+<section class="py-8 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-center space-x-4 mb-8">
+      <button id="tab-national" class="px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition duration-300"><%= t('team.tabs.national') %></button>
+      <button id="tab-state" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition duration-300"><%= t('team.tabs.state') %></button>
+      <button id="tab-divisional" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition duration-300"><%= t('team.tabs.divisional') %></button>
+      <button id="tab-district" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition duration-300"><%= t('team.tabs.district') %></button>
+    </div>
+  </div>
+</section>
+
+<!-- Filters -->
+<section class="py-8 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap justify-center gap-4 mb-8">
+      <select id="filterTeam" class="border border-gray-300 rounded px-4 py-2 bg-white">
+        <option value="all"><%= t('team.filters.all') %></option>
+        <option value="core"><%= t('team.core') %></option>
+        <option value="mahila"><%= t('team.mahila') %></option>
+        <option value="yuva"><%= t('team.yuva') %></option>
+        <option value="minority"><%= t('team.minority') %></option>
+        <option value="it"><%= t('team.it') %></option>
+      </select>
+      <select id="filterDistrict" class="border border-gray-300 rounded px-4 py-2 bg-white">
+        <option value="all"><%= t('team.filters.all') %></option>
+        <!-- Add district options dynamically or hardcode some -->
+        <option value="patna">Patna</option>
+        <option value="gaya">Gaya</option>
+        <option value="muzaffarpur">Muzaffarpur</option>
+        <!-- Add more as needed -->
+      </select>
+    </div>
+  </div>
+</section>
+
+<!-- Team Grid -->
+<section class="py-16 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <div id="teamGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 <%= dir === 'rtl' ? 'grid-flow-col-dense' : '' %>"></div>
+    <p id="noTeamMessage" class="text-gray-600 text-center" style="display:none;"><%= t('team.filters.all') %> team members found.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-16 bg-blue-900 text-white">
+  <div class="container mx-auto px-4 text-center">
+    <h2 class="text-3xl font-bold mb-4"><%= t('team.cta.message') %></h2>
+    <a href="/join" class="bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105"><%= t('team.cta.button') %></a>
+  </div>
+</section>
+
+<script>
+const roleOrder = [
+    'Adhyaksh',
+    'Varishth Upadhyaksh',
+    'Upadhyaksh',
+    'Mahasachiv',
+    'Sachiv',
+    'Zila Sangathan Sachiv',
+    'Sanyukt Sachiv',
+    'Vidhi Sachiv',
+    'Koshadhyaksh',
+    'Media Prabhari',
+    'Media Sachiv',
+    'Prachar Sachiv',
+    'Press Sachiv',
+    'Pravakta',
+    'Karyakram Sachiv',
+    'Karyakarini Sadasya'
+];
+
+function sortMembers(a, b) {
+    const aIdx = roleOrder.indexOf(a.position);
+    const bIdx = roleOrder.indexOf(b.position);
+    if (aIdx !== bIdx) return (aIdx === -1 ? 999 : aIdx) - (bIdx === -1 ? 999 : bIdx);
+    return (a.fullName || '').localeCompare(b.fullName || '');
+}
+
+function buildAreaKey(member) {
+    return [member.state, member.division, member.district, member.block, member.panchayat]
+        .filter(Boolean)
+        .join(' / ');
+}
+
+function getBorderColor(teamType) {
+    switch(teamType) {
+        case 'Mahila': return 'border-pink-500';
+        case 'Yuva': return 'border-blue-500';
+        case 'Minority': return 'border-green-500';
+        case 'IT': return 'border-purple-500';
+        default: return 'border-gray-300';
+    }
+}
+
+function createMemberCard(member) {
+    const borderColor = getBorderColor(member.teamType);
+    const div = document.createElement('div');
+    div.className = `bg-white rounded-lg shadow-lg p-6 border-2 ${borderColor} hover:shadow-xl transition duration-300 transform hover:scale-105`;
+    div.innerHTML = `
+        <img src="${member.photo ? '/uploads/' + member.photo : '/images/placeholder.jpg'}" alt="${member.fullName}" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+        <h3 class="font-semibold text-lg text-center mb-2">${member.fullName || ''}</h3>
+        <p class="text-sm text-gray-600 text-center mb-2">${member.position || ''}</p>
+        <p class="text-sm text-gray-500 text-center">${buildAreaKey(member)}</p>
+        <div class="flex justify-center space-x-4 mt-4">
+          <a href="#" class="text-blue-600 hover:text-blue-800"><i class="fab fa-facebook fa-lg"></i></a>
+          <a href="#" class="text-blue-400 hover:text-blue-600"><i class="fab fa-twitter fa-lg"></i></a>
+        </div>
+    `;
+    return div;
+}
+
+function renderTeamGrid(members, level = 'all') {
+    const grid = document.getElementById('teamGrid');
+    const empty = document.getElementById('noTeamMessage');
+    grid.innerHTML = '';
+
+    let filteredMembers = members;
+    if (level !== 'all') {
+        filteredMembers = members.filter(m => m.level === level);
+    }
+
+    const teamFilter = document.getElementById('filterTeam').value;
+    if (teamFilter !== 'all') {
+        filteredMembers = filteredMembers.filter(m => m.teamType === teamFilter);
+    }
+
+    const districtFilter = document.getElementById('filterDistrict').value;
+    if (districtFilter !== 'all') {
+        filteredMembers = filteredMembers.filter(m => m.district === districtFilter);
+    }
+
+    if (!filteredMembers || !filteredMembers.length) {
+        empty.style.display = 'block';
+        return;
+    }
+    empty.style.display = 'none';
+
+    filteredMembers.sort(sortMembers).forEach(member => {
+        grid.appendChild(createMemberCard(member));
+    });
+}
+
+async function loadTeam() {
+    const res = await fetch('/api/team');
+    const json = await res.json();
+    return json.team || [];
+}
+
+let currentTeam = [];
+let currentLevel = 'National';
+
+async function initPage() {
+    currentTeam = await loadTeam();
+    renderTeamGrid(currentTeam, currentLevel);
+
+    // Tab switching
+    document.getElementById('tab-national').addEventListener('click', () => {
+        currentLevel = 'National';
+        renderTeamGrid(currentTeam, currentLevel);
+        updateTabStyles('tab-national');
+    });
+    document.getElementById('tab-state').addEventListener('click', () => {
+        currentLevel = 'State';
+        renderTeamGrid(currentTeam, currentLevel);
+        updateTabStyles('tab-state');
+    });
+    document.getElementById('tab-divisional').addEventListener('click', () => {
+        currentLevel = 'Divisional';
+        renderTeamGrid(currentTeam, currentLevel);
+        updateTabStyles('tab-divisional');
+    });
+    document.getElementById('tab-district').addEventListener('click', () => {
+        currentLevel = 'District';
+        renderTeamGrid(currentTeam, currentLevel);
+        updateTabStyles('tab-district');
+    });
+
+    // Filters
+    document.getElementById('filterTeam').addEventListener('change', () => renderTeamGrid(currentTeam, currentLevel));
+    document.getElementById('filterDistrict').addEventListener('change', () => renderTeamGrid(currentTeam, currentLevel));
+}
+
+function updateTabStyles(activeTab) {
+    const tabs = ['tab-national', 'tab-state', 'tab-divisional', 'tab-district'];
+    tabs.forEach(tab => {
+        const el = document.getElementById(tab);
+        if (tab === activeTab) {
+            el.className = 'px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition duration-300';
+        } else {
+            el.className = 'px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition duration-300';
+        }
+    });
+}
+
+initPage();
+</script>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
+</script>

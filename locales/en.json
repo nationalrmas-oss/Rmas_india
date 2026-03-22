@@ -1,0 +1,493 @@
+{
+  "hero": {
+    "title1": "Justice is Religion",
+    "title2": "Humanity First",
+    "joinUs": "Join Us Today",
+    "knowMore": "Know More"
+  },
+  "stats": {
+    "members": "5000+ Members",
+    "districts": "38+ Districts",
+    "cases": "1200+ Cases Solved",
+    "helpline": "24/7 Helpline"
+  },
+  "about": {
+    "heroTitle": "About Us",
+    "heroSubtitle": "A powerful voice dedicated to the protection of human rights.",
+    "history": "RMAS was established in 2020 with registration number 4120/2020, aiming to provide a platform for the oppressed and marginalized communities.",
+    "mission": "Our mission is not just to register complaints, but to ensure that the backward and oppressed get their rights.",
+    "vision": "A Bharat where there is no police atrocity, corruption, or discrimination.",
+    "coreValues": {
+      "justice": {
+        "title": "Justice",
+        "desc": "Equal law for everyone."
+      },
+      "unity": {
+        "title": "Unity",
+        "desc": "Serving humanity above caste and religion."
+      },
+      "protection": {
+        "title": "Protection",
+        "desc": "Being the shield for the oppressed class."
+      }
+    },
+    "structure": "Our network is spread across Bihar and India so that help reaches every home.",
+    "presidentMessage": "Delay in justice is equal to injustice. We are the strength of every person whose voice has been suppressed."
+  },
+  "activities": {
+    "heroTitle": "Our Activities",
+    "heroSubtitle": "Concrete steps taken by us in the path of justice.",
+    "pillars": {
+      "legalAid": {
+        "title": "Legal Aid",
+        "desc": "Providing free legal advice to the poor."
+      },
+      "policeReform": {
+        "title": "Police Reform",
+        "desc": "Investigation against custodial deaths and atrocities."
+      },
+      "womenEmpowerment": {
+        "title": "Women Empowerment",
+        "desc": "Protection against domestic violence and safety."
+      },
+      "socialWelfare": {
+        "title": "Social Welfare",
+        "desc": "Ration, health camps and education."
+      },
+      "awareness": {
+        "title": "Human Rights Awareness",
+        "desc": "Awareness camps in schools and colleges."
+      }
+    },
+    "stories": {
+      "story1": {
+        "title": "Justice Delivered in Purnia Land Dispute",
+        "desc": "Helped a victim get their rights in a land dispute case."
+      },
+      "story2": {
+        "title": "Release from Illegal Police Custody in Bhagalpur",
+        "desc": "Secured release from unlawful police detention."
+      },
+      "story3": {
+        "title": "Women Safety Campaign Success",
+        "desc": "Empowered women through safety and rights awareness."
+      }
+    },
+    "timeline": {
+      "march2026": "Website Launch & Mega Convention (Begusarai)",
+      "feb2026": "District Executive Meet across 38 districts",
+      "jan2026": "Republic Day Awareness Campaign"
+    },
+    "cta": {
+      "message": "Have you witnessed a human rights violation? Report to us.",
+      "button": "Report Now"
+    }
+  },
+  "team": {
+    "heroTitle": "Our Team",
+    "heroSubtitle": "A team of bravehearts dedicated to selfless service and justice.",
+    "nationalLeadership": "National Leadership",
+    "tabs": {
+      "national": "National",
+      "state": "State",
+      "divisional": "Divisional",
+      "district": "District"
+    },
+    "filters": {
+      "team": "Filter by Team",
+      "district": "Filter by District",
+      "all": "All"
+    },
+    "cta": {
+      "message": "Do you want to lead in your area?",
+      "button": "Apply for a Post"
+    },
+    "title": "Our Teams",
+    "core": "Core Team",
+    "mahila": "Women Team",
+    "yuva": "Yuva Team",
+    "minority": "Minority Team",
+    "it": "IT Team"
+  },
+  "news": {
+    "heroTitle": "News & Press Release",
+    "heroSubtitle": "Latest news and official announcements related to human rights.",
+    "featured": {
+      "title": "RMAS Official Launch Event - March 29, 2026",
+      "summary": "Join us for the grand launch of RMAS website and nationwide campaign.",
+      "date": "March 22, 2026 | New Delhi",
+      "button": "Read Full Article"
+    },
+    "filters": {
+      "all": "All News",
+      "press": "Press Releases",
+      "media": "Media Coverage"
+    },
+    "gridTitle": "Latest News",
+    "cards": [
+      {
+        "image": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        "tag": "Press Release",
+        "date": "March 20, 2026 | Patna",
+        "title": "Legal Aid Expansion Announcement",
+        "summary": "RMAS expands legal aid services to 10 new districts.",
+        "readMore": "Read More"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        "tag": "Event",
+        "date": "March 18, 2026 | Lucknow",
+        "title": "Women Empowerment Workshop Success",
+        "summary": "Over 300 women participated in our recent empowerment workshop.",
+        "readMore": "Read More"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        "tag": "Case Update",
+        "date": "March 15, 2026 | Ranchi",
+        "title": "Land Rights Dispute Resolution",
+        "summary": "Successfully resolved land dispute for rural families.",
+        "readMore": "Read More"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        "tag": "Press Release",
+        "date": "March 12, 2026 | Bhopal",
+        "title": "Police Reform Initiative Launch",
+        "summary": "New initiative to improve police accountability and training.",
+        "readMore": "Read More"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        "tag": "Media Coverage",
+        "date": "March 10, 2026 | Kolkata",
+        "title": "TV Coverage of RMAS Activities",
+        "summary": "Featured on national news for human rights advocacy.",
+        "readMore": "Read More"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        "tag": "Event",
+        "date": "March 8, 2026 | Jaipur",
+        "title": "Awareness Campaign Launch",
+        "summary": "Massive campaign to educate communities on human rights.",
+        "readMore": "Read More"
+      }
+    ],
+    "pressKit": {
+      "title": "Download Press Kit",
+      "desc": "Official logo and introduction for media.",
+      "button": "Download Press Kit"
+    },
+    "newsletter": {
+      "title": "Subscribe to Our Newsletter",
+      "desc": "Stay updated with our news via email or WhatsApp.",
+      "button": "Subscribe"
+    }
+  },
+  "cta": {
+    "title": "Join the Cause",
+    "button": "Join Now"
+  },
+  "gallery": {
+    "heroTitle": "Photo Gallery",
+    "heroSubtitle": "A visual journey of our work and events.",
+    "filters": {
+      "all": "All",
+      "meetings": "Meetings",
+      "relief": "Relief Work",
+      "protests": "Protests/Actions",
+      "awards": "Award Ceremonies"
+    },
+    "images": [
+      {
+        "id": 1,
+        "src": "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "title": "National Leadership Meeting",
+        "date": "March 20, 2026",
+        "category": "meetings"
+      },
+      {
+        "id": 2,
+        "src": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "title": "Relief Camp Organization",
+        "date": "March 18, 2026",
+        "category": "relief"
+      },
+      {
+        "id": 3,
+        "src": "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "title": "Peaceful Protest Rally",
+        "date": "March 15, 2026",
+        "category": "protests"
+      },
+      {
+        "id": 4,
+        "src": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "title": "Bravery Award Ceremony",
+        "date": "March 10, 2026",
+        "category": "awards"
+      },
+      {
+        "id": 5,
+        "src": "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "title": "Medical Camp Distribution",
+        "date": "March 8, 2026",
+        "category": "relief"
+      },
+      {
+        "id": 6,
+        "src": "https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "title": "Women Empowerment Workshop",
+        "date": "March 5, 2026",
+        "category": "meetings"
+      },
+      {
+        "id": 7,
+        "src": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "title": "Community Legal Awareness",
+        "date": "March 1, 2026",
+        "category": "protests"
+      },
+      {
+        "id": 8,
+        "src": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "title": "Excellence Recognition",
+        "date": "February 28, 2026",
+        "category": "awards"
+      },
+      {
+        "id": 9,
+        "src": "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        "title": "State Coordination Meeting",
+        "date": "February 25, 2026",
+        "category": "meetings"
+      }
+    ],
+    "videoTitle": "Video Highlights",
+    "videos": [
+      {
+        "id": "dQw4w9WgXcQ",
+        "title": "RMAS Mission Overview"
+      },
+      {
+        "id": "jNQXAC9IVRw",
+        "title": "Women Empowerment Initiative"
+      },
+      {
+        "id": "9bZkp7q19f0",
+        "title": "Legal Aid Success Story"
+      }
+    ]
+  },
+  "contact": {
+    "heroTitle": "Contact Us",
+    "heroSubtitle": "We are ready to be your voice. Share your problems with us.",
+    "officeTitle": "Our Office",
+    "helplineTitle": "Helpline",
+    "emailTitle": "Email Us",
+    "office": {
+      "name": "Delhi Head Office",
+      "address": "D-2, S/F, Gali No. 9, Best Jyoti Nagar, Shahdara, Delhi - 110032",
+      "icon": "📍"
+    },
+    "helpline": {
+      "title": "24/7 Helpline",
+      "number": "+91-XXXXX XXXXX",
+      "person": "For Inquiries & Support",
+      "icon": "📞"
+    },
+    "email": {
+      "title": "Email Us",
+      "address": "info@rmas-national.org",
+      "support": "support@rmas-national.org",
+      "icon": "📧"
+    },
+    "formTitle": "Send us a Message",
+    "formFields": {
+      "name": "Full Name",
+      "phone": "Phone Number (WhatsApp Preferred)",
+      "district": "District / Location",
+      "subject": "Subject",
+      "subjects": [
+        "Police Complaint",
+        "Legal Aid",
+        "Membership Query",
+        "Women Safety",
+        "General Inquiry"
+      ],
+      "message": "Detailed Message",
+      "submit": "Send Message",
+      "placeholder_message": "Please describe your concern in detail..."
+    },
+    "mapTitle": "Find Us on Map",
+    "socialTitle": "Follow Us",
+    "socialLinks": {
+      "facebook": "https://facebook.com/rmas",
+      "twitter": "https://twitter.com/rmas",
+      "instagram": "https://instagram.com/rmas",
+      "youtube": "https://youtube.com/rmas"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "team": "Our Team",
+    "activities": "Activities",
+    "news": "News",
+    "gallery": "Gallery",
+    "join": "Join Us",
+    "documents": "Documents",
+    "contact": "Contact Us",
+    "complaint": "File Complaint"
+  },
+  "complaint": {
+    "heroTitle": "Online Complaint Form",
+    "heroSubtitle": "File your complaint securely and anonymously. Your rights matter to us.",
+    "steps": {
+      "complainant": "Complainant Details",
+      "victim": "Victim Information",
+      "incident": "Incident Details",
+      "documents": "Supporting Documents"
+    },
+    "form": {
+      "complainant": {
+        "title": "Complainant Information",
+        "subtitle": "Please provide your details (optional for anonymous complaints)",
+        "fields": {
+          "name": "Full Name",
+          "phone": "Phone Number",
+          "email": "Email Address",
+          "address": "Address",
+          "district": "District",
+          "state": "State",
+          "anonymous": "File anonymously",
+          "relationship": "Relationship to Victim",
+          "relationships": [
+            "Self",
+            "Family Member",
+            "Friend",
+            "Witness",
+            "Legal Representative",
+            "Other"
+          ]
+        }
+      },
+      "victim": {
+        "title": "Victim Information",
+        "subtitle": "Details about the person who suffered the violation",
+        "fields": {
+          "name": "Victim's Full Name",
+          "age": "Age",
+          "gender": "Gender",
+          "genders": ["Male", "Female", "Other"],
+          "phone": "Phone Number",
+          "address": "Address",
+          "district": "District",
+          "state": "State",
+          "occupation": "Occupation",
+          "caste": "Caste/Community",
+          "religion": "Religion"
+        }
+      },
+      "incident": {
+        "title": "Incident Details",
+        "subtitle": "Please provide complete information about the incident",
+        "fields": {
+          "date": "Date of Incident",
+          "time": "Time of Incident",
+          "location": "Incident Location",
+          "district": "District",
+          "state": "State",
+          "description": "Detailed Description",
+          "descriptionPlaceholder": "Please describe what happened in detail...",
+          "category": "Violation Category",
+          "categories": [
+            "Police Brutality/Misconduct",
+            "Illegal Detention",
+            "Torture",
+            "Custodial Death",
+            "Domestic Violence",
+            "Women/Girl Child Rights",
+            "Child Rights Violation",
+            "Land/Property Dispute",
+            "Labor Rights",
+            "Religious Discrimination",
+            "Caste Discrimination",
+            "Environmental Violation",
+            "Corruption",
+            "Election Violation",
+            "Other Human Rights Violation"
+          ],
+          "severity": "Severity Level",
+          "severities": ["Low", "Medium", "High", "Critical"],
+          "witnesses": "Witnesses Present",
+          "witnessDetails": "Witness Details",
+          "witnessPlaceholder": "Names and contact information of witnesses...",
+          "previousComplaints": "Previous Complaints Filed",
+          "previousDetails": "Previous Complaint Details",
+          "previousPlaceholder": "Details of any previous complaints or actions taken..."
+        }
+      },
+      "documents": {
+        "title": "Supporting Documents",
+        "subtitle": "Upload any relevant documents, photos, or evidence",
+        "fields": {
+          "policeReport": "Police Report/FIR Copy",
+          "medicalReports": "Medical Reports",
+          "photos": "Incident Photos",
+          "videos": "Incident Videos",
+          "otherDocuments": "Other Supporting Documents",
+          "uploadNote": "Supported formats: PDF, JPG, PNG, MP4. Maximum file size: 10MB each.",
+          "dragDrop": "Drag and drop files here or click to browse",
+          "fileSelected": "file(s) selected"
+        }
+      },
+      "buttons": {
+        "next": "Next Step",
+        "previous": "Previous",
+        "submit": "Submit Complaint",
+        "uploading": "Uploading...",
+        "submitting": "Submitting..."
+      },
+      "validation": {
+        "required": "This field is required",
+        "email": "Please enter a valid email address",
+        "phone": "Please enter a valid phone number",
+        "minLength": "Minimum {0} characters required",
+        "maxLength": "Maximum {0} characters allowed",
+        "fileSize": "File size must be less than {0}MB",
+        "fileType": "Invalid file type. Allowed: {0}",
+        "futureDate": "Date cannot be in the future",
+        "pastDate": "Date cannot be more than 1 year in the past"
+      }
+    },
+    "success": {
+      "title": "Complaint Submitted Successfully",
+      "message": "Your complaint has been registered with tracking ID:",
+      "trackingId": "Tracking ID",
+      "instructions": "Please save this tracking ID for future reference. You can check the status of your complaint using this ID.",
+      "nextSteps": "What happens next?",
+      "steps": [
+        "Your complaint will be reviewed by our legal team within 24-48 hours",
+        "We will contact you if additional information is needed",
+        "The complaint will be forwarded to relevant authorities if required",
+        "You will receive regular updates on the complaint status"
+      ],
+      "buttons": {
+        "trackComplaint": "Track Your Complaint",
+        "fileAnother": "File Another Complaint",
+        "goHome": "Go to Home"
+      }
+    },
+    "error": {
+      "title": "Submission Failed",
+      "message": "There was an error submitting your complaint. Please try again.",
+      "retry": "Try Again"
+    },
+    "privacy": {
+      "title": "Privacy & Confidentiality",
+      "message": "Your information is secure and confidential. We follow strict privacy guidelines and data protection laws."
+    }
+  }
+}

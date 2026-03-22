@@ -1,0 +1,97 @@
+{
+  "state": "Madhya Pradesh",
+  "divisions": {
+    "Bhopal": {
+      "districts": {
+        "Bhopal": ["Berasiya", "Phanda", "Huzur"],
+        "Raisen": ["Bareli", "Gairatganj", "Goharganj", "Udaipura", "Begumganj"],
+        "Vidisha": ["Basoda", "Kurwai", "Sironj", "Vidisha", "Lateri"],
+        "Sehore": ["Ashta", "Budni", "Ichhawar", "Nasrullaganj", "Sehore"],
+        "Rajgarh": ["Biaora", "Khilchipur", "Narsinghgarh", "Rajgarh", "Sarangpur"]
+      }
+    },
+    "Indore": {
+      "districts": {
+        "Indore": ["Depalpur", "Indore", "Mhow", "Sawer"],
+        "Dhar": ["Badnawar", "Dhar", "Kukshi", "Manawar", "Sardarpur"],
+        "Jhabua": ["Jhabua", "Meghnagar", "Petlawad", "Thandla"],
+        "Alirajpur": ["Alirajpur", "Bhavra", "Jobat"],
+        "Khargone": ["Barwaha", "Bhikangaon", "Kasrawad", "Khargone"],
+        "Barwani": ["Barwani", "Pansemal", "Sendhwa"],
+        "Khandwa": ["Harsud", "Khandwa", "Pandhana", "Punasa"],
+        "Burhanpur": ["Burhanpur", "Khaknar", "Nepanagar"]
+      }
+    },
+    "Ujjain": {
+      "districts": {
+        "Ujjain": ["Badnagar", "Khachrod", "Mahidpur", "Nagda", "Tarana", "Ujjain"],
+        "Dewas": ["Bagli", "Dewas", "Kannod", "Khategaon", "Sonkatch"],
+        "Ratlam": ["Alot", "Jaora", "Ratlam", "Sailana", "Piploda"],
+        "Mandsaur": ["Bhanpura", "Garoth", "Mandsaur", "Sitamau"],
+        "Neemuch": ["Jawad", "Manasa", "Neemuch"],
+        "Shajapur": ["Gulana", "Kalapipal", "Shajapur"],
+        "Agar Malwa": ["Agar", "Badod", "Nalkheda", "Susner"]
+      }
+    },
+    "Gwalior": {
+      "districts": {
+        "Gwalior": ["Bhitarwar", "Dabra", "Gwalior"],
+        "Shivpuri": ["Badarwas", "Karera", "Kolaras", "Pohari", "Shivpuri"],
+        "Guna": ["Aron", "Chachoura", "Guna", "Raghogarh"],
+        "Ashoknagar": ["Chanderi", "Isagarh", "Mungaoli", "Ashoknagar"],
+        "Datia": ["Bhander", "Datia", "Seondha"]
+      }
+    },
+    "Jabalpur": {
+      "districts": {
+        "Jabalpur": ["Jabalpur", "Kundam", "Patan", "Sihora", "Shahpura", "Panagar"],
+        "Katni": ["Badwara", "Bahoriband", "Dheemarkheda", "Katni", "Murwara", "Rithi", "Vijayraghavgarh"],
+        "Mandla": ["Bichhiya", "Ghughri", "Mandla", "Mohgaon", "Narayanganj", "Niwas"],
+        "Narsinghpur": ["Chawarpatha", "Gotegaon", "Kareli", "Narsinghpur", "Sainkheda"],
+        "Seoni": ["Barghat", "Chhapara", "Ghansore", "Keolari", "Kurai", "Lakhnadon", "Seoni"],
+        "Balaghat": ["Baihar", "Balaghat", "Katangi", "Kirnapur", "Lanji", "Waraseoni"],
+        "Chhindwara": ["Amarwara", "Bichhua", "Chaurai", "Chhindwara", "Harrai", "Junnardeo", "Mohkhed", "Pandhurna", "Parasia", "Sausar", "Tamia"],
+        "Dindori": ["Dindori", "Shahpura", "Mehandwani"]
+      }
+    },
+    "Sagar": {
+      "districts": {
+        "Sagar": ["Banda", "Bina", "Deori", "Jaisinagar", "Khurai", "Rahatgarh", "Rehli", "Sagar"],
+        "Damoh": ["Damoh", "Hatta", "Jabera", "Patera", "Patharia", "Tendukheda"],
+        "Chhatarpur": ["Bada Malhara", "Buxwaha", "Chhatarpur", "Laundi", "Nowgong", "Rajnagar"],
+        "Tikamgarh": ["Baldeogarh", "Jatara", "Palera", "Tikamgarh"],
+        "Panna": ["Ajaigarh", "Gunnor", "Panna", "Pawai", "Shahnagar"],
+        "Niwari": ["Niwari", "Prithvipur", "Orchha"]
+      }
+    },
+    "Rewa": {
+      "districts": {
+        "Rewa": ["Gangeo", "Hanumana", "Huzur", "Jav", "Mauganj", "Naigarhi", "Raipur", "Sirmaur", "Teonthar"],
+        "Satna": ["Amarpatan", "Maihar", "Nagod", "Ramnagar", "Rampur Baghelan", "Satna", "Uchehara"],
+        "Sidhi": ["Churhat", "Kusmi", "Majhauli", "Rampur Naikin", "Sidhi"],
+        "Singrauli": ["Chitrangi", "Deosar", "Singrauli"]
+      }
+    },
+    "Narmadapuram": {
+      "districts": {
+        "Hoshangabad": ["Babai", "Itarsi", "Pipariya", "Seoni Malwa", "Sohagpur", "Narmadapuram"],
+        "Harda": ["Harda", "Khirkiya", "Timarni"],
+        "Betul": ["Amla", "Athner", "Betul", "Bhainsdehi", "Chicholi", "Ghodadongri", "Multai", "Shahpur"]
+      }
+    },
+    "Chambal": {
+      "districts": {
+        "Morena": ["Ambah", "Joura", "Kailaras", "Morena", "Porsa", "Sabalgarh"],
+        "Bhind": ["Ater", "Bhind", "Gohad", "Lahar", "Mehgaon", "Raon"],
+        "Sheopur": ["Kurai", "Sheopur", "Vijaypur"]
+      }
+    },
+    "Shahdol": {
+      "districts": {
+        "Shahdol": ["Beohari", "Burhar", "Gohparu", "Jaisinghnagar", "Sohagpur"],
+        "Umaria": ["Manpur", "Nowrozabad", "Pali", "Umaria"],
+        "Anuppur": ["Anuppur", "Jaithari", "Kotma", "Pushprajgarh"]
+      }
+    }
+  }
+}

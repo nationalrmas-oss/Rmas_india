@@ -1,0 +1,385 @@
+/* ============================================
+   RMAS NATIONAL - GLOBAL STYLES
+   ============================================ */
+:root {
+    --primary-blue: #2b235f;
+    --primary-red: #d92523;
+    --light-bg: #f4f4f4;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: var(--light-bg);
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   HEADER STYLES
+   ============================================ */
+/* ============================================
+   MULTI-STEP FORM STYLES
+   ============================================ */
+.step-active { background-color: #1e3a8a; color: white; }
+.step-completed { background-color: #10b981; color: white; }
+.step-inactive { background-color: #e5e7eb; color: #6b7280; }
+.form-section { display: none; }
+.form-section.active { display: block; }
+.file-upload {
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.file-upload:hover {
+    border-color: #3b82f6;
+    background-color: #f0f9ff;
+}
+.file-upload.dragover {
+    border-color: #10b981;
+    background-color: #f0fdf4;
+}
+
+/* ============================================
+   HEADER STYLES
+   ============================================ */
+.site-header {
+    position: relative;
+    color: #fff;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slogan-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 2px 0;
+}
+
+.main-header .logo a img {
+    height: 60px;
+    width: auto;
+}
+
+.main-header .org-name-container {
+    flex-grow: 1;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.main-header .org-name-container h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #fff;
+}
+
+/* small address text under organization name */
+.main-header .org-name-container .org-address {
+    margin: 2px 0 0;
+    font-size: 0.75rem;
+    color: #fff;
+    opacity: 0.85;
+}
+/* right side registration info */
+.main-header .header-right {
+    /* let the container size to its text instead of fixed width */
+    width: auto;
+    flex-shrink: 0;
+    text-align: right;
+    font-size: 0.75rem;
+    color: #fff;
+    margin-left: 15px; /* give small gap from org name */
+}
+
+/* ensure org-name has space and can move right when header-right expands */
+.main-header .org-name-container {
+    flex: 1 1 auto;
+    min-width: 0; /* allow shrinking if needed */
+    text-align: center;
+}
+.main-header .registration-number {
+    line-height: 1.2;
+    opacity: 0.85;
+    white-space: nowrap; /* keep text on single line */
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-top: 0;
+    position: relative; /* for absolutely positioned hamburger */
+    padding-left: 10px; /* 10px from left to align Home button below logo */
+}
+
+.nav-bar nav {
+    flex-grow: 1;
+}
+
+.nav-bar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+}
+
+.nav-bar nav ul li {
+    flex: 0 0 auto;
+}
+
+.nav-bar nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    display: block;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.nav-bar nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.search-bar {
+    position: relative;
+    margin: 0 15px;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    width: 15px;
+    height: 15px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.search-icon::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 8px;
+    background: #fff;
+    transform: rotate(-45deg);
+    bottom: -6px;
+    right: -2px;
+}
+
+.search-bar input {
+    width: 150px;
+    padding: 5px 10px 5px 35px;
+    border-radius: 15px;
+    border: 1px solid #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    transition: width 0.3s ease-in-out;
+}
+
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.lang-toggle select {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.lang-toggle select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.lang-toggle select option {
+    background: #333;
+    color: #fff;
+}
+
+/* Hamburger Icon */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    z-index: 1001;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .main-header .org-name-container h1 {
+        font-size: 1.6rem;
+    }
+    .nav-bar nav ul li a {
+        padding: 6px 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .site-header {
+        padding: 2px 20px;
+    }
+
+    .main-header .logo a img {
+        height: 50px;
+    }
+
+    .main-header .org-name-container h1 {
+        font-size: 1.3rem;
+    }
+
+    .main-header .header-right-placeholder {
+        width: 50px;
+    }
+
+    .nav-bar {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        padding-top: 5px;
+        align-items: center;
+    }
+
+    .hamburger {
+        display: block;
+        order: 3;
+        margin-left: 10px;
+    }
+
+    .lang-toggle {
+        order: 2;
+        margin-left: 10px;
+    }
+
+    .search-bar {
+        order: 1;
+        margin-left: 10px;
+    }
+    
+    .search-bar input {
+        width: 120px;
+    }
+
+    .nav-bar.active .hamburger span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .nav-bar.active .hamburger span:nth-child(2) {
+        opacity: 0;
+    }
+    .nav-bar.active .hamburger span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .nav-bar nav {
+        order: 4;
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transform: translateX(100%);
+        transition: max-height 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    .nav-bar.active nav {
+        max-height: 500px;
+        transform: translateX(0);
+    }
+
+    .nav-bar nav ul {
+        flex-direction: column;
+        text-align: center;
+        margin-top: 10px;
+        background: #2b235f;
+    }
+
+    .nav-bar nav ul li {
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}.site-footer {
+    background-color: #222;
+    color: #fff;
+    padding: 40px 0 20px 0;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-section h3 {
+    color: var(--primary-red);
+    margin-bottom: 20px;
+}
+
+.copyright {
+    text-align: center;
+    border-top: 1px solid #444;
+    margin-top: 30px;
+    padding-top: 20px;
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   RESPONSIVE LOGIC
+   ============================================ */
+@media (max-width: 768px) {
+    .main-header { flex-direction: column; text-align: center; }
+    .nav-bar { flex-wrap: wrap; }
+    /* show hamburger and hide nav links until toggled */
+    .hamburger { display: block; }
+    .nav-bar nav { width: 100%; display: none; }
+    .nav-bar.active nav { display: block; }
+    /* controls should span full width and align right on mobile */
+    .nav-bar .controls {
+        width: 100%;
+        justify-content: flex-end;
+        padding: 10px 40px;
+    }
+}

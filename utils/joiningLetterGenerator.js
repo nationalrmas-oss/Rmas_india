@@ -20,7 +20,10 @@ async function generateJoiningLetter(member) {
     if (!execPath) {
       const candidates = [
         'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+        '/usr/bin/google-chrome',
+        '/usr/bin/chromium',
+        '/usr/bin/chromium-browser'
       ];
       execPath = candidates.find(p => fs.existsSync(p)) || '';
     }

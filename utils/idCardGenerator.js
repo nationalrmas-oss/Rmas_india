@@ -120,9 +120,26 @@ async function generateIdCard(member) {
       villageName
     });
 
+    // Resolve Puppeteer exec path (env override, then common paths)
+    let execPath = process.env.PUPPETEER_EXECUTABLE_PATH || '';
+    execPath = execPath ? execPath.replace(/^"(.*)"$/, '$1') : '';
+    if (!execPath) {
+      const candidates = [
+        'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+        '/usr/bin/google-chrome',
+        '/usr/bin/chromium',
+        '/usr/bin/chromium-browser'
+      ];
+      execPath = candidates.find(p => fs.existsSync(p)) || '';
+    }
+    if (!execPath) console.warn('⚠️ No Chrome/Chromium executable found; Puppeteer may fail to launch');
+    console.log('Using Puppeteer executablePath:', execPath || 'default bundled');
+
     // Launch browser and generate PDF
     const browser = await puppeteer.launch({
       headless: 'new',
+      executablePath: execPath || undefined,
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',

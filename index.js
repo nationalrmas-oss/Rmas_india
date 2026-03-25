@@ -572,7 +572,8 @@ app.get('/verify/:membershipId', async (req, res) => {
         }
 
         // Generate QR code data URL (now with formatted membershipId)
-        const qrCode = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(`https://rmas-national.vercel.app/v/${member.membershipId}`)}`;
+        const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
+        const qrCode = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(`${baseUrl}/v/${member.membershipId}`)}`;
 
         res.render('verification', {
             title: 'Membership Verification',

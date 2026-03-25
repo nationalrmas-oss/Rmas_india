@@ -12,7 +12,8 @@ async function generateIdCard(member) {
     console.log('Member photo field from DB:', member.photo);
 
     // Generate QR code
-    const qrCodeDataURL = await QRCode.toDataURL(`${process.env.BASE_URL || 'http://localhost:3000'}/v/${member.membershipId}`);
+    const baseUrl = process.env.BASE_URL || 'https://rmas.org.in';
+    const qrCodeDataURL = await QRCode.toDataURL(`${baseUrl}/v/${member.membershipId}`);
 
     // Read EJS template
     const templatePath = path.join(__dirname, '..', 'views', 'id-card.ejs');

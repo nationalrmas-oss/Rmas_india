@@ -114,7 +114,8 @@ async function generateJoiningLetter(member) {
 
       // QR and verify
       const membershipIdFinal = member.membershipId || 'N/A';
-      const verifyUrl = `${process.env.BASE_URL || 'http://localhost:3000'}/v/${membershipIdFinal}`;
+      const baseUrl = process.env.BASE_URL || 'https://rmas.org.in';
+      const verifyUrl = `${baseUrl}/v/${membershipIdFinal}`;
       const qrCodeDataURL = await QRCode.toDataURL(verifyUrl);
 
       const issueDateHindi = formatDateHindi(new Date());

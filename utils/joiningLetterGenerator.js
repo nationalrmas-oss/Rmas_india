@@ -1,8 +1,7 @@
-const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
 const QRCode = require('qrcode');
-const ejs = require('ejs');
+const { PDFDocument, rgb } = require('pdf-lib');
 const { getBilingualDesignation } = require('./roleDisplay');
 const { formatDOB, formatDateHindi, toTitleCase } = require('./dateUtils');
 
@@ -14,222 +13,375 @@ async function generateJoiningLetter(member) {
       throw new Error('Member not approved');
     }
 
-    // Resolve Puppeteer exec path (env override, then common paths)
-    let execPath = process.env.PUPPETEER_EXECUTABLE_PATH || '';
-    execPath = execPath ? execPath.replace(/^"(.*)"$/, '$1') : '';
-    if (!execPath) {
-      const candidates = [
-        'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
-        '/usr/bin/google-chrome',
-        '/usr/bin/chromium',
-        '/usr/bin/chromium-browser'
-      ];
-      execPath = candidates.find(p => fs.existsSync(p)) || '';
-    }
-    if (!execPath) console.warn('⚠️ No Chrome/Chromium executable found; Puppeteer may fail to launch');
-    console.log('Using Puppeteer executablePath:', execPath || 'default bundled');
-    const browser = await puppeteer.launch({ 
-        headless: 'new', 
-        executablePath: execPath || undefined, 
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-gpu',
-            '--enable-font-antialiasing'
-        ] 
-    });
+    // Create new PDF document
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage();
+
+    const { width, height } = page.getSize();
+
+    // Generate QR code as buffer
+    const baseUrl = process.env.BASE_URL || 'https://rmas.org.in';
+    const verifyUrl = `${baseUrl}/v/${member.membershipId}`;
+    const qrCodeDataURL = await QRCode.toDataURL(verifyUrl);
+    const qrCodeBuffer = Buffer.from(qrCodeDataURL.split(',')[1], 'base64');
+
+    // Load images
+    let logoBuffer = null;
+    let memberPhotoBuffer = null;
+    let stampBuffer = null;
+    let signatureBuffer = null;
+
+    // Load logo
     try {
-      const page = await browser.newPage();
+      const logoPath = path.join(__dirname, '..', 'public', 'images', 'logo.jpeg');
+      if (fs.existsSync(logoPath)) {
+        logoBuffer = fs.readFileSync(logoPath);
+      }
+    } catch(e) { console.warn('nhra logo load failed', e.message); }
 
-      const templatePath = path.join(__dirname, '..', 'views', 'joining-letter.ejs');
-      const template = fs.readFileSync(templatePath, 'utf8');
-
-      // images
-      let nhraLogo = '';
-      let memberPhoto = '';
-      let stampBase64 = '';
-      let digitalSignature = '';
-
-      try {
-        const nhraLogoPath = path.join(__dirname, '..', 'public', 'images', 'logo.jpeg');
-        if (fs.existsSync(nhraLogoPath)) nhraLogo = fs.readFileSync(nhraLogoPath).toString('base64');
-      } catch(e){ console.warn('nhra logo load failed', e.message); }
-
-      // Load member photo (supports multiple upload locations)
-      try {
-        const isDataUri = typeof member.photo === 'string' && member.photo.startsWith('data:');
-        if (isDataUri) {
-          memberPhoto = member.photo;
-        } else if (member.photo) {
-          const photoFilename = member.photo.replace(/^\//, '');
-          const pathsToTry = [
-            path.join(__dirname, '..', 'public', photoFilename),
-            path.join(__dirname, '..', 'public', 'uploads', photoFilename),
-            path.join(__dirname, '..', 'uploads', photoFilename),
-            path.join(__dirname, '..', photoFilename)
-          ];
-          let found = false;
-          for (const p of pathsToTry) {
-            if (fs.existsSync(p)) {
-              const raw = fs.readFileSync(p).toString('base64');
-              const ext = path.extname(p).toLowerCase().replace('.', '') || 'jpeg';
-              const mime = ext === 'png' ? 'image/png' : ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 'image/jpeg';
-              memberPhoto = `data:${mime};base64,${raw}`;
-              found = true;
-              break;
-            }
-          }
-          if (!found) {
-            console.warn('member photo file not found in any expected location:', pathsToTry);
+    // Load member photo
+    try {
+      const isDataUri = typeof member.photo === 'string' && member.photo.startsWith('data:');
+      if (isDataUri) {
+        const base64Data = member.photo.split(',')[1];
+        memberPhotoBuffer = Buffer.from(base64Data, 'base64');
+      } else if (member.photo) {
+        const photoFilename = member.photo.replace(/^\//, '');
+        const pathsToTry = [
+          path.join(__dirname, '..', 'public', photoFilename),
+          path.join(__dirname, '..', 'public', 'uploads', photoFilename),
+          path.join(__dirname, '..', 'uploads', photoFilename),
+          path.join(__dirname, '..', photoFilename)
+        ];
+        for (const p of pathsToTry) {
+          if (fs.existsSync(p)) {
+            memberPhotoBuffer = fs.readFileSync(p);
+            break;
           }
         }
-      } catch(e){ console.warn('member photo load failed', e.message); }
-
-      // placeholder signature/stamp
-      digitalSignature = 'data:image/png;base64,' + Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==').toString('base64');
-      stampBase64 = digitalSignature;
-
-      // Attempt to load a real stamp image if present
-      try {
-        const stampPath = path.join(__dirname, '..', 'public', 'images', 'stamp.png');
-        if (fs.existsSync(stampPath)) {
-          const raw = fs.readFileSync(stampPath).toString('base64');
-          stampBase64 = `data:image/png;base64,${raw}`;
-        }
-      } catch (e) {
-        console.warn('stamp image load failed', e.message);
       }
+    } catch(e){ console.warn('member photo load failed', e.message); }
 
-      // Load signature image
-      try {
-        const sigPath = path.join(__dirname, '..', 'public', 'images', 'signature.png');
-        if (fs.existsSync(sigPath)) {
-          const raw = fs.readFileSync(sigPath).toString('base64');
-          digitalSignature = `data:image/png;base64,${raw}`;
-        }
-      } catch (e) {
-        console.warn('signature image load failed', e.message);
+    // Load stamp
+    try {
+      const stampPath = path.join(__dirname, '..', 'public', 'images', 'stamp.png');
+      if (fs.existsSync(stampPath)) {
+        stampBuffer = fs.readFileSync(stampPath);
       }
+    } catch (e) { console.warn('stamp image load failed', e.message); }
 
-      // QR and verify
-      const membershipIdFinal = member.membershipId || 'N/A';
-      const baseUrl = process.env.BASE_URL || 'https://rmas.org.in';
-      const verifyUrl = `${baseUrl}/v/${membershipIdFinal}`;
-      const qrCodeDataURL = await QRCode.toDataURL(verifyUrl);
-
-      const issueDateHindi = formatDateHindi(new Date());
-      const startDate = issueDateHindi;
-      const endDate = formatDateHindi(new Date(new Date().setFullYear(new Date().getFullYear()+1)));
-
-      // map primary assigned role
-      const primaryAssigned = (member.assignedRoles && member.assignedRoles[0]) ? member.assignedRoles[0] : null;
-      const memberForTemplate = {
-        name: member.fullName || 'N/A',
-        email: member.email || 'N/A',
-        phone: member.mobile || 'N/A',
-        role: primaryAssigned ? (primaryAssigned.roleName || primaryAssigned.role) : (member.jobRole || 'N/A'),
-        role_hin: primaryAssigned ? (primaryAssigned.roleName || null) : (member.jobRole || null),
-        team: primaryAssigned ? (primaryAssigned.teamType || member.teamType) : (member.teamType || '—'),
-        level: primaryAssigned ? (primaryAssigned.level || '—') : '—'
-      };
-
-      // Set position details from primaryAssigned if available, otherwise use existing member data
-      if (primaryAssigned) {
-        member.positionLevel = primaryAssigned.level || member.positionLevel;
-        member.assignedPosition = primaryAssigned.role || member.assignedPosition;
-        member.teamType = primaryAssigned.teamType || member.teamType || 'Core';
+    // Load signature
+    try {
+      const sigPath = path.join(__dirname, '..', 'public', 'images', 'signature.png');
+      if (fs.existsSync(sigPath)) {
+        signatureBuffer = fs.readFileSync(sigPath);
       }
-      // Don't override with 'Member' - keep existing member data if no primaryAssigned
-      member.positionLocation = { district: member.district, state: member.state };
-      console.log('[JOINING-LETTER] Member position:', { positionLevel: member.positionLevel, assignedPosition: member.assignedPosition, teamType: member.teamType, dob: member.dob });
+    } catch (e) { console.warn('signature image load failed', e.message); }
 
-      // --- LocationName logic for template ---
-      let locationName = '';
-      if (member.positionLevel === 'State') {
-        locationName = member.state || 'Bihar';
-      } else if (member.positionLevel === 'District') {
-        locationName = member.district || 'Bihar';
-      } else if (member.positionLevel === 'Block') {
-        locationName = member.block || member.district || 'Bihar';
-      } else if (member.positionLevel === 'Panchayat') {
-        locationName = member.panchayat || member.block || member.district || 'Bihar';
-      } else if (member.positionLevel === 'National') {
-        locationName = 'India';
-      }
-      if (!locationName) locationName = 'India';
+    // Embed images
+    let logoImage = null;
+    let memberPhotoImage = null;
+    let stampImage = null;
+    let signatureImage = null;
+    let qrCodeImage = null;
 
-      // Format designation and DOB using utilities
-      const designation = getBilingualDesignation(member);
-      const formattedDOB = formatDOB(member.dob);
-      
-      // Apply Title Case formatting to names and locations
-      const memberName = toTitleCase(member.fullName || '');
-      const fatherName = toTitleCase(member.fatherName || member.guardianName || '');
-      const districtName = toTitleCase(member.district || '');
-      const stateName = toTitleCase(member.state || '');
-      const blockName = toTitleCase(member.block || '');
-      const villageName = toTitleCase(member.village || '');
-      
-      console.log('[JOINING-LETTER] Formatted values:', { designation, formattedDOB, memberPositionLevel: member.positionLevel, memberAssignedPosition: member.assignedPosition });
+    if (logoBuffer) logoImage = await pdfDoc.embedJpg(logoBuffer);
+    if (memberPhotoBuffer) memberPhotoImage = await pdfDoc.embedJpg(memberPhotoBuffer);
+    if (stampBuffer) stampImage = await pdfDoc.embedPng(stampBuffer);
+    if (signatureBuffer) signatureImage = await pdfDoc.embedPng(signatureBuffer);
+    qrCodeImage = await pdfDoc.embedPng(qrCodeBuffer);
 
-      const html = ejs.render(template, {
-        membership: member,
-        member: memberForTemplate,
-        qrDataUrl: qrCodeDataURL,
-        qrCodeDataURL,
-        rmasLogo: nhraLogo,
-        nhraLogo,
-        memberPhoto,
-        signatureUrl: digitalSignature,
-        officialStamp: stampBase64,
-        issueDateHindi,
-        date: issueDateHindi,
-        startDate,
-        endDate,
-        membershipId: membershipIdFinal,
-        refNo: member.refNo || '',
-        verifyUrl,
-        signerName: process.env.SIGNER_NAME || 'State President',
-        signerDesignation: process.env.SIGNER_DESIGNATION || 'RMAS Bihar',
-        orgWebsite: process.env.ORG_WEBSITE || 'https://rmas.org.in',
-        orgPhone: process.env.ORG_PHONE || 'N/A',
-        orgAddress: process.env.ORG_ADDRESS || 'D-2, S/F, Gali No. 9, Best Jyoti Nagar, Shahdara, Delhi-94',
-        stampBase64,
-        locationName,
-        designation,
-        formattedDOB,
-        memberName,
-        fatherName,
-        districtName,
-        stateName,
-        blockName,
-        villageName
-      });
+    // Prepare data
+    const issueDateHindi = formatDateHindi(new Date());
+    const startDate = issueDateHindi;
+    const endDate = formatDateHindi(new Date(new Date().setFullYear(new Date().getFullYear()+1)));
 
-      await page.setContent(html, { waitUntil: 'networkidle0' });
-      // Use 0 page margins so header can sit flush to top; content margins applied via template
-      const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true, margin: { top: '0mm', right: '0mm', bottom: '0mm', left: '0mm' }, preferCSSPageSize: true });
+    const primaryAssigned = (member.assignedRoles && member.assignedRoles[0]) ? member.assignedRoles[0] : null;
+    const memberForTemplate = {
+      name: member.fullName || 'N/A',
+      email: member.email || 'N/A',
+      phone: member.mobile || 'N/A',
+      role: primaryAssigned ? (primaryAssigned.roleName || primaryAssigned.role) : (member.jobRole || 'N/A'),
+      role_hin: primaryAssigned ? (primaryAssigned.roleName || null) : (member.jobRole || null),
+      team: primaryAssigned ? (primaryAssigned.teamType || member.teamType) : (member.teamType || '—'),
+      level: primaryAssigned ? (primaryAssigned.level || '—') : '—'
+    };
 
-      const pdfDir = path.join(__dirname, '..', 'public', 'pdfs'); if (!fs.existsSync(pdfDir)) fs.mkdirSync(pdfDir, { recursive: true });
-      const pdfFilename = membershipIdFinal.replace(/\//g, '_') + '_joining_letter.pdf';
-      const pdfPath = path.join(pdfDir, pdfFilename);
-      fs.writeFileSync(pdfPath, pdfBuffer);
-
-      // No DB update needed, just return the PDF path
-      console.log('✅ Joining letter generated:', pdfPath);
-      await browser.close();
-      return `/pdfs/${pdfFilename}`;
-    } catch (err) {
-      console.error('Error generating joining letter:', err.message);
-      if (browser) await browser.close();
-      throw new Error(`Joining letter generation failed: ${err.message}`);
+    if (primaryAssigned) {
+      member.positionLevel = primaryAssigned.level || member.positionLevel;
+      member.assignedPosition = primaryAssigned.role || member.assignedPosition;
+      member.teamType = primaryAssigned.teamType || member.teamType || 'Core';
     }
+
+    let locationName = '';
+    if (member.positionLevel === 'State') {
+      locationName = member.state || 'Bihar';
+    } else if (member.positionLevel === 'District') {
+      locationName = member.district || 'Bihar';
+    } else if (member.positionLevel === 'Block') {
+      locationName = member.block || member.district || 'Bihar';
+    } else if (member.positionLevel === 'Panchayat') {
+      locationName = member.panchayat || member.block || member.district || 'Bihar';
+    } else if (member.positionLevel === 'National') {
+      locationName = 'India';
+    }
+    if (!locationName) locationName = 'India';
+
+    const designation = getBilingualDesignation(member);
+    const formattedDOB = formatDOB(member.dob);
+    const memberName = toTitleCase(member.fullName || '');
+    const fatherName = toTitleCase(member.fatherName || member.guardianName || '');
+    const districtName = toTitleCase(member.district || '');
+    const stateName = toTitleCase(member.state || '');
+    const blockName = toTitleCase(member.block || '');
+    const villageName = toTitleCase(member.village || '');
+
+    // Draw the joining letter
+    await drawJoiningLetter(page, {
+      member,
+      memberForTemplate,
+      issueDateHindi,
+      startDate,
+      endDate,
+      locationName,
+      designation,
+      formattedDOB,
+      memberName,
+      fatherName,
+      districtName,
+      stateName,
+      blockName,
+      villageName,
+      logoImage,
+      memberPhotoImage,
+      stampImage,
+      signatureImage,
+      qrCodeImage,
+      verifyUrl
+    });
+
+    // Save PDF
+    const pdfBytes = await pdfDoc.save();
+    const pdfDir = path.join(__dirname, '..', 'public', 'pdfs');
+    if (!fs.existsSync(pdfDir)) fs.mkdirSync(pdfDir, { recursive: true });
+    const pdfFilename = member.membershipId.replace(/\//g, '_') + '_joining_letter.pdf';
+    const pdfPath = path.join(pdfDir, pdfFilename);
+    fs.writeFileSync(pdfPath, pdfBytes);
+
+    console.log('✅ Joining letter generated:', pdfPath);
+    return `/pdfs/${pdfFilename}`;
   } catch (error) {
     console.error('❌ Error generating joining letter:', error.message);
     throw new Error(`Joining letter generation failed: ${error.message}`);
   }
+}
+
+async function drawJoiningLetter(page, data) {
+  const { width, height } = page.getSize();
+
+  // Header with gradient background
+  page.drawRectangle({
+    x: 0,
+    y: height - 85,
+    width: width,
+    height: 85,
+    color: rgb(0.17, 0.14, 0.37) // Dark blue
+  });
+
+  // Triangle overlay for header
+  const trianglePath = [
+    { x: 0, y: height - 85 },
+    { x: width, y: height - 85 },
+    { x: 0, y: height }
+  ];
+
+  // Slogans
+  page.drawText('मानव हित सर्वोपरि', { x: 20, y: height - 25, size: 8, color: rgb(1, 1, 1) });
+  page.drawText('सत्यमेव जयते', { x: width/2 - 40, y: height - 25, size: 8, color: rgb(1, 1, 1) });
+  page.drawText('न्याय ही धर्म है', { x: width - 80, y: height - 25, size: 8, color: rgb(1, 1, 1) });
+
+  // Logo
+  if (data.logoImage) {
+    page.drawImage(data.logoImage, {
+      x: 20,
+      y: height - 70,
+      width: 25,
+      height: 25
+    });
+  }
+
+  // Organization name
+  page.drawText('राष्ट्रीय मानवाधिकार संगठन', {
+    x: 60,
+    y: height - 50,
+    size: 14,
+    color: rgb(1, 1, 1)
+  });
+
+  // Address
+  page.drawText('D-2, S/F, Gali No. 9, Best Jyoti Nagar, Shahdara, Delhi-94', {
+    x: 60,
+    y: height - 65,
+    size: 8,
+    color: rgb(1, 1, 1)
+  });
+
+  // Registration
+  page.drawText('पंजीकरण संख्या: 4120/2020', {
+    x: width - 120,
+    y: height - 50,
+    size: 8,
+    color: rgb(1, 1, 1)
+  });
+
+  // Date
+  page.drawText(`दिनांक: ${data.issueDateHindi}`, {
+    x: width - 120,
+    y: height - 65,
+    size: 8,
+    color: rgb(1, 1, 1)
+  });
+
+  // Main content
+  let yPos = height - 120;
+
+  // Title
+  page.drawText('सम्मानित सदस्य', {
+    x: 50,
+    y: yPos,
+    size: 12,
+    color: rgb(0, 0, 0)
+  });
+  yPos -= 20;
+
+  // Member name
+  page.drawText(data.memberName, {
+    x: 50,
+    y: yPos,
+    size: 12,
+    color: rgb(0, 0, 0)
+  });
+  yPos -= 15;
+
+  // Address
+  const address = `${data.fatherName}, ${data.villageName}, ${data.blockName}, ${data.districtName}, ${data.stateName}`;
+  page.drawText(address, {
+    x: 50,
+    y: yPos,
+    size: 10,
+    color: rgb(0, 0, 0)
+  });
+  yPos -= 25;
+
+  // Subject
+  page.drawText('विषय: सदस्यता प्रमाण पत्र', {
+    x: 50,
+    y: yPos,
+    size: 11,
+    color: rgb(0, 0, 0)
+  });
+  yPos -= 25;
+
+  // Letter content
+  const content = [
+    'माननीय सदस्य,',
+    '',
+    'यह प्रमाणित किया जाता है कि आप राष्ट्रीय मानवाधिकार संगठन के सक्रिय सदस्य हैं।',
+    'आपको निम्नलिखित पद पर नियुक्त किया गया है:',
+    '',
+    `पद: ${data.designation}`,
+    `क्षेत्र: ${data.locationName}`,
+    `सदस्यता संख्या: ${data.member.membershipId}`,
+    `प्रारंभ तिथि: ${data.startDate}`,
+    `समाप्ति तिथि: ${data.endDate}`,
+    '',
+    'आपके सभी अधिकार और कर्तव्य संगठन के नियमावली के अनुसार हैं।',
+    '',
+    'भवदीय,'
+  ];
+
+  for (const line of content) {
+    if (line === '') {
+      yPos -= 10;
+    } else {
+      page.drawText(line, {
+        x: 50,
+        y: yPos,
+        size: 10,
+        color: rgb(0, 0, 0)
+      });
+      yPos -= 12;
+    }
+  }
+
+  // Signature section
+  yPos -= 30;
+  page.drawText('राज्य अध्यक्ष', {
+    x: width - 150,
+    y: yPos,
+    size: 10,
+    color: rgb(0, 0, 0)
+  });
+
+  // Signature image
+  if (data.signatureImage) {
+    page.drawImage(data.signatureImage, {
+      x: width - 120,
+      y: yPos - 40,
+      width: 80,
+      height: 30
+    });
+  }
+
+  // Stamp
+  if (data.stampImage) {
+    page.drawImage(data.stampImage, {
+      x: width - 120,
+      y: yPos - 80,
+      width: 60,
+      height: 60
+    });
+  }
+
+  // QR Code
+  if (data.qrCodeImage) {
+    page.drawImage(data.qrCodeImage, {
+      x: 50,
+      y: 100,
+      width: 80,
+      height: 80
+    });
+  }
+
+  page.drawText('Scan QR to verify membership', {
+    x: 50,
+    y: 85,
+    size: 8,
+    color: rgb(0, 0, 0)
+  });
+
+  // Footer
+  page.drawRectangle({
+    x: 0,
+    y: 0,
+    width: width,
+    height: 40,
+    color: rgb(0.99, 0, 0)
+  });
+
+  page.drawText('राष्ट्रीय मानवाधिकार संगठन - सभी के लिए न्याय और अधिकार', {
+    x: 50,
+    y: 15,
+    size: 8,
+    color: rgb(1, 1, 1)
+  });
+
+  page.drawText('वेबसाइट: https://rmas.org.in', {
+    x: width - 150,
+    y: 15,
+    size: 8,
+    color: rgb(1, 1, 1)
+  });
 }
 
 module.exports = { generateJoiningLetter };

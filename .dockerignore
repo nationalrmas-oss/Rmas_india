@@ -1,0 +1,52 @@
+# node / build artifacts
+node_modules
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+dist
+build
+tmp
+temp
+logs
+*.log
+
+# local environment and secrets
+.env
+.env.*.local
+docker-compose*.yml
+*.local
+*.secret
+secrets/
+config/local.env
+
+# VCS / editor
+.git
+.gitignore
+.gitattributes
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS/IDE junk
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# Uploaded binary payload / generated assets (should not be docker layer bloat)
+uploads/**
+public/pdfs/**
+
+# test outputs
+coverage
+*.lcov
+report.html
+
+# Misc
+*.tgz
+*.zip
+*.tar.gz

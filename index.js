@@ -2666,6 +2666,7 @@ app.get(/^\/membership-kit\/(.+)/, async (req, res) => {
         }
     } catch (error) {
         console.error('Error generating membership kit:', error);
+        console.error('Error stack:', error.stack);
         const errorMessage = error?.message || 'Unknown error';
         res.status(500).send(`Error generating membership kit: ${errorMessage}`);
     }

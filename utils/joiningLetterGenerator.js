@@ -877,16 +877,18 @@ async function generateJoiningLetter(member) {
     </html>
     `;
 
-    // Launch browser
-    const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || undefined;
+    // Launch browser - optimized for Docker/Render
+    const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable';
     browser = await puppeteer.launch({
       headless: 'new',
       executablePath,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process']
     });
 
     const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    
+    // Use networkidle0 to ensure all images are fully loaded
+    await page.setContent(htmlContent, { waitUntil: 'networkidle0', timeout: 60000 });
 
     // Generate PDF
     const pdfDir = path.join(__dirname, '..', 'public', 'pdfs');

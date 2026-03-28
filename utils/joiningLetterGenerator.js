@@ -25,45 +25,101 @@ async function generateJoiningLetter(member) {
     let stampBase64 = '';
     let signatureBase64 = '';
 
+    // Load logo - try multiple paths for Docker compatibility
     try {
-      const logoPath = path.join(__dirname, '..', 'public', 'images', 'logo.jpeg');
-      if (fs.existsSync(logoPath)) {
-        logoBase64 = fs.readFileSync(logoPath).toString('base64');
+      const possiblePaths = [
+        path.join(__dirname, '..', 'public', 'images', 'logo.jpeg'),
+        path.join(process.cwd(), 'public', 'images', 'logo.jpeg'),
+        path.join(process.cwd(), 'images', 'logo.jpeg'),
+        '/app/public/images/logo.jpeg'
+      ];
+      for (const logoPath of possiblePaths) {
+        if (fs.existsSync(logoPath)) {
+          const ext = path.extname(logoPath).toLowerCase();
+          const mimeType = ext === '.png' ? 'image/png' : ext === '.gif' ? 'image/gif' : 'image/jpeg';
+          const data = fs.readFileSync(logoPath);
+          logoBase64 = `data:${mimeType};base64,${data.toString('base64')}`;
+          console.log('✅ Logo loaded from:', logoPath);
+          break;
+        }
+      }
+      if (!logoBase64) {
+        console.warn('⚠️ Logo file not found in any path');
       }
     } catch(e) { console.warn('Logo load failed:', e.message); }
 
+    // Load member photo - try multiple paths
     try {
       const isDataUri = typeof member.photo === 'string' && member.photo.startsWith('data:');
       if (isDataUri) {
         memberPhotoBase64 = member.photo.split(',')[1];
       } else if (member.photo) {
         const photoFilename = member.photo.replace(/^\//, '');
-        const pathsToTry = [
+        const possiblePaths = [
           path.join(__dirname, '..', 'public', photoFilename),
           path.join(__dirname, '..', 'public', 'uploads', photoFilename),
           path.join(__dirname, '..', 'uploads', photoFilename),
-          path.join(__dirname, '..', photoFilename)
+          path.join(process.cwd(), 'public', photoFilename),
+          path.join(process.cwd(), 'public', 'uploads', photoFilename),
+          path.join(process.cwd(), 'uploads', photoFilename),
+          '/app/public/' + photoFilename,
+          '/app/uploads/' + photoFilename
         ];
-        for (const p of pathsToTry) {
+        for (const p of possiblePaths) {
           if (fs.existsSync(p)) {
-            memberPhotoBase64 = fs.readFileSync(p).toString('base64');
+            const ext = path.extname(p).toLowerCase();
+            const mimeType = ext === '.png' ? 'image/png' : ext === '.gif' ? 'image/gif' : 'image/jpeg';
+            const data = fs.readFileSync(p);
+            memberPhotoBase64 = data.toString('base64');
+            console.log('✅ Member photo loaded from:', p);
             break;
           }
+        }
+        if (!memberPhotoBase64) {
+          console.warn('⚠️ Member photo file not found:', member.photo);
         }
       }
     } catch(e) { console.warn('Member photo load failed:', e.message); }
 
+    // Load stamp - try multiple paths
     try {
-      const stampPath = path.join(__dirname, '..', 'public', 'images', 'stamp.png');
-      if (fs.existsSync(stampPath)) {
-        stampBase64 = fs.readFileSync(stampPath).toString('base64');
+      const possiblePaths = [
+        path.join(__dirname, '..', 'public', 'images', 'stamp.png'),
+        path.join(process.cwd(), 'public', 'images', 'stamp.png'),
+        path.join(process.cwd(), 'images', 'stamp.png'),
+        '/app/public/images/stamp.png'
+      ];
+      for (const stampPath of possiblePaths) {
+        if (fs.existsSync(stampPath)) {
+          const data = fs.readFileSync(stampPath);
+          stampBase64 = data.toString('base64');
+          console.log('✅ Stamp loaded from:', stampPath);
+          break;
+        }
+      }
+      if (!stampBase64) {
+        console.warn('⚠️ Stamp file not found in any path');
       }
     } catch(e) { console.warn('Stamp load failed:', e.message); }
 
+    // Load signature - try multiple paths
     try {
-      const sigPath = path.join(__dirname, '..', 'public', 'images', 'signature.png');
-      if (fs.existsSync(sigPath)) {
-        signatureBase64 = fs.readFileSync(sigPath).toString('base64');
+      const possiblePaths = [
+        path.join(__dirname, '..', 'public', 'images', 'signature.png'),
+        path.join(process.cwd(), 'public', 'images', 'signature.png'),
+        path.join(process.cwd(), 'images', 'signature.png'),
+        '/app/public/images/signature.png'
+      ];
+      for (const sigPath of possiblePaths) {
+        if (fs.existsSync(sigPath)) {
+          const data = fs.readFileSync(sigPath);
+          signatureBase64 = data.toString('base64');
+          console.log('✅ Signature loaded from:', sigPath);
+          break;
+        }
+      }
+      if (!signatureBase64) {
+        console.warn('⚠️ Signature file not found in any path');
       }
     } catch(e) { console.warn('Signature load failed:', e.message); }
 
@@ -520,7 +576,7 @@ async function generateJoiningLetter(member) {
             </div>
             <div class="main-header">
               <div class="logo">
-                ${logoBase64 ? `<img src="data:image/jpeg;base64,${logoBase64}" alt="RMAS Logo">` : ''}
+                ${logoBase64 ? `<img src="${logoBase64}" alt="RMAS Logo">` : ''}
               </div>
               <div class="title">
                 <div class="title-hin">राष्ट्रीय मानवाधिकार संगठन</div>
@@ -532,7 +588,7 @@ async function generateJoiningLetter(member) {
         </header>
 
         <div class="watermark">
-          ${logoBase64 ? `<img src="data:image/jpeg;base64,${logoBase64}" alt="Watermark">` : ''}
+          ${logoBase64 ? `<img src="${logoBase64}" alt="Watermark">` : ''}
         </div>
 
         <div class="body-wrapper">
@@ -549,7 +605,7 @@ async function generateJoiningLetter(member) {
             <div class="photo-stamp-container">
               <div class="photo-wrapper">
                 ${memberPhotoBase64 ? `<img class="member-photo" src="data:image/jpeg;base64,${memberPhotoBase64}" alt="Member Photo">` : ''}
-                ${stampBase64 ? `<img class="stamp-overlay" src="data:image/png;base64,${stampBase64}" alt="Stamp">` : ''}
+                ${stampBase64 ? `<img class="stamp-overlay" src="${stampBase64}" alt="Stamp">` : ''}
               </div>
               <div class="member-name-below">${memberName}</div>
             </div>
@@ -658,7 +714,7 @@ async function generateJoiningLetter(member) {
             </div>
             <div class="main-header">
               <div class="logo">
-                ${logoBase64 ? `<img src="data:image/jpeg;base64,${logoBase64}">` : ''}
+                ${logoBase64 ? `<img src="${logoBase64}">` : ''}
               </div>
               <div class="title">
                 <div class="title-hin">राष्ट्रीय मानवाधिकार संगठन</div>
@@ -801,7 +857,7 @@ async function generateJoiningLetter(member) {
                 
                 <!-- Signature Stamp -->
                 <div class="org-signature">
-                  ${stampBase64 ? `<img src="data:image/png;base64,${stampBase64}" alt="Authorized Signature">` : ''}
+                  ${stampBase64 ? `<img src="${stampBase64}" alt="Authorized Signature">` : ''}
                   <div class="name">State President</div>
                   <div class="designation">RMAS Bihar</div>
                 </div>

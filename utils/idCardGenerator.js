@@ -79,21 +79,30 @@ async function generateIdCard(member) {
     // Load member photo
     try {
       if (member.photo) {
-        const pathsToTry = [];
         const normalized = member.photo.replace(/^\//, '');
-        if (normalized.startsWith('uploads/')) {
-          pathsToTry.push(path.join(__dirname, '..', 'public', normalized));
-          pathsToTry.push(path.join(__dirname, '..', 'uploads', normalized.replace(/^uploads\//, '')));
-        } else {
-          pathsToTry.push(path.join(__dirname, '..', 'public', 'uploads', normalized));
-          pathsToTry.push(path.join(__dirname, '..', 'uploads', normalized));
-        }
+        const possiblePaths = [
+          path.join(__dirname, '..', 'public', normalized),
+          path.join(__dirname, '..', 'uploads', normalized.replace(/^uploads\//, '')),
+          path.join(process.cwd(), 'public', normalized),
+          path.join(process.cwd(), 'uploads', normalized.replace(/^uploads\//, '')),
+          path.join(process.cwd(), 'public', 'uploads', normalized),
+          path.join(process.cwd(), 'uploads', normalized),
+          '/app/public/' + normalized,
+          '/app/uploads/' + normalized.replace(/^uploads\//, '')
+        ];
 
-        for (const p of pathsToTry) {
+        for (const p of possiblePaths) {
           if (fs.existsSync(p)) {
-            photoBase64 = fs.readFileSync(p).toString('base64');
+            const ext = path.extname(p).toLowerCase();
+            const mimeType = ext === '.png' ? 'image/png' : ext === '.gif' ? 'image/gif' : 'image/jpeg';
+            const data = fs.readFileSync(p);
+            photoBase64 = `data:${mimeType};base64,${data.toString('base64')}`;
+            console.log('✅ Member photo loaded from:', p);
             break;
           }
+        }
+        if (!photoBase64) {
+          console.warn('⚠️ Member photo file not found:', member.photo);
         }
       }
     } catch (err) {
@@ -102,9 +111,24 @@ async function generateIdCard(member) {
 
     // Load logo
     try {
-      const logoPath = path.join(__dirname, '..', 'public', 'images', 'logo.jpeg');
-      if (fs.existsSync(logoPath)) {
-        logoBase64 = fs.readFileSync(logoPath).toString('base64');
+      const possiblePaths = [
+        path.join(__dirname, '..', 'public', 'images', 'logo.jpeg'),
+        path.join(process.cwd(), 'public', 'images', 'logo.jpeg'),
+        path.join(process.cwd(), 'images', 'logo.jpeg'),
+        '/app/public/images/logo.jpeg'
+      ];
+      for (const logoPath of possiblePaths) {
+        if (fs.existsSync(logoPath)) {
+          const ext = path.extname(logoPath).toLowerCase();
+          const mimeType = ext === '.png' ? 'image/png' : ext === '.gif' ? 'image/gif' : 'image/jpeg';
+          const data = fs.readFileSync(logoPath);
+          logoBase64 = `data:${mimeType};base64,${data.toString('base64')}`;
+          console.log('✅ Logo loaded from:', logoPath);
+          break;
+        }
+      }
+      if (!logoBase64) {
+        console.warn('⚠️ Logo file not found in any path');
       }
     } catch (err) {
       console.error('Error loading logo:', err.message);
@@ -112,9 +136,22 @@ async function generateIdCard(member) {
 
     // Load stamp
     try {
-      const stampPath = path.join(__dirname, '..', 'public', 'images', 'stamp.png');
-      if (fs.existsSync(stampPath)) {
-        stampBase64 = fs.readFileSync(stampPath).toString('base64');
+      const possiblePaths = [
+        path.join(__dirname, '..', 'public', 'images', 'stamp.png'),
+        path.join(process.cwd(), 'public', 'images', 'stamp.png'),
+        path.join(process.cwd(), 'images', 'stamp.png'),
+        '/app/public/images/stamp.png'
+      ];
+      for (const stampPath of possiblePaths) {
+        if (fs.existsSync(stampPath)) {
+          const data = fs.readFileSync(stampPath);
+          stampBase64 = `data:image/png;base64,${data.toString('base64')}`;
+          console.log('✅ Stamp loaded from:', stampPath);
+          break;
+        }
+      }
+      if (!stampBase64) {
+        console.warn('⚠️ Stamp file not found in any path');
       }
     } catch (err) {
       console.error('Error loading stamp:', err.message);
@@ -162,7 +199,7 @@ async function generateIdCard(member) {
           transform: translate(-50%, -50%);
           width: 25mm;
           height: 25mm;
-          background-image: url('data:image/jpeg;base64,${logoBase64}');
+          background-image: url('${logoBase64}');
           background-size: contain;
           background-repeat: no-repeat;
           background-position: center;
@@ -385,7 +422,7 @@ async function generateIdCard(member) {
             <span>न्याय ही धर्म है</span>
           </div>
           <div class="main-header">
-            <img src="data:image/jpeg;base64,${logoBase64}">
+            <img src="${logoBase64}">
             <div class="title">राष्ट्रीय मानवाधिकार संगठन</div>
             <div class="registration">पंजीकरण संख्या<br>4120/2020</div>
           </div>
@@ -396,8 +433,8 @@ async function generateIdCard(member) {
         </div>
 
         <div class="photo-box">
-          <img src="data:image/jpeg;base64,${photoBase64}">
-          ${stampBase64 ? `<img src="data:image/png;base64,${stampBase64}" class="stamp">` : ''}
+          <img src="${photoBase64}">
+          ${stampBase64 ? `<img src="${stampBase64}" class="stamp">` : ''}
         </div>
 
         <div class="details">

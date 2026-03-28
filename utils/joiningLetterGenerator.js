@@ -830,7 +830,7 @@ async function generateJoiningLetter(member) {
     });
 
     const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+    await page.setContent(htmlContent, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
     // Generate PDF
     const pdfDir = path.join(__dirname, '..', 'public', 'pdfs');

@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: rmas-national
+    env: docker
+    region: oregon
+    buildCommand: docker build -t rmas .
+    startCommand: docker run -p 5000:5000 -e PORT=5000 rmas
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: BREVO_API_KEY
+        sync: false
+      - key: SENDER_EMAIL
+        value: nationalrmas@gmail.com
+      - key: PUPPETEER_EXECUTABLE_PATH
+        value: /usr/bin/google-chrome-stable
+      - key: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+        value: "true"
+      - key: PORT
+        value: "5000"

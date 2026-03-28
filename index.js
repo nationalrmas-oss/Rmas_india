@@ -2665,7 +2665,8 @@ app.get(/^\/membership-kit\/(.+)/, async (req, res) => {
         }
     } catch (error) {
         console.error('Error generating membership kit:', error);
-        res.status(500).send('Error generating membership kit');
+        console.error('Error stack:', error.stack);
+        res.status(500).send('Error generating membership kit: ' + error.message);
     }
 });
 

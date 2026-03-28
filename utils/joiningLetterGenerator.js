@@ -887,8 +887,11 @@ async function generateJoiningLetter(member) {
 
     const page = await browser.newPage();
     
-    // Use networkidle0 to ensure all images are fully loaded
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0', timeout: 60000 });
+    // Use 'load' instead of 'networkidle0' to avoid timeout in slow Docker networks
+    await page.setContent(htmlContent, { waitUntil: 'load', timeout: 60000 });
+    
+    // Wait a bit for any lazy-loaded images
+    await page.waitForTimeout(2000);
 
     // Generate PDF
     const pdfDir = path.join(__dirname, '..', 'public', 'pdfs');

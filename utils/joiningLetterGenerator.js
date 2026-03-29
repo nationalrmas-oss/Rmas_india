@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 const QRCode = require('qrcode');
@@ -886,14 +886,10 @@ async function generateJoiningLetter(member) {
       '/snap/bin/chromium.common',
       '/opt/google/chrome/chrome'
     ];
-    let executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || possibleLinuxPaths.find(p => { try { return require('fs').existsSync(p); } catch(e) { return false; } }) || null;
-    // Fallback to puppeteer's built-in Chrome if not found
-    if (!executablePath) {
-      executablePath = puppeteer.executablePath();
-    }
-    browser = await puppeteer.launch({
-      headless: 'new',
-      executablePath,
+    let executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || possibleLinuxPaths.find(p => { try { return require('fs').existsSync(p); } catch(e) { return false; } }) || null;
+    browser = await chromium.launch({
+      headless: true,
+      executablePath: executablePath || undefined,
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
@@ -906,13 +902,10 @@ async function generateJoiningLetter(member) {
 
     const page = await browser.newPage();
     
-    // Use 'load' instead of 'networkidle0' to avoid timeout in slow Docker networks
+    // Set content with proper wait (Playwright's domcontentloaded equivalent)
     await page.setContent(htmlContent, { waitUntil: 'domcontentloaded', timeout: 60000 });
     // Wait for any iframes to load
-    await page.waitForFunction(() => {
-      const frames = document.querySelectorAll('iframe');
-      return frames.length === 0 || Array.from(frames).every(f => f.contentDocument || f.contentWindow);
-    }, { timeout: 30000 }).catch(() => {});
+    await page.waitForLoadState('domcontentloaded').catch(() => {});
 
     // Generate PDF
     const pdfDir = path.join(__dirname, '..', 'public', 'pdfs');

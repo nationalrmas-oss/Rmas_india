@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 const QRCode = require('qrcode');
@@ -529,7 +529,7 @@ async function generateIdCard(member) {
         'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
         'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
       ];
-      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || possiblePaths.find(path => require('fs').existsSync(path)) || puppeteer.executablePath();
+      executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || possiblePaths.find(path => require('fs').existsSync(path)) || null;
     } else if (process.platform === 'linux') {
       // Try common Linux Chrome paths
       const possibleLinuxPaths = [
@@ -540,19 +540,15 @@ async function generateIdCard(member) {
         '/snap/bin/chromium.common',
         '/opt/google/chrome/chrome'
       ];
-      let executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || possibleLinuxPaths.find(p => { try { return require('fs').existsSync(p); } catch(e) { return false; } }) || null;
-      // Fallback to puppeteer's built-in Chrome if not found
-      if (!executablePath) {
-        executablePath = puppeteer.executablePath();
-      }
+      executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || possibleLinuxPaths.find(p => { try { return require('fs').existsSync(p); } catch(e) { return false; } }) || null;
     } else if (process.platform === 'darwin') {
-      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+      executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
     } else {
-      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath();
+      executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || null;
     }
-    browser = await puppeteer.launch({
-      headless: 'new',
-      executablePath,
+    browser = await chromium.launch({
+      headless: true,
+      executablePath: executablePath || undefined,
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',

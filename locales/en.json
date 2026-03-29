@@ -342,6 +342,92 @@
     "complaint": "File Complaint"
   },
   "complaint": {
+    "complainant": {
+      "fullName": "Full Name",
+      "fatherName": "Father's Name",
+      "age": "Age",
+      "gender": "Gender",
+      "mobile": "Mobile Number",
+      "email": "Email Address",
+      "occupation": "Occupation",
+      "relationToVictim": "Relationship to Victim",
+      "address": {
+        "title": "Address",
+        "street": "Street Address",
+        "city": "City",
+        "district": "District",
+        "pincode": "Pincode"
+      }
+    },
+    "victim": {
+      "fullName": "Victim's Full Name",
+      "fatherName": "Father's Name",
+      "age": "Age",
+      "gender": "Gender",
+      "caste": "Caste",
+      "religion": "Religion",
+      "occupation": "Occupation",
+      "contactNumber": "Contact Number",
+      "sameAsComplainant": "Same as Complainant"
+    },
+    "incident": {
+      "category": "Incident Category",
+      "subCategory": "Sub Category",
+      "incidentDate": "Incident Date",
+      "incidentTime": "Incident Time",
+      "policeStation": "Police Station",
+      "firNumber": "FIR Number",
+      "district": "District",
+      "description": "Incident Description",
+      "descriptionPlaceholder": "Describe the incident in detail...",
+      "descriptionHelp": "Minimum 50 characters required"
+    },
+    "documents": {
+      "idProof": "ID Proof",
+      "idProofHelp": "Upload Aadhaar, Voter ID, or Passport",
+      "addressProof": "Address Proof",
+      "addressProofHelp": "Upload utility bill or bank statement",
+      "medicalReports": "Medical Reports (if any)",
+      "medicalReportsHelp": "Upload medical certificates",
+      "policeReports": "Police Reports (if any)",
+      "policeReportsHelp": "Upload FIR or police documents",
+      "chooseFile": "Choose File",
+      "chooseFiles": "Choose Files"
+    },
+    "selectOption": "Select an option",
+    "selectDistrict": "Select District",
+    "selectCategory": "Select Category",
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+    "relation": {
+      "self": "Self",
+      "family": "Family Member",
+      "friend": "Friend",
+      "lawyer": "Legal Representative",
+      "other": "Other"
+    },
+    "categories": {
+      "policeAtrocity": "Police Atrocity",
+      "womenRights": "Women Rights Violation",
+      "minorityRights": "Minority Rights",
+      "childRights": "Child Rights Violation",
+      "humanTrafficking": "Human Trafficking",
+      "torture": "Torture",
+      "illegalDetention": "Illegal Detention",
+      "corruption": "Corruption",
+      "landRights": "Land Rights",
+      "environmentalRights": "Environmental Rights",
+      "laborRights": "Labor Rights Violation",
+      "other": "Other"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "submit": "Submit Complaint"
+    },
     "heroTitle": "Online Complaint Form",
     "heroSubtitle": "File your complaint securely and anonymously. Your rights matter to us.",
     "steps": {
@@ -354,6 +440,21 @@
       "complainant": {
         "title": "Complainant Information",
         "subtitle": "Please provide your details (optional for anonymous complaints)",
+        "fullName": "Full Name",
+        "fatherName": "Father's Name",
+        "age": "Age",
+        "gender": "Gender",
+        "mobile": "Mobile Number",
+        "email": "Email Address",
+        "occupation": "Occupation",
+        "relationToVictim": "Relationship to Victim",
+        "address": {
+          "title": "Address",
+          "street": "Street Address",
+          "city": "City",
+          "district": "District",
+          "pincode": "Pincode"
+        },
         "fields": {
           "name": "Full Name",
           "phone": "Phone Number",
@@ -372,6 +473,41 @@
             "Other"
           ]
         }
+      },
+      "victim": {
+        "fullName": "Victim's Full Name",
+        "fatherName": "Father's Name",
+        "age": "Age",
+        "gender": "Gender",
+        "caste": "Caste",
+        "religion": "Religion",
+        "occupation": "Occupation",
+        "contactNumber": "Contact Number",
+        "sameAsComplainant": "Same as Complainant"
+      },
+      "incident": {
+        "category": "Incident Category",
+        "subCategory": "Sub Category",
+        "incidentDate": "Incident Date",
+        "incidentTime": "Incident Time",
+        "policeStation": "Police Station",
+        "firNumber": "FIR Number",
+        "district": "District",
+        "description": "Incident Description",
+        "descriptionPlaceholder": "Describe the incident in detail...",
+        "descriptionHelp": "Minimum 50 characters required"
+      },
+      "documents": {
+        "idProof": "ID Proof",
+        "idProofHelp": "Upload Aadhaar, Voter ID, or Passport",
+        "addressProof": "Address Proof",
+        "addressProofHelp": "Upload utility bill or bank statement",
+        "medicalReports": "Medical Reports (if any)",
+        "medicalReportsHelp": "Upload medical certificates",
+        "policeReports": "Police Reports (if any)",
+        "policeReportsHelp": "Upload FIR or police documents",
+        "chooseFile": "Choose File",
+        "chooseFiles": "Choose Files"
       },
       "victim": {
         "title": "Victim Information",

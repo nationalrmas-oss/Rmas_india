@@ -553,13 +553,20 @@ async function generateIdCard(member) {
     browser = await puppeteer.launch({
       headless: 'new',
       executablePath,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process']
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--disable-web-security',
+        '--disable-features=IsolateOrigins,site-per-process'
+      ]
     });
 
     const page = await browser.newPage();
     
     // Use 'load' instead of 'networkidle0' to avoid timeout in slow Docker networks
-    await page.setContent(htmlContent, { waitUntil: 'load', timeout: 60000 });
+    await page.setContent(htmlContent, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
     // Generate PDF
     const pdfDir = path.join(__dirname, '..', 'public', 'pdfs');
@@ -570,12 +577,29 @@ async function generateIdCard(member) {
     const pdfFilename = `id_card_${member.membershipId.replace(/\//g, '_')}.pdf`;
     const pdfPath = path.join(pdfDir, pdfFilename);
 
-    await page.pdf({
-      path: pdfPath,
-      format: 'A4',
-      printBackground: true,
-      margin: { top: '0.5cm', right: '0.5cm', bottom: '0.5cm', left: '0.5cm' }
-    });
+    // Retry logic for frame detachment issues
+    let pdfBuffer;
+    let attempts = 0;
+    const maxAttempts = 3;
+    while (attempts < maxAttempts) {
+      try {
+        pdfBuffer = await page.pdf({
+          path: pdfPath,
+          format: 'A4',
+          printBackground: true,
+          margin: { top: '0.5cm', right: '0.5cm', bottom: '0.5cm', left: '0.5cm' }
+        });
+        break;
+      } catch (pdfError) {
+        attempts++;
+        console.warn(`PDF generation attempt ${attempts} failed:`, pdfError.message);
+        if (attempts >= maxAttempts) {
+          throw pdfError;
+        }
+        // Wait before retry
+        await new Promise(r => setTimeout(r, 1000));
+      }
+    }
 
     await browser.close();
     console.log('✅ ID card generated:', pdfPath);

@@ -894,13 +894,25 @@ async function generateJoiningLetter(member) {
     browser = await puppeteer.launch({
       headless: 'new',
       executablePath,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process']
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--disable-web-security',
+        '--disable-features=IsolateOrigins,site-per-process'
+      ]
     });
 
     const page = await browser.newPage();
     
     // Use 'load' instead of 'networkidle0' to avoid timeout in slow Docker networks
-    await page.setContent(htmlContent, { waitUntil: 'load', timeout: 60000 });
+    await page.setContent(htmlContent, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    // Wait for any iframes to load
+    await page.waitForFunction(() => {
+      const frames = document.querySelectorAll('iframe');
+      return frames.length === 0 || Array.from(frames).every(f => f.contentDocument || f.contentWindow);
+    }, { timeout: 30000 }).catch(() => {});
 
     // Generate PDF
     const pdfDir = path.join(__dirname, '..', 'public', 'pdfs');
@@ -909,12 +921,28 @@ async function generateJoiningLetter(member) {
     const pdfFilename = member.membershipId.replace(/\//g, '_') + '_joining_letter.pdf';
     const pdfPath = path.join(pdfDir, pdfFilename);
 
-    await page.pdf({
-      path: pdfPath,
-      format: 'A4',
-      printBackground: true,
-      margin: { top: 0, right: 0, bottom: 0, left: 0 }
-    });
+    // Retry logic for frame detachment issues
+    let attempts = 0;
+    const maxAttempts = 3;
+    while (attempts < maxAttempts) {
+      try {
+        await page.pdf({
+          path: pdfPath,
+          format: 'A4',
+          printBackground: true,
+          margin: { top: 0, right: 0, bottom: 0, left: 0 }
+        });
+        break;
+      } catch (pdfError) {
+        attempts++;
+        console.warn(`PDF generation attempt ${attempts} failed:`, pdfError.message);
+        if (attempts >= maxAttempts) {
+          throw pdfError;
+        }
+        // Wait before retry
+        await new Promise(r => setTimeout(r, 1000));
+      }
+    }
 
     await browser.close();
     console.log('✅ Joining letter generated:', pdfPath);

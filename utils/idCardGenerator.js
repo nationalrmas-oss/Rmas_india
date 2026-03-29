@@ -522,33 +522,10 @@ async function generateIdCard(member) {
     `;
 
     // Launch browser - optimized for Docker/Render
-    let executablePath;
-    if (process.platform === 'win32') {
-      // Try common Windows Chrome paths
-      const possiblePaths = [
-        'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
-      ];
-      executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || possiblePaths.find(path => require('fs').existsSync(path)) || null;
-    } else if (process.platform === 'linux') {
-      // Try common Linux Chrome paths
-      const possibleLinuxPaths = [
-        '/usr/bin/google-chrome-stable',
-        '/usr/bin/google-chrome',
-        '/usr/bin/chromium',
-        '/usr/bin/chromium-browser',
-        '/snap/bin/chromium.common',
-        '/opt/google/chrome/chrome'
-      ];
-      executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || possibleLinuxPaths.find(p => { try { return require('fs').existsSync(p); } catch(e) { return false; } }) || null;
-    } else if (process.platform === 'darwin') {
-      executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-    } else {
-      executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || null;
-    }
+    // Playwright automatically uses bundled chromium from .cache/ms-playwright/
+    // Let it find chromium automatically - no need to specify executablePath
     browser = await chromium.launch({
       headless: true,
-      executablePath: executablePath || undefined,
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',

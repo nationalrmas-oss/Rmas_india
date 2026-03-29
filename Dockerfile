@@ -51,9 +51,6 @@ WORKDIR /app
 # Copy package manifests first (Docker layer cache benefit)
 COPY package.json package-lock.json ./
 
-# Playwright configuration
-ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
-
 # Install dependencies and Playwright browsers via postinstall script
 RUN npm install --production
 

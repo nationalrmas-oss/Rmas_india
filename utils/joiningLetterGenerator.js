@@ -878,18 +878,10 @@ async function generateJoiningLetter(member) {
     `;
 
     // Launch browser - optimized for Docker/Render
-    const possibleLinuxPaths = [
-      '/usr/bin/google-chrome-stable',
-      '/usr/bin/google-chrome',
-      '/usr/bin/chromium',
-      '/usr/bin/chromium-browser',
-      '/snap/bin/chromium.common',
-      '/opt/google/chrome/chrome'
-    ];
-    let executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || possibleLinuxPaths.find(p => { try { return require('fs').existsSync(p); } catch(e) { return false; } }) || null;
+    // Playwright automatically uses bundled chromium from .cache/ms-playwright/
+    // Let it find chromium automatically - no need to specify executablePath
     browser = await chromium.launch({
       headless: true,
-      executablePath: executablePath || undefined,
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',

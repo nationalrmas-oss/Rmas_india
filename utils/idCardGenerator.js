@@ -522,7 +522,34 @@ async function generateIdCard(member) {
     `;
 
     // Launch browser - optimized for Docker/Render
-    const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable';
+    let executablePath;
+    if (process.platform === 'win32') {
+      // Try common Windows Chrome paths
+      const possiblePaths = [
+        'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+      ];
+      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || possiblePaths.find(path => require('fs').existsSync(path)) || puppeteer.executablePath();
+    } else if (process.platform === 'linux') {
+      // Try common Linux Chrome paths
+      const possibleLinuxPaths = [
+        '/usr/bin/google-chrome-stable',
+        '/usr/bin/google-chrome',
+        '/usr/bin/chromium',
+        '/usr/bin/chromium-browser',
+        '/snap/bin/chromium.common',
+        '/opt/google/chrome/chrome'
+      ];
+      let executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || possibleLinuxPaths.find(p => { try { return require('fs').existsSync(p); } catch(e) { return false; } }) || null;
+      // Fallback to puppeteer's built-in Chrome if not found
+      if (!executablePath) {
+        executablePath = puppeteer.executablePath();
+      }
+    } else if (process.platform === 'darwin') {
+      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+    } else {
+      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath();
+    }
     browser = await puppeteer.launch({
       headless: 'new',
       executablePath,

@@ -878,7 +878,19 @@ async function generateJoiningLetter(member) {
     `;
 
     // Launch browser - optimized for Docker/Render
-    const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable';
+    const possibleLinuxPaths = [
+      '/usr/bin/google-chrome-stable',
+      '/usr/bin/google-chrome',
+      '/usr/bin/chromium',
+      '/usr/bin/chromium-browser',
+      '/snap/bin/chromium.common',
+      '/opt/google/chrome/chrome'
+    ];
+    let executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || possibleLinuxPaths.find(p => { try { return require('fs').existsSync(p); } catch(e) { return false; } }) || null;
+    // Fallback to puppeteer's built-in Chrome if not found
+    if (!executablePath) {
+      executablePath = puppeteer.executablePath();
+    }
     browser = await puppeteer.launch({
       headless: 'new',
       executablePath,

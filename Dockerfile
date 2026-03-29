@@ -1,7 +1,7 @@
 # Use lightweight official Node base image
 FROM node:20-slim
 
-# Puppeteer/Chrome dependencies
+# Playwright/Chromium dependencies (required for Playwright to run)
 RUN apt-get update && apt-get install -y --no-install-recommends \
       ca-certificates \
       fonts-liberation \
@@ -45,23 +45,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Google Chrome stable
-RUN wget -q -O /tmp/google-chrome-stable_current_amd64.deb \
-      https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    apt-get update && apt-get install -y --no-install-recommends /tmp/google-chrome-stable_current_amd64.deb && \
-    rm -rf /tmp/google-chrome-stable_current_amd64.deb /var/lib/apt/lists/*
-
 # Configure workdir
 WORKDIR /app
 
 # Copy package manifests first (Docker layer cache benefit)
 COPY package.json package-lock.json ./
 
-# Puppeteer dependency install
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-# If you switch to built-in Chromium, unset this and remove exec path override
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+# Playwright configuration
+ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
 
+# Install dependencies and Playwright browsers via postinstall script
 RUN npm install --production
 
 # Copy application files

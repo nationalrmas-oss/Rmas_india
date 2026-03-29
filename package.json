@@ -7,7 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "build:css": "npx postcss ./src/tailwind.css -o ./public/css/tailwind.css --minify",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npx playwright install chromium"
   },
   "keywords": [],
   "author": "",

@@ -19,6 +19,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
+      zoom: 0.95; /* Content ko 5% chhota kar dega for AWS server compatibility */
     }
 
     /* Container: positioned relative so header can be absolute to page */
@@ -148,7 +149,7 @@
     .header-right { display: none; }
 
     /* Body wrapper: margins applied only to content area */
-    .body-wrapper { margin-top: calc(30mm + 5mm); margin-left: 25mm; margin-right: 25mm; margin-bottom: 0; }
+    .body-wrapper { margin-top: calc(30mm + 3mm); margin-left: 25mm; margin-right: 25mm; margin-bottom: 0; }
 
     /* Document meta (date, ref) */
     .doc-meta { display: flex; justify-content: space-between; margin: 0 0 18px 0; font-size: 12.5px; border-top: none; padding-top: 0; }
@@ -176,7 +177,7 @@
     /* Salutation & body */
     .body {
       font-size: 13px;
-      line-height: 1.5;
+      line-height: 1.3;
       margin-bottom: 18px;
     }
     .body p { margin: 8px 0; }
@@ -192,7 +193,7 @@
       table-layout: fixed;
     }
     .member-form-table td {
-      padding: 8px 0;
+      padding: 6px 0;
       vertical-align: top;
     }
     .member-form-table .form-label {
@@ -387,15 +388,17 @@
 
     /* Terms */
     .terms {
-      margin-top: 10px;
+      margin-top: 8px;
       font-size: 14px;
+      page-break-inside: avoid;
     }
     .terms ul { margin: 6px 0 0 18px; }
 
     /* Hindi Terms First */
     .hindi-terms-first {
       font-size: 14px;
-      margin-top: 10px;
+      margin-top: 8px;
+      page-break-inside: avoid;
     }
     .hindi-terms-first ul { margin: 6px 0 0 18px; }
 
@@ -403,9 +406,10 @@
     .hindi-terms-second {
       page-break-before: always;
       font-size: 14px;
-      /* start below fixed header (30mm) plus 5mm gap */
-      margin-top: calc(30mm + 5mm);
+      /* start below fixed header (30mm) plus 3mm gap */
+      margin-top: calc(30mm + 3mm);
       position: relative;
+      page-break-inside: avoid;
     }
     /* ensure the ordered list on page 2 has no extra top padding */
     .hindi-terms-second > ol { margin-top: 0; padding-top: 0; }
@@ -493,7 +497,7 @@
           <% } %>
           <img class="stamp-overlay" src="<%= (stampBase64 && stampBase64.startsWith('data:')) ? stampBase64 : ('data:image/png;base64,' + (stampBase64 || '')) %>" alt="Stamp">
         </div>
-        <div class="member-name-below"><%= memberName || member.name %></div>
+        <div class="member-name-below"><%= memberName || membership.fullName || member.name %></div>
       </div>
 
       <!-- Subject in center between photo and QR -->

@@ -1,4 +1,4 @@
-<header class="site-header sticky top-0 z-50">
+<header class="site-header sticky top-0 z-50<% if (typeof extraHeaderClass !== 'undefined' && extraHeaderClass) { %> <%= extraHeaderClass %><% } %>">
     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 830 50" preserveAspectRatio="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
         <polygon points="0,0 830,0 0,50" fill="#2b235f" />
         <polygon points="0,50 830,0 830,50" fill="#d92523" />
@@ -15,17 +15,20 @@
         <div class="org-name-container">
             <h1 id="org-name" data-key="org_name">Rashtriya Manav Adhikar Sangathan</h1>
             <p class="org-address" data-key="org_address">D-2, S/F, Gali No. 9, Best Jyoti Nagar, Shahdara Delhi-94</p>
+            <p class="registration-number mobile-only" style="font-size:0.75rem;font-weight:600;">Registration number - 4120/2020</p>
         </div>
-        <div class="header-right">
-            <div class="registration-number" style="font-size:1rem;font-weight:600;">Registration number - 4120/2020</div>
-        </div> <!-- right side registration info -->
+        <div class="header-right desktop-only">
+            <div class="registration-number">Registration number - 4120/2020</div>
+        </div>
     </div>
     <div class="nav-bar">
-        <button class="hamburger" aria-label="Toggle navigation menu">
+        <% if (typeof showHamburger === 'undefined' || showHamburger) { %>
+        <button class="hamburger"<% if (typeof buttonId !== 'undefined' && buttonId) { %> id="<%= buttonId %>"<% } %> aria-label="Toggle navigation menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
+        <% } %>
         <nav>
             <ul>
                 <li><a href="/" data-key="nav_home">Home</a></li>

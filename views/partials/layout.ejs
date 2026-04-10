@@ -15,8 +15,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: <%= fontFamily %>; }
-        
         /* Sticky header styles */
         .site-header.sticky {
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -33,7 +31,7 @@
         }
     </style>
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100" style="font-family: <%= fontFamily %>;">
 
     <%- include('header') %>
 

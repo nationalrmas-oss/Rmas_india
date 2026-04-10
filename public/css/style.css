@@ -99,6 +99,29 @@ body {
     color: #fff;
     opacity: 0.85;
 }
+.main-header .org-name-container .registration-number {
+    display: none;
+    margin: 2px 0 0;
+    font-size: 0.75rem;
+    color: #fff;
+    opacity: 0.85;
+    font-weight: 600;
+}
+.desktop-only {
+    display: block;
+}
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+    .mobile-only {
+        display: block;
+    }
+}
 /* right side registration info */
 .main-header .header-right {
     /* let the container size to its text instead of fixed width */
@@ -246,6 +269,36 @@ body {
 }
 
 /* Responsive Styles */
+@media (max-width: 1024px) {
+    /* Tablet styles - make header scrollable */
+    .site-header.sticky {
+        position: relative !important;
+        top: auto !important;
+    }
+    
+    .main-header .org-name-container h1 {
+        font-size: 1.5rem;
+    }
+    
+    .nav-bar nav ul li a {
+        padding: 5px 6px;
+        font-size: 0.9rem;
+    }
+    
+    /* Better spacing for tablets */
+    .site-header {
+        padding: 0 20px;
+    }
+    
+    .main-header .logo a img {
+        height: 55px;
+    }
+    
+    .search-bar input {
+        width: 130px;
+    }
+}
+
 @media (max-width: 992px) {
     .main-header .org-name-container h1 {
         font-size: 1.6rem;
@@ -253,23 +306,66 @@ body {
     .nav-bar nav ul li a {
         padding: 6px 8px;
     }
+    /* Make header scrollable on tablets */
+    .site-header.sticky {
+        position: relative !important;
+        top: auto !important;
+    }
 }
 
 @media (max-width: 768px) {
     .site-header {
         padding: 2px 20px;
+        align-items: stretch;
+    }
+
+    .main-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .main-header .logo {
+        flex: 0 0 auto;
+        min-width: 50px;
     }
 
     .main-header .logo a img {
         height: 50px;
+        width: auto;
+        display: block;
+    }
+
+    .main-header .org-name-container {
+        flex: 1 1 0;
+        min-width: 0;
+        text-align: center;
+        padding: 0;
     }
 
     .main-header .org-name-container h1 {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
+        margin-bottom: 0.15rem;
     }
 
-    .main-header .header-right-placeholder {
-        width: 50px;
+    .main-header .org-name-container .org-address {
+        display: none;
+    }
+
+    .main-header .org-name-container .registration-number {
+        display: block;
+        font-size: 0.65rem;
+        margin-top: 0.15rem;
+    }
+
+    .main-header .header-right {
+        flex: 0 0 auto;
+        width: auto;
+        text-align: right;
+        margin-left: auto;
+        font-size: 0.7rem;
     }
 
     .nav-bar {
@@ -283,20 +379,34 @@ body {
         display: block;
         order: 3;
         margin-left: 10px;
+        padding: 6px;
+    }
+
+    .hamburger span {
+        width: 18px;
+        height: 2px;
+        margin: 3px auto;
     }
 
     .lang-toggle {
         order: 2;
-        margin-left: 10px;
+        margin-left: 8px;
+    }
+
+    .lang-toggle select {
+        padding: 4px 6px;
+        font-size: 0.75rem;
     }
 
     .search-bar {
         order: 1;
-        margin-left: 10px;
+        margin-left: 8px;
     }
     
     .search-bar input {
-        width: 120px;
+        width: 100px;
+        padding: 5px 8px 5px 28px;
+        font-size: 0.8rem;
     }
 
     .nav-bar.active .hamburger span:nth-child(1) {
@@ -327,14 +437,14 @@ body {
         flex-direction: column;
         text-align: center;
         margin-top: 10px;
-        background: #2b235f;
     }
 
     .nav-bar nav ul li {
         width: 100%;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-}.site-footer {
+}
+.site-footer {
     background-color: #222;
     color: #fff;
     padding: 40px 0 20px 0;
@@ -370,7 +480,7 @@ body {
    RESPONSIVE LOGIC
    ============================================ */
 @media (max-width: 768px) {
-    .main-header { flex-direction: column; text-align: center; }
+    .site-header .main-header { flex-direction: row; text-align: left; align-items: center; }
     .nav-bar { flex-wrap: wrap; }
     /* show hamburger and hide nav links until toggled */
     .hamburger { display: block; }

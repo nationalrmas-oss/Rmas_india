@@ -450,7 +450,12 @@ app.post('/download-verify', async (req, res) => {
         `;
 
         // Send OTP email via centralized mailer utility
-        const emailResult = await sendOtpEmail(member.email, otp, member.fullName);
+        const emailResult = await sendEmail(
+            member.email,
+            'RMAS - ID Card Download OTP',
+            htmlContent,
+            `Dear ${member.fullName}, Your OTP for downloading ID Card is: ${otp}. This OTP is valid for 10 minutes.`
+        );
         if (!emailResult.success) {
             console.warn('[DOWNLOAD-VERIFY] Failed to send OTP email:', emailResult.error);
             // Continue so the user can still try again (UI will show success message regardless)
@@ -525,7 +530,8 @@ app.post('/verify-otp', async (req, res) => {
             error: null,
             success: null,
             downloads: {
-                kit: `/membership-kit/${encodeURIComponent(member.membershipId)}`
+                idCard: `/certificate/${encodeURIComponent(member.membershipId)}`,
+                joiningLetter: `/joining-letter/${encodeURIComponent(member.membershipId)}`
             },
             memberId: null,
             member
@@ -799,9 +805,6 @@ app.post('/join', upload.fields([
 
         // Mobile validation (10 digits)
         if (!/^\d{10}$/.test(body.mobile)) {
-            // Clean up files
-            fs.unlinkSync(uploadedFiles.photo[0].path);
-            fs.unlinkSync(uploadedFiles.documents[0].path);
             const context = {
                 title: 'Join Us',
                 oldData: body,
@@ -812,9 +815,6 @@ app.post('/join', upload.fields([
 
         // Email validation (basic)
         if (!/^\S+@\S+\.\S+$/.test(body.email)) {
-            // Clean up files
-            fs.unlinkSync(uploadedFiles.photo[0].path);
-            fs.unlinkSync(uploadedFiles.documents[0].path);
             const context = {
                 title: 'Join Us',
                 oldData: body,
@@ -825,9 +825,6 @@ app.post('/join', upload.fields([
 
         // Agreement validation
         if (body.agreedToTerms !== 'on' && body.agreedToTerms !== true) {
-            // Clean up files
-            fs.unlinkSync(uploadedFiles.photo[0].path);
-            fs.unlinkSync(uploadedFiles.documents[0].path);
             const context = {
                 title: 'Join Us',
                 oldData: body,
@@ -1057,9 +1054,6 @@ app.post('/api/members/register', upload.single('profilePhoto'), async (req, res
         
         // Check required fields
         if (!fullName || !fatherName || !mobile || !gender || !state || !division || !district || !block) {
-            if (req.file) {
-                fs.unlinkSync(req.file.path);
-            }
             return res.status(400).json({ 
                 error: 'All fields are required',
                 missingFields: ['fullName', 'fatherName', 'mobile', 'gender', 'state', 'division', 'district', 'block']
@@ -1068,9 +1062,6 @@ app.post('/api/members/register', upload.single('profilePhoto'), async (req, res
 
         // Validate mobile number (10 digits)
         if (!/^\d{10}$/.test(mobile)) {
-            if (req.file) {
-                fs.unlinkSync(req.file.path);
-            }
             return res.status(400).json({ error: 'Mobile number must be exactly 10 digits.' });
         }
 
@@ -1120,7 +1111,7 @@ app.post('/api/members/register', upload.single('profilePhoto'), async (req, res
         console.error('[POST /api/members/register] Error:', error);
 
         // Clean up uploaded file on error
-        if (req.file) {
+        if (req.file && req.file.path) {
             fs.unlink(req.file.path, (err) => {
                 if (err) console.error('Error deleting uploaded file:', err);
             });
@@ -2607,12 +2598,10 @@ app.get('/joining-letter/:membershipId', async (req, res) => {
 });
 
 // Membership Kit download route
-app.get(/^\/membership-kit\/(.+)/, async (req, res) => {
+app.get('/membership-kit/:membershipId', async (req, res) => {
     try {
-        const membershipId = decodeURIComponent(req.params[0]);
-
-        // Find member by membershipId
-        const member = await Member.findOne({ membershipId: membershipId });
+        const { membershipId } = req.params;
+        const member = await Member.findOne({ membershipId });
 
         if (!member || member.status !== 'approved') {
             return res.status(404).send('Membership Kit not available or membership not approved');
@@ -2622,28 +2611,11 @@ app.get(/^\/membership-kit\/(.+)/, async (req, res) => {
             return res.status(403).send('ID Card approval pending. Please contact Super Admin.');
         }
 
-        // Generate membership kit PDF
-        const { generateMembershipKit } = require('./utils/membershipKitGenerator');
-        const pdfUrl = await generateMembershipKit(member);
-
-        // Log the membership kit generation
-        await logAuditAction({
-            action: 'membership_kit_generated',
-            targetId: member._id,
-            targetType: 'Membership',
-            targetName: member.fullName,
-            details: {
-                membershipId: member.membershipId,
-                memberName: member.fullName,
-                fileName: `RMAS_Membership_Kit_${member.membershipId}.pdf`,
-                documentType: 'Membership Kit'
-            }
-        });
-
-        // Serve the PDF
+        const { generateMembershipPdf } = require('./utils/membershipPdfGenerator');
+        const pdfUrl = await generateMembershipPdf(member);
         const pdfPath = path.join(__dirname, 'public', pdfUrl);
+
         if (fs.existsSync(pdfPath)) {
-            // Log the membership kit download
             await logAuditAction({
                 action: 'membership_kit_downloaded',
                 targetId: member._id,
@@ -2656,7 +2628,7 @@ app.get(/^\/membership-kit\/(.+)/, async (req, res) => {
                     documentType: 'Membership Kit'
                 }
             });
-            
+
             res.setHeader('Content-Type', 'application/pdf');
             res.setHeader('Content-Disposition', `attachment; filename="RMAS_Membership_Kit_${member.membershipId.replace(/\//g, '_')}.pdf"`);
             const pdfStream = fs.createReadStream(pdfPath);
@@ -2665,10 +2637,8 @@ app.get(/^\/membership-kit\/(.+)/, async (req, res) => {
             res.status(500).send('Error generating membership kit');
         }
     } catch (error) {
-        console.error('Error generating membership kit:', error);
-        console.error('Error stack:', error.stack);
-        const errorMessage = error?.message || 'Unknown error';
-        res.status(500).send(`Error generating membership kit: ${errorMessage}`);
+        console.error('Error generating membership kit route:', error);
+        res.status(500).send('Error generating membership kit');
     }
 });
 
@@ -3071,17 +3041,6 @@ app.post('/api/complaints', complaintUpload, async (req, res) => {
         
         const missingFields = requiredFields.filter(field => !body[field] || body[field].trim() === '');
         if (missingFields.length > 0) {
-            // Clean up uploaded files if validation fails
-            Object.values(uploadedFiles).forEach(fileArray => {
-                if (fileArray) {
-                    fileArray.forEach(file => {
-                        if (fs.existsSync(file.path)) {
-                            fs.unlinkSync(file.path);
-                        }
-                    });
-                }
-            });
-            
             return res.status(400).json({
                 success: false,
                 error: 'Missing required fields',
@@ -3092,17 +3051,6 @@ app.post('/api/complaints', complaintUpload, async (req, res) => {
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(body.complainant_email)) {
-            // Clean up files
-            Object.values(uploadedFiles).forEach(fileArray => {
-                if (fileArray) {
-                    fileArray.forEach(file => {
-                        if (fs.existsSync(file.path)) {
-                            fs.unlinkSync(file.path);
-                        }
-                    });
-                }
-            });
-            
             return res.status(400).json({
                 success: false,
                 error: 'Invalid email address'
@@ -3112,17 +3060,6 @@ app.post('/api/complaints', complaintUpload, async (req, res) => {
         // Mobile validation (10 digits)
         const mobileRegex = /^\d{10}$/;
         if (!mobileRegex.test(body.complainant_mobile) || !mobileRegex.test(body.victim_contactNumber)) {
-            // Clean up files
-            Object.values(uploadedFiles).forEach(fileArray => {
-                if (fileArray) {
-                    fileArray.forEach(file => {
-                        if (fs.existsSync(file.path)) {
-                            fs.unlinkSync(file.path);
-                        }
-                    });
-                }
-            });
-            
             return res.status(400).json({
                 success: false,
                 error: 'Mobile numbers must be exactly 10 digits'
@@ -3135,23 +3072,12 @@ app.post('/api/complaints', complaintUpload, async (req, res) => {
         today.setHours(23, 59, 59, 999); // End of today
         
         if (incidentDate > today) {
-            // Clean up files
-            Object.values(uploadedFiles).forEach(fileArray => {
-                if (fileArray) {
-                    fileArray.forEach(file => {
-                        if (fs.existsSync(file.path)) {
-                            fs.unlinkSync(file.path);
-                        }
-                    });
-                }
-            });
-            
             return res.status(400).json({
                 success: false,
                 error: 'Incident date cannot be in the future'
             });
         }
-        
+
         // ============ GENERATE TRACKING ID ============
         
         const currentYear = new Date().getFullYear();
@@ -3236,7 +3162,7 @@ app.post('/api/complaints', complaintUpload, async (req, res) => {
             financialLoss: body.financialLoss ? body.financialLoss.trim() : null,
             otherDetails: body.otherDetails ? body.otherDetails.trim() : null,
             
-            // Documents
+            // Documents (stored as local filenames)
             documents: {
                 policeReport: uploadedFiles.policeReport ? uploadedFiles.policeReport.map(f => f.filename) : [],
                 medicalReports: uploadedFiles.medicalReports ? uploadedFiles.medicalReports.map(f => f.filename) : [],

@@ -241,12 +241,12 @@ body, .card, .card span {
 .back .qr{
     display:flex;
     justify-content:center;
-    margin-top:3mm;
+    margin-top:2mm;
 }
 
 .back .qr img{
-    width:22mm;
-    height:22mm;
+    width:20mm;
+    height:20mm;
 }
 
 .back .qr-text{
@@ -355,7 +355,7 @@ body, .card, .card span {
 
         <div class="field">
             <span class="label">Jurisdiction:</span>
-            <span class="value">All India</span>
+            <span class="value"><%= jurisdiction || 'All India' %></span>
         </div>
 
         <div class="field">

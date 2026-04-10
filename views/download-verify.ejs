@@ -22,9 +22,12 @@
 
             <% if (downloads) { %>
                 <div class="space-y-4">
-                    <h2 class="text-xl font-semibold text-gray-800">Download Your Membership Kit</h2>
-                    <a href="<%= downloads.kit %>" target="_blank" class="block w-full px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-center transition-colors text-lg">
-                        Download Membership Kit (PDF)
+                    <h2 class="text-xl font-semibold text-gray-800">Download Your Documents</h2>
+                    <a href="<%= downloads.idCard %>" target="_blank" class="block w-full px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-center transition-colors text-lg">
+                        Download ID Card (PDF)
+                    </a>
+                    <a href="<%= downloads.joiningLetter %>" target="_blank" class="block w-full px-6 py-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg text-center transition-colors text-lg">
+                        Download Joining Letter (PDF)
                     </a>
                 </div>
             <% } else if (memberId) { %>

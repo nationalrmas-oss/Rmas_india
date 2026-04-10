@@ -28,6 +28,29 @@ function getNotoFontBase64() {
   return '';
 }
 
+function getJurisdiction(member) {
+  const level = ((member.assignedRoles && member.assignedRoles[0] && member.assignedRoles[0].level) || member.level || '').toString().trim().toLowerCase();
+  const locationName = ((member.assignedRoles && member.assignedRoles[0] && member.assignedRoles[0].location) || member.district || member.state || '').toString().trim();
+  const districtName = (member.district || (member.assignedRoles && member.assignedRoles[0] && member.assignedRoles[0].district) || '').toString().trim();
+
+  switch (level) {
+    case 'national':
+      return 'All India';
+    case 'state':
+    case 'pradesh':
+      return locationName ? `All ${locationName}` : 'All India';
+    case 'division':
+      return locationName ? `All ${locationName}` : 'All India';
+    case 'district':
+      return locationName ? `All ${locationName}` : 'All India';
+    case 'block':
+    case 'panchayat':
+      return districtName ? `All ${districtName}` : (locationName ? `All ${locationName}` : 'All India');
+    default:
+      return 'All India';
+  }
+}
+
 // Create PDF using html-pdf
 function createPdf(pdfHtml, pdfPath, options = {}) {
   return new Promise((resolve, reject) => {
@@ -195,6 +218,8 @@ async function generateMembershipPdf(memberOrId) {
         dobStr = member.dob;
       }
     }
+
+    const jurisdiction = getJurisdiction(member);
 
     // ========== BUILD HTML ==========
     const html = `
@@ -704,7 +729,7 @@ async function generateMembershipPdf(memberOrId) {
 
                     <div class="id-field">
                         <span class="id-label">Jurisdiction:</span>
-                        <span class="id-value">All India</span>
+                        <span class="id-value"><%= jurisdiction || 'All India' %></span>
                     </div>
 
                     <div class="id-field">
@@ -895,6 +920,7 @@ async function generateMembershipPdf(memberOrId) {
       stampBase64,
       qrCodeDataURL,
       designation,
+      jurisdiction,
       dob: dobStr,
       issuedOn,
       validUpto: validUptoStr,

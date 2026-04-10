@@ -13,19 +13,12 @@
       height: 297mm;
       margin: 0;
       padding: 0;
-      font-family: Mangal, 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
+      font-family: Arial, sans-serif;
       color: #222;
       -webkit-print-color-adjust: exact;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
-    }
-
-    /* Hindi font rendering optimization */
-    body, .card, .card span, .letter-header, .letter-header span {
-      font-family: Mangal, 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
     /* Container: positioned relative so header can be absolute to page */
@@ -35,12 +28,11 @@
       margin: 0;
       padding: 0;
       position: relative;
-      z-index: 1;
     }
 
-    /* Watermark logo in center of body - use absolute to stay in content area */
+    /* Watermark logo in center of body */
     .watermark {
-      position: absolute;
+      position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -66,54 +58,26 @@
       min-height: 30mm;
       box-sizing: border-box;
       display: flex;
-      flex-direction: column;
-      padding: 1mm;
-      padding-left: 4mm;
+      align-items: center;
+      padding-left: 4mm; /* small inset so content doesn't touch edges */
       padding-right: 4mm;
-      gap: 0;
+      gap: 8px;
       background: transparent;
       color: #fff;
       z-index: 9999;
     }
-
     .slogan-strip{
-      display: flex;
-      justify-content: space-between;
-      font-size: 1.5mm;
-      margin-bottom: 0.2mm;
-      line-height: 1.1;
-    }
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5mm;
+    margin-bottom: 0.2mm;
+    line-height: 1.1;
+}
 
-    .slogan-left, .slogan-center, .slogan-right{
-      flex: 1;
-      text-align: center;
-    }
-
-    .main-header{
-      display: grid;
-      grid-template-columns: 6mm 1fr 10mm;
-      align-items: center;
-      margin-bottom: 0.2mm;
-    }
-
-    .main-header img{
-      height: 4mm;
-      margin-right: 1mm;
-    }
-
-    .main-header .title{
-      font-size: 2.5mm;
-      line-height: 1.1;
-      text-align: center;
-      flex: 1;
-      color: #fff;
-    }
-
-    .registration{
-      font-size: 1.5mm;
-      text-align: right;
-      line-height: 1.1;
-    }
+.slogan-left, .slogan-center, .slogan-right{
+    flex: 1;
+    text-align: center;
+}
 
     /* SVG background fills header area and stays visible */
     .letter-header .bg-svg {
@@ -140,10 +104,12 @@
       color: #fff;
     }
 
+    .slogan-left, .slogan-center, .slogan-right { flex: 1; text-align: center; }
+
     /* Main header (logo + title + registration) */
     .main-header {
       display: grid;
-      grid-template-columns: 6mm 1fr 10mm;
+      grid-template-columns: 20mm 1fr 30mm; /* larger logo and registration columns for A4 */
       align-items: center;
       gap: 4mm;
       width: 100%;
@@ -152,7 +118,7 @@
     .main-header img { height: calc(30mm - 10mm); }
 
     .main-header .title {
-      text-align: center;
+      text-align: center; /* center titles over logo */
       color: #fff;
       display: flex;
       flex-direction: column;
@@ -181,21 +147,8 @@
     /* Minimal letterhead, hide optional right seal for print */
     .header-right { display: none; }
 
-    /* Body wrapper: margins applied only to content area - start below fixed header */
-    .body-wrapper { 
-      margin-top: calc(100mm); 
-      margin-left: 25mm; 
-      margin-right: 25mm; 
-      margin-bottom: 0; 
-      position: relative; 
-      z-index: 1; 
-    }
-    
-    /* Ensure all content in body-wrapper appears above watermark */
-    .body-wrapper > *:not(.watermark) {
-      position: relative;
-      z-index: 1;
-    }
+    /* Body wrapper: margins applied only to content area */
+    .body-wrapper { margin-top: calc(30mm + 5mm); margin-left: 25mm; margin-right: 25mm; margin-bottom: 0; }
 
     /* Document meta (date, ref) */
     .doc-meta { display: flex; justify-content: space-between; margin: 0 0 18px 0; font-size: 12.5px; border-top: none; padding-top: 0; }
@@ -420,7 +373,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgb(254,0,0);
+      background: rgb(1,0,102);
       box-sizing: border-box;
       z-index: 1000;
     }
@@ -434,19 +387,15 @@
 
     /* Terms */
     .terms {
-      margin-top: calc(30mm + 10mm);
+      margin-top: 10px;
       font-size: 14px;
-      position: relative;
-      z-index: 1;
     }
     .terms ul { margin: 6px 0 0 18px; }
 
     /* Hindi Terms First */
     .hindi-terms-first {
       font-size: 14px;
-      margin-top: calc(30mm + 15mm);
-      position: relative;
-      z-index: 1;
+      margin-top: 10px;
     }
     .hindi-terms-first ul { margin: 6px 0 0 18px; }
 
@@ -457,7 +406,6 @@
       /* start below fixed header (30mm) plus 5mm gap */
       margin-top: calc(30mm + 5mm);
       position: relative;
-      z-index: 1;
     }
     /* ensure the ordered list on page 2 has no extra top padding */
     .hindi-terms-second > ol { margin-top: 0; padding-top: 0; }
@@ -490,10 +438,10 @@
 <body>
   <div class="container">
     <header class="letter-header" role="banner" aria-label="Letterhead">
-      <!-- SVG background (matching id-card.ejs pattern) -->
-      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 830 50" preserveAspectRatio="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+      <!-- SVG background (restored) -->
+      <svg class="bg-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 830 50" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <polygon points="0,0 830,0 0,50" fill="#2b235f" />
-        <polygon points="0,50 830,0 830,50" fill="#d92523" />
+        <polygon points="0,50 0,49 830,0 830,50" fill="#d92523" />
       </svg>
 
       <div class="header-content">
@@ -518,12 +466,12 @@
       </div>
     </header>
 
-    <!-- Watermark logo in center - moved inside body-wrapper for proper z-ordering -->
-    <div class="body-wrapper">
-      <div class="watermark">
-        <img src="data:image/jpeg;base64,<%= rmasLogo || nhraLogo %>" alt="Watermark">
-      </div>
+    <!-- Watermark logo in center -->
+    <div class="watermark">
+      <img src="data:image/jpeg;base64,<%= rmasLogo || nhraLogo %>" alt="Watermark">
+    </div>
 
+    <div class="body-wrapper">
       <!-- Meta -->
     <div class="doc-meta">
       <div class="left">

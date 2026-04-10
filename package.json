@@ -7,8 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "build:css": "npx postcss ./src/tailwind.css -o ./public/css/tailwind.css --minify",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "npx playwright install chromium"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +16,6 @@
   "dependencies": {
     "@getbrevo/brevo": "^4.0.1",
     "bcryptjs": "^3.0.3",
-    "canvas": "^3.2.2",
     "cloudinary": "^2.9.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.3.1",
@@ -26,6 +24,7 @@
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.19.0",
     "helmet": "^8.1.0",
+    "html-pdf": "^3.0.1",
     "i18next": "^25.10.3",
     "i18next-fs-backend": "^2.6.1",
     "i18next-http-middleware": "^3.9.2",
@@ -34,8 +33,7 @@
     "mongoose": "^9.2.3",
     "multer": "^2.1.1",
     "nodemailer": "^8.0.1",
-    "pdf-lib": "^1.17.1",
-    "playwright": "^1.58.2",
+    "playwright": "^1.59.1",
     "qrcode": "^1.5.4",
     "winston": "^3.19.0"
   },

@@ -5,6 +5,8 @@ const fs = require('fs');
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const multer = require('multer');
+const sharp = require('sharp');
+const { PDFDocument } = require('pdf-lib');
 const i18next = require('i18next');
 const Backend = require('i18next-fs-backend');
 const i18nextMiddleware = require('i18next-http-middleware');
@@ -72,17 +74,7 @@ if (!fs.existsSync(uploadsDir)) {
 app.use('/uploads', express.static(uploadsDir));
 
 // Multer configuration for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadsDir);
-  },
-  filename: (req, file, cb) => {
-    // Use timestamp + random number for unique filenames
-    const fileExt = path.extname(file.originalname);
-    const fileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${fileExt}`;
-    cb(null, fileName);
-  },
-});
+const storage = multer.memoryStorage();
 
 // File filter: photo (images) and documents (PDF)
 const fileFilter = (req, file, cb) => {
@@ -107,7 +99,7 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 100 * 1024 }, // 100KB limit per file
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit per file (will be processed to smaller size)
   fileFilter: fileFilter,
 });
 
@@ -833,6 +825,65 @@ app.post('/join', upload.fields([
             return res.render('join', context);
         }
 
+        // ============ PROCESS FILES ============
+
+        let photoFilename = null;
+        if (uploadedFiles.photo && uploadedFiles.photo[0]) {
+            const file = uploadedFiles.photo[0];
+            const originalSize = file.buffer.length;
+            const fileExt = path.extname(file.originalname) || '.jpg';
+            const fileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${fileExt}`;
+            const filePath = path.join(uploadsDir, fileName);
+            try {
+                await sharp(file.buffer)
+                    .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
+                    .jpeg({ quality: 80 })
+                    .toFile(filePath);
+                
+                const processedSize = fs.statSync(filePath).size;
+                console.log(`[FILE PROCESSING] Photo processed: ${file.originalname} - Original: ${(originalSize / 1024).toFixed(2)}KB, Processed: ${(processedSize / 1024).toFixed(2)}KB`);
+                
+                photoFilename = fileName;
+            } catch (err) {
+                console.error('Error processing photo:', err);
+                const context = {
+                    title: 'Join Us',
+                    oldData: body,
+                    error: 'Error processing photo file.',
+                };
+                return res.render('join', context);
+            }
+        }
+
+        let documentsFilename = null;
+        if (uploadedFiles.documents && uploadedFiles.documents[0]) {
+            const file = uploadedFiles.documents[0];
+            const originalSize = file.buffer.length;
+            const fileExt = '.pdf';
+            const fileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${fileExt}`;
+            const filePath = path.join(uploadsDir, fileName);
+            try {
+                // Try to compress PDF with object streams enabled
+                const pdfDoc = await PDFDocument.load(file.buffer);
+                const compressedPdf = await pdfDoc.save({ useObjectStreams: true });
+                await fs.promises.writeFile(filePath, compressedPdf);
+                
+                const processedSize = compressedPdf.length;
+                console.log(`[FILE PROCESSING] PDF processed: ${file.originalname} - Original: ${(originalSize / 1024).toFixed(2)}KB, Processed: ${(processedSize / 1024).toFixed(2)}KB`);
+                if (processedSize > 100 * 1024) {
+                    console.log(`[FILE PROCESSING] PDF still above 100KB. Consider using a stronger optimizer or downsampling embedded images.`);
+                }
+                documentsFilename = fileName;
+            } catch (err) {
+                console.error('Error processing PDF:', err);
+                // Fallback: save original
+                await fs.promises.writeFile(filePath, file.buffer);
+                const processedSize = file.buffer.length;
+                console.log(`[FILE PROCESSING] PDF saved original: ${file.originalname} - Size: ${(processedSize / 1024).toFixed(2)}KB`);
+                documentsFilename = fileName;
+            }
+        }
+
         // ============ SAVE TO MONGODB ============
 
         const memberData = {
@@ -856,8 +907,8 @@ app.post('/join', upload.fields([
             village: body.village || null,
             pincode: body.pincode || null,
             reason: body.reason,
-            photo: uploadedFiles.photo[0].filename,
-            documents: uploadedFiles.documents[0].filename,
+            photo: photoFilename,
+            documents: documentsFilename,
             agreedToTerms: true,
         };
 
@@ -997,7 +1048,7 @@ app.post('/join', upload.fields([
         const context = {
             title: 'Join Us',
             oldData: {},
-            success: `✓ Application submitted successfully! Your Member ID: ${member._id.toString().slice(-8).toUpperCase()}`,
+            success: `✓ Application submitted successfully! Your Member ID: ${member._id.toString().slice(-8).toUpperCase()}. Files have been automatically optimized for better performance.`,
         };
         res.render('join', context);
 
@@ -1070,6 +1121,29 @@ app.post('/api/members/register', upload.single('profilePhoto'), async (req, res
             return res.status(400).json({ error: 'Profile photo is required.' });
         }
 
+        // ============ PROCESS PHOTO ============
+
+        let photoFilename = null;
+        const file = req.file;
+        const originalSize = file.buffer.length;
+        const fileExt = path.extname(file.originalname) || '.jpg';
+        const fileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${fileExt}`;
+        const filePath = path.join(uploadsDir, fileName);
+        try {
+            await sharp(file.buffer)
+                .resize(800, 800, { fit: 'inside', withoutEnlargement: true })
+                .jpeg({ quality: 80 })
+                .toFile(filePath);
+            
+            const processedSize = fs.statSync(filePath).size;
+            console.log(`[FILE PROCESSING] Profile photo processed: ${file.originalname} - Original: ${(originalSize / 1024).toFixed(2)}KB, Processed: ${(processedSize / 1024).toFixed(2)}KB`);
+            
+            photoFilename = fileName;
+        } catch (err) {
+            console.error('Error processing profile photo:', err);
+            return res.status(500).json({ error: 'Error processing photo file.' });
+        }
+
         // ============ SAVE MEMBER ============
 
         const memberData = {
@@ -1083,7 +1157,7 @@ app.post('/api/members/register', upload.single('profilePhoto'), async (req, res
                 district: district.trim(),
                 block: block.trim()
             },
-            profilePhoto: req.file.filename,
+            profilePhoto: photoFilename,
             registeredAt: new Date(),
             status: 'pending' // Default status
         };
@@ -1097,8 +1171,12 @@ app.post('/api/members/register', upload.single('profilePhoto'), async (req, res
         // Send success response
         return res.status(201).json({
             success: true,
-            message: 'Registration submitted successfully!',
+            message: 'Registration submitted successfully! Photo has been automatically optimized.',
             memberId: member._id.toString().slice(-8).toUpperCase(),
+            processingInfo: {
+                photoOriginalSize: `${(originalSize / 1024).toFixed(2)}KB`,
+                photoProcessedSize: `${(fs.statSync(filePath).size / 1024).toFixed(2)}KB`
+            },
             memberData: {
                 id: member._id,
                 fullName: member.fullName,

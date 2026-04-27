@@ -303,7 +303,7 @@
                 <label class="block text-sm font-bold text-gray-800 mb-3">फोटो / Photo <span class="text-red-600">*</span></label>
                 <input type="file" name="photo" id="photoInput" accept="image/*" required
                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600">
-                <p class="text-xs text-gray-600 mt-2">📷 JPG, PNG (Max 100KB)</p>
+                <p class="text-xs text-gray-600 mt-2">📷 JPG, PNG (Max 5MB - will be auto-optimized)</p>
                 <img id="photoPreviewImg" src="" alt="Photo Preview" 
                   style="max-width: 200px; max-height: 200px; margin-top: 12px; border-radius: 8px; display: none;">
               </div>
@@ -313,7 +313,7 @@
                 <label class="block text-sm font-bold text-gray-800 mb-3">दस्तावेज़ (आधार + प्रमाण पत्र) / Documents (PDF) <span class="text-red-600">*</span></label>
                 <input type="file" name="documents" id="documentsInput" accept=".pdf" required
                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-600">
-                <p class="text-xs text-gray-600 mt-2">📄 PDF Only (Max 100KB)</p>
+                <p class="text-xs text-gray-600 mt-2">📄 PDF Only (Max 5MB - will be auto-compressed)</p>
                 <div id="docFileName" class="text-sm text-green-600 font-semibold mt-2 hidden"></div>
               </div>
 

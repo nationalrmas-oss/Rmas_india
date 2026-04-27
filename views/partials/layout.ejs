@@ -50,44 +50,7 @@
         });
     </script>
 
-    <!-- Floating Donate CTA Button (Mobile Only) -->
-    <div class="fixed bottom-6 right-6 z-50 md:hidden">
-        <button onclick="showDonateModal()" class="bg-yellow-500 hover:bg-yellow-600 text-black rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110">
-            <i class="fas fa-heart text-xl"></i>
-        </button>
-    </div>
-
-    <!-- Donate Modal -->
-    <div id="donateModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 text-center">
-            <div class="text-4xl text-yellow-500 mb-4">
-                <i class="fas fa-heart"></i>
-            </div>
-            <h3 class="text-2xl font-bold text-gray-800 mb-4">Coming Soon!</h3>
-            <p class="text-gray-600 mb-6">Our donation portal is currently under development. We'll be accepting donations through UPI and bank transfers soon.</p>
-            <button onclick="closeDonateModal()" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-2 rounded-lg transition duration-300">
-                Close
-            </button>
-        </div>
-    </div>
-
     <script>
-        function showDonateModal() {
-            document.getElementById('donateModal').classList.remove('hidden');
-            document.getElementById('donateModal').classList.add('flex');
-        }
-
-        function closeDonateModal() {
-            document.getElementById('donateModal').classList.add('hidden');
-            document.getElementById('donateModal').classList.remove('flex');
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('donateModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeDonateModal();
-            }
-        });
     </script>
 </body>
 </html>

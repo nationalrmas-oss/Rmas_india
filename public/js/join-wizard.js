@@ -85,10 +85,10 @@ document.addEventListener('DOMContentLoaded', function() {
             isValid = false;
             errors.push('📷 केवल इमेज फाइल चुनें (JPG, PNG)');
           }
-          // maximum 100KB
-          if (file.size > 100 * 1024) {
+          // maximum 5MB
+          if (file.size > 5 * 1024 * 1024) {
             isValid = false;
-            errors.push('📷 फोटो 100KB से कम होनी चाहिए');
+            errors.push('📷 फोटो 5MB से कम होनी चाहिए');
           }
         }
 
@@ -99,10 +99,10 @@ document.addEventListener('DOMContentLoaded', function() {
             isValid = false;
             errors.push('📄 केवल PDF फाइल चुनें');
           }
-          // maximum 100KB
-          if (file.size > 100 * 1024) {
+          // maximum 5MB
+          if (file.size > 5 * 1024 * 1024) {
             isValid = false;
-            errors.push('📄 दस्तावेज़ 100KB से कम होना चाहिए');
+            errors.push('📄 दस्तावेज़ 5MB से कम होना चाहिए');
           }
         }
       }

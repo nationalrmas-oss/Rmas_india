@@ -38,7 +38,7 @@
 <!-- About Snapshot -->
 <section class="py-16 bg-white">
   <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-12 text-blue-900"><%= t('about.title') %></h2>
+    <h2 class="text-3xl font-bold text-center mb-12 text-blue-900 uppercase"><%= t('about.title') %></h2>
     <div class="flex flex-col md:flex-row items-center gap-8">
       <div class="md:w-1/3">
         <img src="/images/bhola sir.jpeg" alt="<%= t('about.president') %>" class="w-48 h-48 rounded-full mx-auto object-cover object-center shadow-lg" style="object-position: center 30%;">
@@ -48,13 +48,105 @@
         <img src="/images/mission.jpg" alt="Our Mission" class="w-full h-64 object-cover rounded-lg mb-6 shadow-lg">
         <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
           <li><%= t('about.mission') %></li>
-          <li>Empowering communities through legal aid and awareness</li>
-          <li>Advocating for justice and equality</li>
+          <li><%= t('about.point1') %></li>
+          <li><%= t('about.point2') %></li>
         </ul>
       </div>
     </div>
   </div>
 </section>
+
+<!-- National President Message Card -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-blue-900"><%= t('messages.heading') %></h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Card 1 -->
+      <div class="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
+        <div class="flex justify-center py-6 bg-gray-100">
+          <img src="/images/national%20prasident.jpeg" alt="<%= t('messages.card1.alt') %>" class="w-32 h-32 rounded-full object-cover object-center">
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 text-sm mb-4 line-clamp-4"><%= t('messages.card1.short') %></p>
+          <a href="#" class="read-more-btn text-blue-600 hover:text-blue-800 text-sm font-medium" data-message="<%= t('messages.card1.full') %>" data-image="/images/national%20prasident.jpeg" data-name="<%= t('messages.card1.name') %>" data-title="<%= t('messages.card1.role') %>"><%= t('messages.readMore') %></a>
+          <div class="mt-4 pt-4 border-t border-gray-200">
+            <p class="font-semibold text-blue-900"><%= t('messages.card1.name') %></p>
+            <p class="text-gray-600 text-sm"><%= t('messages.card1.role') %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
+        <div class="flex justify-center py-6 bg-gray-100">
+          <img src="/images/bhola sir.jpeg" alt="<%= t('messages.card2.alt') %>" class="w-32 h-32 rounded-full object-cover" style="object-position: center 20%;">
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 text-sm mb-4 line-clamp-4"><%= t('messages.card2.short') %></p>
+          <a href="#" class="read-more-btn text-blue-600 hover:text-blue-800 text-sm font-medium" data-message="<%= t('messages.card2.full') %>" data-image="/images/bhola sir.jpeg" data-name="<%= t('messages.card2.name') %>" data-title="<%= t('messages.card2.role') %>"><%= t('messages.readMore') %></a>
+          <div class="mt-4 pt-4 border-t border-gray-200">
+            <p class="font-semibold text-blue-900"><%= t('messages.card2.name') %></p>
+            <p class="text-gray-600 text-sm"><%= t('messages.card2.role') %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
+        <div class="flex justify-center py-6 bg-gray-100">
+          <img src="/images/deepak kumar.png" alt="<%= t('messages.card3.alt') %>" class="w-32 h-32 rounded-full object-cover object-center">
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 text-sm mb-4 line-clamp-4"><%= t('messages.card3.short') %></p>
+          <a href="#" class="read-more-btn text-blue-600 hover:text-blue-800 text-sm font-medium" data-message="<%= t('messages.card3.full') %>" data-image="/images/deepak kumar.png" data-name="<%= t('messages.card3.name') %>" data-title="<%= t('messages.card3.role') %>"><%= t('messages.readMore') %></a>
+          <div class="mt-4 pt-4 border-t border-gray-200">
+            <p class="font-semibold text-blue-900"><%= t('messages.card3.name') %></p>
+            <p class="text-gray-600 text-sm"><%= t('messages.card3.role') %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
+        <div class="flex justify-center py-6 bg-gray-100">
+          <img src="/images/jawed.png" alt="<%= t('messages.card4.alt') %>" class="w-32 h-32 rounded-full object-cover object-center">
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 text-sm mb-4 line-clamp-4"><%= t('messages.card4.short') %></p>
+          <a href="#" class="read-more-btn text-blue-600 hover:text-blue-800 text-sm font-medium" data-message="<%= t('messages.card4.full') %>" data-image="/images/jawed.png" data-name="<%= t('messages.card4.name') %>" data-title="<%= t('messages.card4.role') %>"><%= t('messages.readMore') %></a>
+          <div class="mt-4 pt-4 border-t border-gray-200">
+            <p class="font-semibold text-blue-900"><%= t('messages.card4.name') %></p>
+            <p class="text-gray-600 text-sm"><%= t('messages.card4.role') %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal for Full Message -->
+<div id="messageModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-bold text-blue-900"><%= t('messages.modalTitle') %></h3>
+          <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+        </div>
+        <div class="flex items-center mb-4">
+          <img id="modalImage" src="/images/national%20prasident.jpeg" alt="Profile" class="w-16 h-16 rounded-full object-cover mr-4">
+          <div>
+            <p id="modalName" class="font-semibold text-blue-900">Saroj Sekha Sengale</p>
+            <p id="modalTitle" class="text-gray-600 text-sm">National President, RMAS</p>
+          </div>
+        </div>
+        <div id="modalContent" class="text-gray-700 leading-relaxed">
+          <!-- Full message content will be inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Team Cards -->
 <section class="py-16 bg-gray-100">
